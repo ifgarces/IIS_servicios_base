@@ -1,3 +1,7 @@
 # IIS_servicios_base
 
-**Note: This could be a parent project for the other ones instead. Setup docker-compose here and include other projects as submodules to run all of them for testing...**
+This project will use all systems as submodules, for running them all easily with `docker-compose`.
+
+## Dependencies
+
+TODO

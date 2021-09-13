@@ -1,0 +1,32 @@
+version: "3.9"
+
+networks:
+  iis-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.5.0.0/16
+          gateway: 10.5.0.1
+
+services:
+  srcei:
+    container_name: srcei
+    build:
+      context: ./IIS_servicios_SRCEI
+      dockerfile: ./IIS_servicios_SRCEI/IIS_servicios_common.dockerfile
+    args:
+      ...
+    ports:
+      ...
+    networks:
+      iis-net:
+        ipv4_address: ...
+    restart: "always"
+    volumes:
+      ...
+
+  caja:
+  
+  rvm:
+
+  ppe:
