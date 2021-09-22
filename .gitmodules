@@ -1,0 +1,6 @@
+[submodule "IIS_servicios_SRCEI"]
+	path = IIS_servicios_SRCEI
+	url = https://github.com/ifgarces/IIS_servicios_SRCEI
+[submodule "IIS_servicios_Caja"]
+	path = IIS_servicios_Caja
+	url = https://github.com/ifgarces/IIS_servicios_Caja
