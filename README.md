@@ -1,6 +1,6 @@
 # IIS_servicios_base
 
-This project will use all systems as submodules, for running them all easily with [`docker-compose`](https://docs.docker.com/compose/), a tool for managing multi-container Docker applications. This is much better than setting an ugly command to run them all, and allows to restart them (or not) on failure, enhanced logging management, etc.
+This project will use all systems as git submodules, for running them all easily with [`docker-compose`](https://docs.docker.com/compose/), a tool for managing multi-container Docker applications. This is much better than setting an rough command to run them one by one, and allows to restart them (or not) on failure, enhanced logging management, etc.
 
 ## Dependencies
 
@@ -11,7 +11,11 @@ Note: this project is intended to run in an Ubuntu-based host OS.
 
 ## Overall project software architecture
 
-The exposed API ports for the systems can be configured at [`compose.env`](./compose.env).
+The exposed API ports for the systems can be configured at [`compose.env`](./compose.env). The below figures show the overall systems architecture (Docker containers) and the exposed API calls outline.
+
+![Overall systems diagram](./docs/diagram_overall.jpg "Overall diagram")
+
+![API calls](./docs/diagram_api_calls.jpg "API calls diagram")
 
 <!-- TODO: overall description and usage. Insert images. -->
 

@@ -14,7 +14,7 @@ up: pull
 down:
 	docker-compose --env-file compose.env down
 
-# Ensures the docker-compose.yaml file is correct and prints it, parsed and prettified with `yq`
+# Ensures the docker-compose.yaml file is correct and prints it, prettified by `yq`
 config:
 	docker-compose --env-file compose.env config | yq eval
 
