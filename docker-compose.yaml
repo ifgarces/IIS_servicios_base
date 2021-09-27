@@ -27,21 +27,21 @@ services:
     restart: "always"
     volumes: []
 
-  # caja:
-  #   container_name: caja_container
-  #   build:
-  #     context: IIS_servicios_SRCEI
-  #     dockerfile: IIS_servicios_common/Dockerfile
-  #     args:
-  #       API_PORT: ${API_PORT_CAJA}
-  #       UBUNTU_VERSION: ${UBUNTU_VERSION}
-  #   ports:
-  #     - "${API_PORT_CAJA}:${API_PORT_CAJA}"
-  #   networks:
-  #     iis-net:
-  #       ipv4_address: 10.5.0.3
-  #   restart: "always"
-  #   volumes: []
+  caja:
+    container_name: caja_container
+    build:
+      context: IIS_servicios_Caja
+      dockerfile: IIS_servicios_common/Dockerfile
+      args:
+        API_PORT: ${API_PORT_CAJA}
+        UBUNTU_VERSION: ${UBUNTU_VERSION}
+    ports:
+      - "${API_PORT_CAJA}:${API_PORT_CAJA}"
+    networks:
+      iis-net:
+        ipv4_address: 10.5.0.3
+    restart: "always"
+    volumes: []
   
   # rvm:
     #TODO
