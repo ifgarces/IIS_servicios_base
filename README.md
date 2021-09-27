@@ -1,5 +1,7 @@
 # IIS_servicios_base
 
+> Introducción a la Ingeniería en Software, Universidad de los Andes, 2021
+
 This project will use all systems as git submodules, for running them all easily with [`docker-compose`](https://docs.docker.com/compose/), a tool for managing multi-container Docker applications. This is much better than setting an rough command to run them one by one, and allows to restart them (or not) on failure, enhanced logging management, etc.
 
 ## Dependencies
@@ -17,7 +19,9 @@ The exposed API ports for the systems can be configured at [`compose.env`](./com
 
 ![API calls](./docs/diagram_api_calls.jpg "API calls diagram")
 
-<!-- TODO: overall description and usage. Insert images. -->
+## API documentation
+
+The usage docs for the APIs are located at `./docs` in this project. All of them contain sample `curl` commands (which is a console tool for making HTTP requests, working on Linux as well as Windows OSes).
 
 ## Build and run
 
