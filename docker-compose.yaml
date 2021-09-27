@@ -1,7 +1,5 @@
 version: "3.9"
 
-#! Don't forget to replace `../` with `./` in common Dockerfiles, as things change a little here in docker-compose.
-
 networks:
   iis-net:
     driver: bridge
