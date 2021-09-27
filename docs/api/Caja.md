@@ -1,6 +1,4 @@
-<!-- TODO: API endpoints with examples (`curl` commands and expected result) -->
-
-# API SRCEI
+# API CAJA
 
 This API serves the purpose of validating data requests for the CAJA.
 
@@ -34,7 +32,7 @@ api/checkout/refund'
 ```
 
 ## POST: Process Refund
-## localhost:4033/api/
+## localhost:4033/api/refound
 
 ### Body:
 ```
