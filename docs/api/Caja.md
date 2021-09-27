@@ -4,7 +4,7 @@
 
 This API serves the purpose of validating data requests for the CAJA.
 
-## POST: Generate Payment
+## POST: Process Payment
 ## ec2-54-90-219-192.compute-1.amazonaws.com:4034/api/checkout/pay
 
 ### Body:
@@ -33,7 +33,7 @@ api/checkout/refund'
 }
 ```
 
-## POST: Generate Refund
+## POST: Process Refund
 ## ec2-54-90-219-192.compute-1.amazonaws.com:4033/api/
 
 ### Body:
