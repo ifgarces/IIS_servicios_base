@@ -5,7 +5,7 @@
 This API serves the purpose of validating data requests for the CAJA.
 
 ## POST: Process Payment
-## ec2-54-90-219-192.compute-1.amazonaws.com:4034/api/checkout/pay
+## localhost:4033/api/checkout/pay
 
 ### Body:
 ```
@@ -18,7 +18,7 @@ This API serves the purpose of validating data requests for the CAJA.
 
 ### Example Request
 ```
-curl --location --request GET 'http://ec2-54-90-219-192.compute-1.amazonaws.com:4034/api/checkout/pay'
+curl --location --request GET 'localhost:4033/api/checkout/pay'
 api/checkout/refund'
 --data-raw '{
     "RUN" : "19245093-8",
@@ -34,7 +34,7 @@ api/checkout/refund'
 ```
 
 ## POST: Process Refund
-## ec2-54-90-219-192.compute-1.amazonaws.com:4033/api/
+## localhost:4033/api/
 
 ### Body:
 ```
@@ -46,7 +46,7 @@ api/checkout/refund'
 ```
 ### Example Request
 ```
-curl --location --request POST 'http://ec2-54-90-219-192.compute-1.amazonaws.com:4034/api/checkout/refund'
+curl --location --request POST 'localhost:4033/api/checkout/refund'
 --data-raw '{
     "RUN" : "16248093-6",
     "fecha" : "2005-10-31",

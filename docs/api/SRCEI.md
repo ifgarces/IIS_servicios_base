@@ -3,7 +3,7 @@
 This API serves the purpose of validating data requests for the SRCEI.
 
 ## GET: Validate User
-## ec2-54-90-219-192.compute-1.amazonaws.com:4030/api/users/user
+## localhost:4030/api/users/user
 
 Endpoint to check if user exists or not by pasing run as key
 - If user does exist: names, lastname and run are returned in body.
@@ -19,7 +19,7 @@ Endpoint to check if user exists or not by pasing run as key
 ```
 ### Example Request
 ```
-curl --location --request GET 'http://ec2-54-90-219-192.compute-1.amazonaws.com:4030/api/users/user?run=14343269-6'
+curl --location --request GET 'localhost:4030/api/users/user?run=14343269-6'
 ```
 ### Example Response (Code: 200 OK)
 ```
@@ -31,7 +31,7 @@ curl --location --request GET 'http://ec2-54-90-219-192.compute-1.amazonaws.com:
 ```
 
 ## POST: Validate User Data
-## ec2-54-90-219-192.compute-1.amazonaws.com:4030/api/users
+## localhost:4030/api/users
 
 Endpoint that requires the run, names, lastname1, lastname2, and date of birth in the body to validate the user data.
 
@@ -47,7 +47,7 @@ Endpoint that requires the run, names, lastname1, lastname2, and date of birth i
 ```
 ### Example Request
 ```
-curl --location --request POST 'http://ec2-54-90-219-192.compute-1.amazonaws.com:4030/api/users/user'
+curl --location --request POST 'localhost:4030/api/users/user'
 --data-raw '{
     "run": "14343269-6",
     "nombres": "LEANDRO ALBERTO",
