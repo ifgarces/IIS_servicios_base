@@ -1,58 +1,66 @@
 # API CAJA
 
-This API serves the purpose of validating data requests for the CAJA.
+This API serves the purpose of processing checkout ("caja") system transactions. Let `SERVER_IP` be a shell variable that holds the API server IP address.
 
-## POST: Process Payment
-## localhost:4033/api/checkout/pay
+## POST: process payment
 
-### Body:
-```
+`api/checkout/pay`: for registering a payment.
+
+### Request body format
+
+```json
 {
-    "RUN" : "userRun",
-    "fecha" : "yyyy-mm-dd",
+    "RUN" : "personRUN",
+    "fecha" : "yyyy-MM-dd",
     "monto" : "paymentAmount"
 }
 ```
 
-### Example Request
-```
-curl --location --request GET 'localhost:4033/api/checkout/pay'
-api/checkout/refund'
---data-raw '{
+### Example request
+
+```shell
+curl --location --request GET "${SERVER_IP}:4033/api/checkout/pay" --data-raw '{
     "RUN" : "19245093-8",
     "fecha" : "2021-03-5",
     "monto" : "22700"
 }'
 ```
-### Example Response (Code: 200 OK)
-```
+
+### Example response (code: 200 OK)
+
+```json
 {
     "msg": "Monto Ingresado"
 }
 ```
 
-## POST: Process Refund
-## localhost:4033/api/refound
+## POST: process refund
 
-### Body:
-```
+`api/refound`: for registering a refund.
+
+### Request body format
+
+```json
 {
-    "RUN" : "userRun",
-    "fecha" : "yyyy-mm-dd",
+    "RUN" : "personRUN",
+    "fecha" : "yyyy-MM-dd",
     "monto" : "paymentAmount"
 }
 ```
-### Example Request
-```
-curl --location --request POST 'localhost:4033/api/checkout/refund'
---data-raw '{
+
+### Example request
+
+```shell
+curl --location --request POST "${SERVER_IP}:4033/api/checkout/refund" --data-raw '{
     "RUN" : "16248093-6",
     "fecha" : "2005-10-31",
     "monto" : "21821.74"
 }'
 ```
-### Example Response (Code: 200 OK)
-```
+
+### Example response (code: 200 OK)
+
+```json
 {
     "msg": "Monto Retirado"
 }

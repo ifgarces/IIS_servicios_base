@@ -1,28 +1,33 @@
 # API SRCEI
 
-This API serves the purpose of validating data requests for the SRCEI.
+This API serves the purpose of validating data requests for the SRCEI system ("registro civil"). Let `SERVER_IP` be a shell variable that holds the API server IP address.
 
-## GET: Validate User
-## localhost:4030/api/users/user
+## GET: validate person by RUN
 
-Endpoint to check if user exists or not by pasing run as key
-- If user does exist: names, lastname and run are returned in body.
+`api/users/user`: endpoint to check if user exists or not by passing run as key.
+
+- If user exists: names, last name and run are returned in body.
 - If user does not exist: returns body with message that user does not exist.
 
-### Response Body:
-```
+### Response body format
+
+```json
 {
     "userFirstName": "userFirstName",
     "userLastName": "userLastName",
     "userRun": "userRun"
 }
 ```
-### Example Request
+
+### Example request
+
+```shell
+curl --location --request GET "${SERVER_IP}:4030/api/users/user?run=14343269-6"
 ```
-curl --location --request GET 'localhost:4030/api/users/user?run=14343269-6'
-```
-### Example Response (Code: 200 OK)
-```
+
+### Example response (code: 200 OK)
+
+```json
 {
     "userFirstName": "LEANDRO ALBERTO",
     "userLastName": "FERRERIA",
@@ -30,25 +35,26 @@ curl --location --request GET 'localhost:4030/api/users/user?run=14343269-6'
 }
 ```
 
-## POST: Validate User Data
-## localhost:4030/api/users
+## POST: validate person by all data
 
-Endpoint that requires the run, names, lastname1, lastname2, and date of birth in the body to validate the user data.
+`api/users`: endpoint that requires the RUN, names, last names and date of birth in the body to validate the user data, as shown below.
 
-### Body:
-```
+### Request body format
+
+```json
 {
-    "run": "run",
+    "run": "RUN",
     "nombres": "Nombres",
-    "apellido_paterno": "Apellido_paterno",
-    "apellido_materno": "Apellido_materno",
-    "fecha_nacimiento": "yyyy-mm-dd"
+    "apellido_paterno": "Apellido paterno",
+    "apellido_materno": "Apellido materno",
+    "fecha_nacimiento": "yyyy-MM-dd"
 }
 ```
-### Example Request
-```
-curl --location --request POST 'localhost:4030/api/users/user'
---data-raw '{
+
+### Example request
+
+```shell
+curl --location --request POST "${SERVER_IP}:4030/api/users/user" --data-raw '{
     "run": "14343269-6",
     "nombres": "LEANDRO ALBERTO",
     "apellido_paterno": "FERRERIA",
@@ -56,8 +62,10 @@ curl --location --request POST 'localhost:4030/api/users/user'
     "fecha_nacimiento": "1992-08-07"
 }'
 ```
-### Example Response (Code: 200 OK)
-```
+
+### Example response (code: 200 OK)
+
+```json
 {
     "msg": "Usuario existente"
 }
