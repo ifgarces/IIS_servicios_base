@@ -27,10 +27,10 @@ The usage docs for the APIs are located at `./docs/api` in this project. All of 
 
 The Makefile rules are stated in the below table. You may only have interest in the `up` and `pull` only.
 
-| Makefile rule | Description                                                                                          |
-| ------------- | ---------------------------------------------------------------------------------------------------- |
-| `pull`        | Updates all systems (pulls/initializes submodule repos).                                             |
-| `build`       | Builds the Docker images for all systems.                                                            |
-| **`up`**      | **Launches the systems as Docker containers (builds if needed) and outputs to stdout/stderr.**       |
-| `down`        | Shuts down all systems.                                                                              |
-| `config`      | Ensures the `docker-compose.yaml` configuration file is correct, and prints it prettified with `yq`. |
+| Makefile rule | Description                                                                                                                     |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `pull`        | Updates all systems (pulls/initializes submodule repos). Make sure you don't have uncommitted changes before running this rule. |
+| `build`       | Builds the Docker images for all systems.                                                                                       |
+| **`up`**      | **Launches the systems as Docker containers (builds if needed) and outputs to stdout/stderr.**                                  |
+| `down`        | Shuts down all systems.                                                                                                         |
+| `config`      | Ensures the `docker-compose.yaml` configuration file is correct, and prints it prettified with `yq`.                            |
