@@ -25,12 +25,12 @@ The usage docs for the APIs are located at `./docs/api` in this project. All of 
 
 ## Build and run
 
-The Makefile rules are stated in the below table. You may only have interest in the `up` one.
+The Makefile rules are stated in the below table. You may only have interest in the `up` and `pull` only.
 
 | Makefile rule | Description                                                                                          |
 | ------------- | ---------------------------------------------------------------------------------------------------- |
-| `pull`        | Updates all systems (pulls/initializes submodules repos).                                            |
+| `pull`        | Updates all systems (pulls/initializes submodule repos).                                             |
 | `build`       | Builds the Docker images for all systems.                                                            |
-| **`up`**      | **Launches (and pull/build, if needed) the systems as Docker containers.**                           |
+| **`up`**      | **Launches the systems as Docker containers (builds if needed) and outputs to stdout/stderr.**       |
 | `down`        | Shuts down all systems.                                                                              |
 | `config`      | Ensures the `docker-compose.yaml` configuration file is correct, and prints it prettified with `yq`. |
