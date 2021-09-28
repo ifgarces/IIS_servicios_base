@@ -6,6 +6,9 @@ build:
 up: pull
 	docker-compose --env-file compose.env up --build --force-recreate
 
+up_background:
+	docker-compose --env-file compose.env up --build --force-recreate --detach
+
 down:
 	docker-compose --env-file compose.env down
 

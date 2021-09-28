@@ -6,9 +6,7 @@
 # --------------------------------------------------------------------------------------------------
 
 from os import system
-from time import sleep
 import json
-from typing import IO
 
 TEMP_OUTPUT_FILE :str = "temp.json"
 
