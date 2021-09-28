@@ -10,7 +10,6 @@ from time import sleep
 import json
 from typing import IO
 
-# SERVER_IP :str = "localhost"
 TEMP_OUTPUT_FILE :str = "temp.json"
 
 def main() -> int:
@@ -18,10 +17,10 @@ def main() -> int:
 
     # Here we itarate over a list of tuples with the curl command and the expected parsed JSON with
     # the `json.loads` utility
-    for testNum, (command, expectedOut) in enumerate([
+    for testNum, (command, expectedResult) in enumerate([
         # --- SRCEI ---
         (
-            f"curl --location --request GET 'localhost:4030/api/users/user?run=14343269-6'",
+            """ curl --location --request GET "localhost:4030/api/users/user?run=14343269-6" """,
             json.loads("""{
                 "userFirstName": "LEANDRO ALBERTO",
                 "userLastName": "FERRERIA",
@@ -29,7 +28,7 @@ def main() -> int:
             }""")
         ),
         (
-            """curl --location --request POST 'localhost:4030/api/users/user' \\
+            """curl --location --request POST "localhost:4030/api/users/user" \\
                 --header 'Content-Type: application/json' \\
                 --data-raw '{
                     "run": "14343269-6",
@@ -41,6 +40,31 @@ def main() -> int:
             json.loads("""{
                 "msg": "Usuario existente"
             }""")
+        ),
+        # --- Caja ---
+        (
+            """curl --location --request POST "localhost:4033/api/checkout/pay" \\
+                --header 'Content-Type: application/json' \\
+                --data-raw '{
+                "RUN" : "16248093-6",
+                "fecha" : "2021-03-5",
+                "monto" : "22700"
+                }'""",
+            json.loads("""{
+                "msg": "Monto Ingresado"
+            }""")
+        ),
+        (
+            """curl --location --request POST "localhost:4033/api/checkout/refund" \\
+                --header 'Content-Type: application/json' \\
+                --data-raw '{
+                "RUN" : "16248093-6",
+                "fecha" : "2005-10-31",
+                "monto" : "21821.74"
+                }'""",
+            json.loads("""{
+                "msg": "Monto Retirado"
+            }""")
         )
     ]):
         print("Running test #%d..." % testNum)
@@ -49,14 +73,15 @@ def main() -> int:
             print("Test #%d failed: command \"%s\" returned with error code %d" % (testNum, command, exitCode))
             return 1
         tempFile = open(file=TEMP_OUTPUT_FILE, mode="rt", encoding="utf-8") # we will read contents written by `curl` command in that file for each test from Python (yes, we have to open it on each test)
-        rawOutput = tempFile.read()
-        print(rawOutput)
-        gotOutput = json.loads(rawOutput)
+        rawResult = tempFile.read()
+        print(rawResult)
+        gotResult = json.loads(rawResult)
         tempFile.close()
-        if (expectedOut != gotOutput):
-            print("Test #%d failed: expected %s, but got %s" % (testNum, expectedOut, gotOutput))
+        if (expectedResult != gotResult):
+            print("Test #%d failed: expected %s, but got %s" % (testNum, expectedResult, gotResult))
             return 2
 
+    system("rm %s" % TEMP_OUTPUT_FILE) # removing temporal file
     print()
     print("ALL TESTS PASSED")
     return 0
