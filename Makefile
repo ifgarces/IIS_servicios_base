@@ -20,3 +20,7 @@ pull:
 # Ensures the docker-compose.yaml file is correct and prints it, prettified by `yq`
 config:
 	docker-compose --env-file compose.env config | yq eval
+
+# Executes tests for API endpoints for all systems
+test:
+	cd tests && python3 curl_tests.py
