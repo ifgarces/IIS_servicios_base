@@ -38,7 +38,7 @@ curl --location --request POST "${SERVER_IP}:4033/api/checkout/pay" \
 
 ## POST: process refund
 
-`api/refound`: for registering a refund.
+`api/refund`: for registering a refund.
 
 ### Request body format
 
