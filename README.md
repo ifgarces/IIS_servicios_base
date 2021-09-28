@@ -2,7 +2,7 @@
 
 > Introducción a la Ingeniería en Software, Universidad de los Andes, 2021
 
-This project will use all systems as git submodules, for running them all easily with [`docker-compose`](https://docs.docker.com/compose/), a tool for managing multi-container Docker applications. This is much better than setting an rough command to run them one by one, and allows to restart them (or not) on failure, enhanced logging management, etc.
+This project will use all systems as git submodules, for running them all easily with [`docker-compose`](https://docs.docker.com/compose/), a tool for managing multi-container Docker applications. This is much better than setting an rough command to run them one by one, and allows to restart them (or not) on crash, enhanced logging management, etc.
 
 ## Dependencies
 
@@ -13,7 +13,7 @@ Note: this project is intended to run in an Ubuntu-based host OS.
 
 ## Overall project software architecture
 
-The exposed API ports for the systems can be configured at [`compose.env`](./compose.env). The below figures show the overall systems architecture (Docker containers) and the exposed API calls outline.
+The exposed API ports for the systems can be configured at [`compose.env`](./compose.env). The below figures show the overall systems architecture. Each system is executed as a Docker container, with only a single exposed port (the API port).
 
 ![Overall systems diagram](./docs/diagram_overall.jpg "Overall diagram")
 
@@ -25,12 +25,12 @@ The usage docs for the APIs are located at `./docs/api` in this project. All of 
 
 ## Build and run
 
-The Makefile rules are stated in the below table. You may only have interest in the `up` and `pull` only.
+The Makefile rules are stated in the below table. You may only have interest in the `up` one.
 
-| Makefile rule | Description                                                                                                                     |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| `pull`        | Updates all systems (pulls/initializes submodule repos). Make sure you don't have uncommitted changes before running this rule. |
-| `build`       | Builds the Docker images for all systems.                                                                                       |
-| **`up`**      | **Launches the systems as Docker containers (builds if needed) and outputs to stdout/stderr.**                                  |
-| `down`        | Shuts down all systems.                                                                                                         |
-| `config`      | Ensures the `docker-compose.yaml` configuration file is correct, and prints it prettified with `yq`.                            |
+| Makefile rule     | Description                                                                                                                     |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `build` (default) | Builds the Docker images for all systems.                                                                                       |
+| **`up`**          | **Launches the systems as Docker containers (builds and pulls if needed) and outputs to stdout/stderr.**                        |
+| `pull`            | Updates all systems (pulls/initializes submodule repos). Make sure you don't have uncommitted changes before running this rule. |
+| `down`            | Shuts down all systems.                                                                                                         |
+| `config`          | Ensures the `docker-compose.yaml` configuration file is correct, and prints it prettified with `yq`.                            |

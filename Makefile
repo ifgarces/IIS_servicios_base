@@ -3,7 +3,7 @@ build:
 	docker-compose --env-file compose.env build
 
 # Launches all the systems and outputs to stdout/stderr
-up:
+up: pull
 	docker-compose --env-file compose.env up --build --force-recreate
 
 down:
