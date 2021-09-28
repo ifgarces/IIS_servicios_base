@@ -54,13 +54,15 @@ curl --location --request GET "${SERVER_IP}:4030/api/users/user?run=14343269-6"
 ### Example request
 
 ```shell
-curl --location --request POST "${SERVER_IP}:4030/api/users/user" --data-raw '{
-    "run": "14343269-6",
-    "nombres": "LEANDRO ALBERTO",
-    "apellido_paterno": "FERRERIA",
-    "apellido_materno": "CIOBOTARU",
-    "fecha_nacimiento": "1992-08-07"
-}'
+curl --location --request POST "${SERVER_IP}:4030/api/users/user" \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+        "run": "14343269-6",
+        "nombres": "LEANDRO ALBERTO",
+        "apellido_paterno": "ferreria",
+        "apellido_materno": "CIoBOTARu",
+        "fecha_nacimiento": "1992-08-07"
+    }'
 ```
 
 ### Example response (code: 200 OK)

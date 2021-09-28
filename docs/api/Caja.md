@@ -19,8 +19,10 @@ This API serves the purpose of processing checkout ("caja") system transactions.
 ### Example request
 
 ```shell
-curl --location --request GET "${SERVER_IP}:4033/api/checkout/pay" --data-raw '{
-    "RUN" : "19245093-8",
+curl --location --request POST "${SERVER_IP}:4033/api/checkout/pay" \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+    "RUN" : "16248093-6",
     "fecha" : "2021-03-5",
     "monto" : "22700"
 }'
@@ -51,7 +53,9 @@ curl --location --request GET "${SERVER_IP}:4033/api/checkout/pay" --data-raw '{
 ### Example request
 
 ```shell
-curl --location --request POST "${SERVER_IP}:4033/api/checkout/refund" --data-raw '{
+curl --location --request POST "${SERVER_IP}:4033/api/checkout/refund" \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
     "RUN" : "16248093-6",
     "fecha" : "2005-10-31",
     "monto" : "21821.74"
