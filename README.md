@@ -27,14 +27,14 @@ The usage docs for the APIs are located at `./docs/api` in this project. All of 
 
 The Makefile rules are stated in the below table. You may only have interest in the `up` one.
 
-| Makefile rule     | Description                                                                                                                                                                     |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `build` (default) | Builds the Docker images for all systems.                                                                                                                                       |
-| **`up`**          | **Launches the systems as Docker containers (builds, pulls and executes tests if needed) and outputs to stdout/stderr**. The systems are launched only if the tests are passed. |
-| `pull`            | Updates all systems (pulls/initializes submodule repos). Make sure you don't have uncommitted changes before running this rule.                                                 |
-| `down`            | Shuts down all systems.                                                                                                                                                         |
-| `config`          | Ensures the `docker-compose.yaml` configuration file is correct, and prints it prettified with `yq`.                                                                            |
-| `test`            | Executes test API calls. See section below.                                                                                                                                     |
+| Makefile rule     | Description                                                                                                                     |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `build` (default) | Builds the Docker images for all systems.                                                                                       |
+| **`up`**          | **Launches the systems as Docker containers (builds and pulls if needed) and outputs to stdout/stderr**.                        |
+| `pull`            | Updates all systems (pulls/initializes submodule repos). Make sure you don't have uncommitted changes before running this rule. |
+| `down`            | Shuts down all systems.                                                                                                         |
+| `config`          | Ensures the `docker-compose.yaml` configuration file is correct, and prints it prettified with `yq`.                            |
+| `test`            | Executes test API calls. See section below.                                                                                     |
 
 ## Testing
 
