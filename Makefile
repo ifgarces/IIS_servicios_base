@@ -19,6 +19,7 @@ pull:
 	git submodule foreach --recursive git checkout main
 	git submodule foreach --recursive git fetch
 	git submodule foreach --recursive git pull
+	git submodule update --recursive
 
 # Ensures the docker-compose.yaml file is correct and prints it, prettified by `yq`
 config:
