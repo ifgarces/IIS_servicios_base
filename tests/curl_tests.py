@@ -5,8 +5,23 @@
 #* Important: this script is intended to run on Linux.
 # --------------------------------------------------------------------------------------------------
 
-from os import system
+from os import system # utility for executing OS shell commands
 import json
+from typing import IO
+
+# Using nice module for colored output, if available (you can install it through pip)
+try:
+    import colorama
+    colorama.init(convert=False)
+    def logOk(msg :str):
+        print(colorama.Fore.LIGHTCYAN_EX, msg, colorama.Fore.RESET, sep="")
+    def logError(msg :str):
+        print(colorama.Fore.LIGHTRED_EX, msg, colorama.Fore.RESET, sep="")
+except ImportError:
+    def logOk(msg :str):
+        print(msg)
+    def logError(msg :str):
+        print(msg)
 
 TEMP_OUTPUT_FILE :str = "temp.json"
 
@@ -66,22 +81,21 @@ def main() -> int:
         )
     ]):
         print("Running test #%d..." % testNum)
-        exitCode = system(command + " -sS -o %s" % TEMP_OUTPUT_FILE) # adding flags for silent curl, show errors and output to the desired file instead of `stdout`
+        exitCode :int = system(command + " -sS -o %s" % TEMP_OUTPUT_FILE) # adding flags for silent curl, show errors and output to the desired file instead of `stdout`
         if (exitCode != 0):
             print("Test #%d failed: command \"%s\" returned with error code %d" % (testNum, command, exitCode))
             return 1
-        tempFile = open(file=TEMP_OUTPUT_FILE, mode="rt", encoding="utf-8") # we will read contents written by `curl` command in that file for each test from Python (yes, we have to open it on each test)
-        rawResult = tempFile.read()
-        print(rawResult)
-        gotResult = json.loads(rawResult)
+        tempFile :IO = open(file=TEMP_OUTPUT_FILE, mode="rt", encoding="utf-8") # we will read contents written by `curl` command in that file for each test from Python (yes, we have to open it on each test)
+        gotResult :dict = json.loads(tempFile.read())
         tempFile.close()
         if (expectedResult != gotResult):
-            print("Test #%d failed: expected %s, but got %s" % (testNum, expectedResult, gotResult))
+            logError("Test #%d failed: expected %s, but got %s" % (testNum, expectedResult, gotResult))
+            logError("The curl command for the failed test is %s" % command)
             return 2
 
     system("rm %s" % TEMP_OUTPUT_FILE) # removing temporal file
     print()
-    print("ALL TESTS PASSED")
+    logOk("Yay! All tests passed")
     return 0
 
 if (__name__ == "__main__"):
