@@ -4,3 +4,9 @@
 [submodule "IIS_servicios_Caja"]
 	path = IIS_servicios_Caja
 	url = https://github.com/ifgarces/IIS_servicios_Caja
+[submodule "IIS_servicios_RVM"]
+	path = IIS_servicios_RVM
+	url = https://github.com/ifgarces/IIS_servicios_RVM
+[submodule "IIS_servicios_PPE"]
+	path = IIS_servicios_PPE
+	url = https://github.com/ifgarces/IIS_servicios_PPE
