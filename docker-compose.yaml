@@ -57,18 +57,18 @@ services:
   #   restart: "always"
   #   volumes: []
 
-  # ppe:
-  #   container_name: ppe_container
-  #   build:
-  #     context: IIS_servicios_PPE
-  #     dockerfile: IIS_servicios_common/Dockerfile
-  #     args:
-  #       API_PORT: ${API_PORT_PPE}
-  #       UBUNTU_VERSION: ${UBUNTU_VERSION}
-  #   ports:
-  #     - "${API_PORT_PPE}:${API_PORT_PPE}"
-  #   networks:
-  #     iis-net:
-  #       ipv4_address: 10.5.0.5
-  #   restart: "always"
-  #   volumes: []
+  ppe:
+    container_name: ppe_container
+    build:
+      context: IIS_servicios_PPE
+      dockerfile: IIS_servicios_common/Dockerfile
+      args:
+        API_PORT: ${API_PORT_PPE}
+        UBUNTU_VERSION: ${UBUNTU_VERSION}
+    ports:
+      - "${API_PORT_PPE}:${API_PORT_PPE}"
+    networks:
+      iis-net:
+        ipv4_address: 10.5.0.5
+    restart: "always"
+    volumes: []
