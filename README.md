@@ -27,6 +27,8 @@ The usage docs for the APIs are located at `./docs/api` in this project. All of 
 
 The Makefile rules are stated in the below table. You may only have interest in the `up` one.
 
+**If you have problems with `make pull`:** please pull manually and run `git submodule update --init --recursive`.
+
 | Makefile rule     | Description                                                                                                                                 |
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
 | `build` (default) | Builds the Docker images for all systems.                                                                                                   |
