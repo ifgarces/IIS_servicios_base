@@ -35,9 +35,9 @@ def main() -> int:
         (
             """ curl --location --request GET "localhost:4030/api/users/user?run=14343269-6" """,
             json.loads("""{
-                "userFirstName": "LEANDRO ALBERTO",
-                "userLastName": "FERRERIA",
-                "userRun": "14343269-6"
+                "nombres": "LEANDRO ALBERTO",
+                "apellido_paterno": "FERRERIA",
+                "apellido_materno": "CIOBOTARU"
             }""")
         ),
         (
