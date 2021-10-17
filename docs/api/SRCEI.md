@@ -1,16 +1,16 @@
-# API SRCEI
+# SRCEI API
 
-This API serves the purpose of validating data requests for the SRCEI system (*registro civil*). Let `SERVER_IP` be a shell variable that holds the local IP address of the API server.
+This API serves the purpose of validating data requests for the SRCEI system (*registro civil*).
 
-- [API SRCEI](#api-srcei)
-  - [1. GET: validate person by RUN](#1-get-validate-person-by-run)
+- [SRCEI API](#srcei-api)
+  - [1. GET: validate person by RUN and get full name](#1-get-validate-person-by-run-and-get-full-name)
     - [1.1. Response body format](#11-response-body-format)
     - [1.2. Example calls](#12-example-calls)
   - [2. POST: validate person by all data](#2-post-validate-person-by-all-data)
     - [2.1. Request body format](#21-request-body-format)
     - [2.2. Example calls](#22-example-calls)
 
-## 1. GET: validate person by RUN
+## 1. GET: validate person by RUN and get full name
 
 `api/users/user`: endpoint to check if user exists or not by passing run as key.
 

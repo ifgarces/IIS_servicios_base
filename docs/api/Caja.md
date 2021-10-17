@@ -1,8 +1,8 @@
-# API CAJA
+# Caja API
 
-This API serves the purpose of processing checkout (*caja*) system transactions. Let `SERVER_IP` be a shell variable that holds the local IP address of the API server.
+This API serves the purpose of processing checkout (*caja*) system transactions.
 
-- [API CAJA](#api-caja)
+- [Caja API](#caja-api)
   - [1. POST: process payment](#1-post-process-payment)
     - [1.1. Request body format](#11-request-body-format)
     - [1.2. Example calls](#12-example-calls)
