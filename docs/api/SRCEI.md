@@ -1,15 +1,23 @@
 # API SRCEI
 
-This API serves the purpose of validating data requests for the SRCEI system ("registro civil"). Let `SERVER_IP` be a shell variable that holds the API server IP address.
+This API serves the purpose of validating data requests for the SRCEI system (*registro civil*). Let `SERVER_IP` be a shell variable that holds the local IP address of the API server.
 
-## GET: validate person by RUN
+- [API SRCEI](#api-srcei)
+  - [1. GET: validate person by RUN](#1-get-validate-person-by-run)
+    - [1.1. Response body format](#11-response-body-format)
+    - [1.2. Example calls](#12-example-calls)
+  - [2. POST: validate person by all data](#2-post-validate-person-by-all-data)
+    - [2.1. Request body format](#21-request-body-format)
+    - [2.2. Example calls](#22-example-calls)
+
+## 1. GET: validate person by RUN
 
 `api/users/user`: endpoint to check if user exists or not by passing run as key.
 
 - If user exists: names, last name and run are returned in body.
 - If user does not exist: returns body with message that user does not exist.
 
-### Response body format
+### 1.1. Response body format
 
 ```json
 {
@@ -19,13 +27,17 @@ This API serves the purpose of validating data requests for the SRCEI system ("r
 }
 ```
 
-### Example request
+### 1.2. Example calls
+
+For the scenario in which we query for a valid person RUN:
+
+Request:
 
 ```shell
 curl --location --request GET "${SERVER_IP}:4030/api/users/user?run=14343269-6"
 ```
 
-### Example response (code: 200 OK)
+Response 200 OK:
 
 ```json
 {
@@ -35,11 +47,21 @@ curl --location --request GET "${SERVER_IP}:4030/api/users/user?run=14343269-6"
 }
 ```
 
-## POST: validate person by all data
+If we query for an invalid person RUN (i.e. one that does not exist in the SRCEI database):
+
+Request:
+
+TODO <!-- TODO -->
+
+Response: <!-- TODO: expected response code -->
+
+TODO <!-- TODO -->
+
+## 2. POST: validate person by all data
 
 `api/users`: endpoint that requires the RUN, names, last names and date of birth in the body to validate the user data, as shown below.
 
-### Request body format
+### 2.1. Request body format
 
 ```json
 {
@@ -51,7 +73,11 @@ curl --location --request GET "${SERVER_IP}:4030/api/users/user?run=14343269-6"
 }
 ```
 
-### Example request
+### 2.2. Example calls
+
+Names and lastnames are not case-sensitive. If we query for an existing person with the right data:
+
+Request:
 
 ```shell
 curl --location --request POST "${SERVER_IP}:4030/api/users/user" \
@@ -65,10 +91,20 @@ curl --location --request POST "${SERVER_IP}:4030/api/users/user" \
     }'
 ```
 
-### Example response (code: 200 OK)
+Response 200 OK:
 
 ```json
 {
     "msg": "Usuario existente"
 }
 ```
+
+When the passed data is not valid (i.e. when the RUN is invalid or the person data does not match in all of the fields):
+
+Request:
+
+TODO <!-- TODO -->
+
+Response: <!-- TODO: expected response code -->
+
+TODO <!-- TODO -->

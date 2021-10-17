@@ -1,12 +1,20 @@
 # API CAJA
 
-This API serves the purpose of processing checkout ("caja") system transactions. Let `SERVER_IP` be a shell variable that holds the API server IP address.
+This API serves the purpose of processing checkout (*caja*) system transactions. Let `SERVER_IP` be a shell variable that holds the local IP address of the API server.
 
-## POST: process payment
+- [API CAJA](#api-caja)
+  - [1. POST: process payment](#1-post-process-payment)
+    - [1.1. Request body format](#11-request-body-format)
+    - [1.2. Example calls](#12-example-calls)
+  - [2. POST: process refund](#2-post-process-refund)
+    - [2.1. Request body format](#21-request-body-format)
+    - [2.2. Example calls](#22-example-calls)
+
+## 1. POST: process payment
 
 `api/checkout/pay`: for registering a payment.
 
-### Request body format
+### 1.1. Request body format
 
 ```json
 {
@@ -16,7 +24,11 @@ This API serves the purpose of processing checkout ("caja") system transactions.
 }
 ```
 
-### Example request
+### 1.2. Example calls
+
+For a correct payment call:
+
+Request:
 
 ```shell
 curl --location --request POST "${SERVER_IP}:4033/api/checkout/pay" \
@@ -28,7 +40,7 @@ curl --location --request POST "${SERVER_IP}:4033/api/checkout/pay" \
 }'
 ```
 
-### Example response (code: 200 OK)
+Response 200 OK:
 
 ```json
 {
@@ -36,11 +48,21 @@ curl --location --request POST "${SERVER_IP}:4033/api/checkout/pay" \
 }
 ```
 
-## POST: process refund
+For an incorrect payment call:
+
+Request:
+
+TODO <!-- TODO: wrong request -->
+
+Response: <!-- TODO: expected response code -->
+
+TODO <!-- TODO: error response -->
+
+## 2. POST: process refund
 
 `api/refund`: for registering a refund.
 
-### Request body format
+### 2.1. Request body format
 
 ```json
 {
@@ -50,7 +72,9 @@ curl --location --request POST "${SERVER_IP}:4033/api/checkout/pay" \
 }
 ```
 
-### Example request
+### 2.2. Example calls
+
+For a correct refund call: <!-- TODO: should reference ID of a previous payment -->
 
 ```shell
 curl --location --request POST "${SERVER_IP}:4033/api/checkout/refund" \
@@ -62,7 +86,7 @@ curl --location --request POST "${SERVER_IP}:4033/api/checkout/refund" \
 }'
 ```
 
-### Example response (code: 200 OK)
+Response 200 OK:
 
 ```json
 {
