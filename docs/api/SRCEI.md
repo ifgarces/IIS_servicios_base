@@ -21,9 +21,9 @@ This API serves the purpose of validating data requests for the SRCEI system (*r
 
 ```json
 {
-    "userFirstName": "userFirstName",
-    "userLastName": "userLastName",
-    "userRun": "userRun"
+    "nombres": "PERSON NAME(S)",
+    "apellido_paterno": "PERSON FIRST LAST NAME",
+    "apellido_materno": "PERSON SECOND LAST NAME"
 }
 ```
 
@@ -41,9 +41,9 @@ Response 200 OK:
 
 ```json
 {
-    "userFirstName": "LEANDRO ALBERTO",
-    "userLastName": "FERRERIA",
-    "userRun": "14343269-6"
+    "nombres": "LEANDRO ALBERTO",
+    "apellido_paterno": "FERRERIA",
+    "apellido_materno": "CIOBOTARU"
 }
 ```
 
@@ -51,11 +51,21 @@ If we query for an invalid person RUN (i.e. one that does not exist in the SRCEI
 
 Request:
 
-TODO <!-- TODO -->
+```shell
+curl --location --request GET "localhost:4030/api/users/user?run=14343269-k"
+```
 
-Response: <!-- TODO: expected response code -->
+Response 200 OK:
 
-TODO <!-- TODO -->
+```json
+{
+  "msg": "RUN inválido: no registrado"
+}
+```
+
+Note that this result will be the same for not valid RUTs, for example, for `curl --location --request GET "localhost:4030/api/users/user?run=empanada"`.
+
+If the `run` query parameter is not provided, the server will return with a 400 BAD REQUEST response, explaining the error.
 
 ## 2. POST: validate person by all data
 

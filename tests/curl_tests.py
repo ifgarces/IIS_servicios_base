@@ -41,6 +41,24 @@ def main() -> int:
             }""")
         ),
         (
+            """ curl --location --request GET "localhost:4030/api/users/user?run=14343269-k" """,
+            json.loads("""{
+                "msg": "RUN inválido: no registrado"
+            }""")
+        ),
+        (
+            """ curl --location --request GET "localhost:4030/api/users/user?run=empanada" """,
+            json.loads("""{
+                "msg": "RUN inválido: no registrado"
+            }""")
+        ),
+        (
+            """ curl --location --request GET "localhost:4030/api/users/user" """,
+            json.loads("""{
+                "msg": "Must provide run parameter"
+            }""")
+        ),
+        (
             """curl --location --request POST "localhost:4030/api/users/user" \\
                 --header 'Content-Type: application/json' \\
                 --data-raw '{
