@@ -31,7 +31,9 @@ def main() -> int:
     # Here we itarate over a list of tuples with the curl command and the expected parsed JSON with
     # the `json.loads` utility
     for testNum, (command, expectedResult) in enumerate([
-        # --- SRCEI ---
+        ############################################################################################
+        # SRCEI: simpleCheck
+        ############################################################################################
         (
             """ curl --location --request GET "localhost:4030/api/users/user?run=14343269-6" """,
             json.loads("""{
@@ -58,6 +60,10 @@ def main() -> int:
                 "msg": "Must provide run parameter"
             }""")
         ),
+
+        ############################################################################################
+        # SRCEI: strictCheck
+        ############################################################################################
         (
             """curl --location --request POST "localhost:4030/api/users/user" \\
                 --header 'Content-Type: application/json' \\
@@ -72,25 +78,30 @@ def main() -> int:
                 "msg": "Usuario existente"
             }""")
         ),
-        # --- Caja ---
+
+        ############################################################################################
+        # Caja: manualCreatePayment
+        ############################################################################################
         (
             """curl --location --request POST "localhost:4033/api/checkout/pay" \\
                 --header 'Content-Type: application/json' \\
                 --data-raw '{
                 "RUN" : "16248093-6",
-                "fecha" : "2021-03-5",
                 "monto" : "22700"
                 }'""",
             json.loads("""{
                 "msg": "Monto Ingresado"
             }""")
         ),
+
+        ############################################################################################
+        # Caja: manualPaymentRefund
+        ############################################################################################
         (
             """curl --location --request POST "localhost:4033/api/checkout/refund" \\
                 --header 'Content-Type: application/json' \\
                 --data-raw '{
                 "RUN" : "16248093-6",
-                "fecha" : "2005-10-31",
                 "monto" : "21821.74"
                 }'""",
             json.loads("""{
