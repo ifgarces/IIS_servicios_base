@@ -78,6 +78,34 @@ def main() -> int:
                 "msg": "Usuario existente"
             }""")
         ),
+        (
+            """curl --location --request POST "localhost:4030/api/users/user" \\
+                --header 'Content-Type: application/json' \\
+                --data-raw '{
+                    "run": "14343269-6",
+                    "nombres": "Hello",
+                    "apellido_paterno": "ferreria",
+                    "apellido_materno": "CIoBOTARu",
+                    "fecha_nacimiento": "1992-08-07"
+                }'""",
+            json.loads("""{
+                "msg": "Usuario no existe"
+            }""")
+        ),
+        (
+            """curl --location --request POST "localhost:4030/api/users/user" \\
+                --header 'Content-Type: application/json' \\
+                --data-raw '{
+                    "run": "whatever",
+                    "nombres": "leandro alberto",
+                    "apellido_paterno": "ferreria",
+                    "apellido_materno": "ciobotaru",
+                    "fecha_nacimiento": "1992-08-07"
+                }'""",
+            json.loads("""{
+                "msg": "Usuario no existe"
+            }""")
+        ),
 
         ############################################################################################
         # Caja: manualCreatePayment

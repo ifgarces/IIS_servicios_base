@@ -46,15 +46,7 @@ Response 200 OK:
 }
 ```
 
-For an incorrect payment call:
-
-Request:
-
-TODO <!-- TODO: wrong request -->
-
-Response: <!-- TODO: expected response code -->
-
-TODO <!-- TODO: error response -->
+If there are missing or wrong body parameters, the server will trigger an exception.
 
 ## 2. POST: process refund
 
