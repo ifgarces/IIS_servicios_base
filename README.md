@@ -47,4 +47,4 @@ If you run the systems with `make up`, you will see the output in stdout/stderr.
 
 ## Testing
 
-For running automated test API calls, first ensure the systems are running locally in your machine and then run `make test`. You must have Python installed.
+For running automated test API calls, first ensure the systems are running locally in your machine and then run `make test`. You must have Python 3 installed.

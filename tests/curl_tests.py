@@ -13,14 +13,14 @@ from typing import IO
 try:
     import colorama
     colorama.init(convert=False)
-    def logOk(msg :str):
+    def logOk(msg :str) -> None:
         print(colorama.Fore.LIGHTCYAN_EX, msg, colorama.Fore.RESET, sep="")
-    def logError(msg :str):
+    def logError(msg :str) -> None:
         print(colorama.Fore.LIGHTRED_EX, msg, colorama.Fore.RESET, sep="")
 except ImportError:
-    def logOk(msg :str):
+    def logOk(msg :str) -> None:
         print(msg)
-    def logError(msg :str):
+    def logError(msg :str) -> None:
         print(msg)
 
 TEMP_OUTPUT_FILE :str = "temp.json"
@@ -114,8 +114,8 @@ def main() -> int:
             """curl --location --request POST "localhost:4033/api/checkout/pay" \\
                 --header 'Content-Type: application/json' \\
                 --data-raw '{
-                "RUN" : "16248093-6",
-                "monto" : "22700"
+                    "RUN": "16248093-6",
+                    "monto": "22700"
                 }'""",
             json.loads("""{
                 "msg": "Monto Ingresado"
@@ -129,8 +129,8 @@ def main() -> int:
             """curl --location --request POST "localhost:4033/api/checkout/refund" \\
                 --header 'Content-Type: application/json' \\
                 --data-raw '{
-                "RUN" : "16248093-6",
-                "monto" : "21821.74"
+                    "RUN": "16248093-6",
+                    "monto": "21821.74"
                 }'""",
             json.loads("""{
                 "msg": "Monto Retirado"
@@ -138,9 +138,9 @@ def main() -> int:
         )
     ]):
         print("Running test #%d..." % testNum)
-        exitCode :int = system(command + " -sS -o %s" % TEMP_OUTPUT_FILE) # adding flags for silent curl, show errors and output to the desired file instead of `stdout`
-        if (exitCode != 0):
-            print("Test #%d failed: command \"%s\" returned with error code %d" % (testNum, command, exitCode))
+        cmdExitCode :int = system("%s -sS -o %s" % (command, TEMP_OUTPUT_FILE)) # adding flags for silent curl, show errors and output to the desired file instead of `stdout`
+        if (cmdExitCode != 0):
+            print("Test #%d failed: command \"%s\" returned with error code %d" % (testNum, command, cmdExitCode))
             return 1
         tempFile :IO = open(file=TEMP_OUTPUT_FILE, mode="rt", encoding="utf-8") # we will read contents written by `curl` command in that file for each test from Python (yes, we have to open it on each test)
         gotResult :dict = json.loads(tempFile.read())

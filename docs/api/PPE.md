@@ -10,6 +10,14 @@ When receiving a valid payment call from the PPE API consumer (Prendas), the tra
 
 <!-- TODO: insert diagram explaining the PPE-TGR-Prendas flow -->
 
-## ...
+## POST: register payment attempt (PPE)
 
-<!-- TODO: explain all calls, insert example request-response for various scenarios -->
+`...`: endpoint that immediately register the payment in PPE and returns the transaction ID, and starts the simulated TGR response flow.
+
+<!-- TODO: example request-response for various scenarios -->
+
+## POST: confirm payment (TGR)
+
+This endpoint is consumed by ourselves and has to be exposed by the Prendas systems. With this, this works as a callback from the payment attempt API endpoint.
+
+The documentation for this endpoint has to be provided from Prendas.
