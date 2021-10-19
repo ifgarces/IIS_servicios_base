@@ -113,8 +113,26 @@ When the passed data is not valid (i.e. when the RUN is invalid or the person da
 
 Request:
 
-TODO <!-- TODO -->
+```shell
+curl --location --request POST "${SERVER_IP}:4030/api/users/user" \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+        "run": "14343269-6",
+        "nombres": "LEANDRO ALBERTO",
+        "apellido_paterno": "ferreria",
+        "apellido_materno": "CIoBOTARu",
+        "fecha_nacimiento": "1992-08-07"
+    }'
+```
 
-Response: <!-- TODO: expected response code -->
+Response 200 OK:
 
-TODO <!-- TODO -->
+```json
+{
+    "msg": "Usuario no existe"
+}
+```
+
+The same result will be obtained if another field (non-case sensitive) does not match exactly with the SRCEI database entry for that person.
+
+Note: if a body parameter is missing, an exception will be triggered in the server.
