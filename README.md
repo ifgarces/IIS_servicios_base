@@ -13,7 +13,7 @@ This project will use all systems as git submodules, for running them all easily
 
 ## Overall project software architecture
 
-The exposed API ports for the systems can be configured at [`compose.env`](./compose.env). The below figures show the overall systems architecture. Each system is executed as a Docker container, with only a single exposed port (the API port).
+The exposed API ports for the systems can be configured at [`compose.env`](./compose.env). The below figures show the overall systems architecture. Each system is executed as a Docker container, with only a single exposed port (the API port). In the API calls figure, the arrows point towards the system they are providing the specified endpoint or call (in other words, the colored one is an endpoint exposed by Prendas, see the [PPE API documentation](./docs/api/PPE.md)).
 
 ![Overall systems diagram](./docs/diagram_overall.jpg "Overall diagram")
 
