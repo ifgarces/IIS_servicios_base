@@ -35,7 +35,7 @@ def main() -> int:
         # SRCEI: simpleCheck
         ############################################################################################
         (
-            """ curl --location --request GET "localhost:4030/api/users/user?run=14343269-6" """,
+            """ curl --location --request GET "http://localhost:4030/api/users/user?run=14343269-6" """,
             json.loads("""{
                 "nombres": "LEANDRO ALBERTO",
                 "apellido_paterno": "FERRERIA",
@@ -43,19 +43,19 @@ def main() -> int:
             }""")
         ),
         (
-            """ curl --location --request GET "localhost:4030/api/users/user?run=14343269-k" """,
+            """ curl --location --request GET "http://localhost:4030/api/users/user?run=14343269-k" """,
             json.loads("""{
                 "msg": "RUN inválido: no registrado"
             }""")
         ),
         (
-            """ curl --location --request GET "localhost:4030/api/users/user?run=empanada" """,
+            """ curl --location --request GET "http://localhost:4030/api/users/user?run=empanada" """,
             json.loads("""{
                 "msg": "RUN inválido: no registrado"
             }""")
         ),
         (
-            """ curl --location --request GET "localhost:4030/api/users/user" """,
+            """ curl --location --request GET "http://localhost:4030/api/users/user" """,
             json.loads("""{
                 "msg": "Must provide run parameter"
             }""")
@@ -65,42 +65,39 @@ def main() -> int:
         # SRCEI: strictCheck
         ############################################################################################
         (
-            """curl --location --request POST "localhost:4030/api/users/user" \\
+            """curl --location --request POST "http://localhost:4030/api/users/user" \\
                 --header 'Content-Type: application/json' \\
                 --data-raw '{
                     "run": "14343269-6",
                     "nombres": "LEANDRO ALBERTO",
                     "apellido_paterno": "ferreria",
-                    "apellido_materno": "CIoBOTARu",
-                    "fecha_nacimiento": "1992-08-07"
+                    "apellido_materno": "CIoBOTARu"
                 }'""",
             json.loads("""{
                 "msg": "Usuario existente"
             }""")
         ),
         (
-            """curl --location --request POST "localhost:4030/api/users/user" \\
+            """curl --location --request POST "http://localhost:4030/api/users/user" \\
                 --header 'Content-Type: application/json' \\
                 --data-raw '{
                     "run": "14343269-6",
                     "nombres": "Hello",
                     "apellido_paterno": "ferreria",
-                    "apellido_materno": "CIoBOTARu",
-                    "fecha_nacimiento": "1992-08-07"
+                    "apellido_materno": "CIoBOTARu"
                 }'""",
             json.loads("""{
                 "msg": "Usuario no existe"
             }""")
         ),
         (
-            """curl --location --request POST "localhost:4030/api/users/user" \\
+            """curl --location --request POST "http://localhost:4030/api/users/user" \\
                 --header 'Content-Type: application/json' \\
                 --data-raw '{
                     "run": "whatever",
                     "nombres": "leandro alberto",
                     "apellido_paterno": "ferreria",
-                    "apellido_materno": "ciobotaru",
-                    "fecha_nacimiento": "1992-08-07"
+                    "apellido_materno": "ciobotaru"
                 }'""",
             json.loads("""{
                 "msg": "Usuario no existe"
@@ -110,32 +107,92 @@ def main() -> int:
         ############################################################################################
         # Caja: manualCreatePayment
         ############################################################################################
-        (
-            """curl --location --request POST "localhost:4033/api/checkout/pay" \\
-                --header 'Content-Type: application/json' \\
-                --data-raw '{
-                    "RUN": "16248093-6",
-                    "monto": "22700"
-                }'""",
-            json.loads("""{
-                "msg": "Monto Ingresado"
-            }""")
-        ),
+        # (
+        #     """curl --location --request POST "http://localhost:4033/api/checkout/pay" \\
+        #         --header 'Content-Type: application/json' \\
+        #         --data-raw '{
+        #             "RUN": "16248093-6",
+        #             "monto": "22700"
+        #         }'""",
+        #     json.loads("""{
+        #         "msg": "Monto Ingresado"
+        #     }""")
+        # ),
+
+        # ############################################################################################
+        # # Caja: manualPaymentRefund
+        # ############################################################################################
+        # (
+        #     """curl --location --request POST "http://localhost:4033/api/checkout/refund" \\
+        #         --header 'Content-Type: application/json' \\
+        #         --data-raw '{
+        #             "RUN": "16248093-6",
+        #             "monto": "21821.74"
+        #         }'""",
+        #     json.loads("""{
+        #         "msg": "Monto Retirado"
+        #     }""")
+        # ),
 
         ############################################################################################
-        # Caja: manualPaymentRefund
+        # RVM: ownershipCheck
         ############################################################################################
         (
-            """curl --location --request POST "localhost:4033/api/checkout/refund" \\
+            """curl --location --request POST "http://localhost:4031/api/vehicles/check_ownership" \\
                 --header 'Content-Type: application/json' \\
                 --data-raw '{
-                    "RUN": "16248093-6",
-                    "monto": "21821.74"
+                    "plate": "LEC-681",
+                    "owners": [
+                        "4930477-3",
+                        "10651736-3",
+                        "14652074-K"
+                    ]
                 }'""",
             json.loads("""{
-                "msg": "Monto Retirado"
+                "msg": "Valid"
             }""")
-        )
+        ),
+        (
+            """curl --location --request POST "http://localhost:4031/api/vehicles/check_ownership" \\
+                --header 'Content-Type: application/json' \\
+                --data-raw '{
+                    "plate": "lec-681",
+                    "owners": [
+                        "14652074-k"
+                    ]
+                }'""",
+            json.loads("""{
+                "msg": "Valid"
+            }""")
+        ),
+        (
+            """curl --location --request POST "http://localhost:4031/api/vehicles/check_ownership" \\
+                --header 'Content-Type: application/json' \\
+                --data-raw '{
+                    "plate": "LEC-681",
+                    "owners": [
+                        "4930477-3",
+                        "10651736-3",
+                        "14652074-0"
+                    ]
+                }'""",
+            json.loads("""{
+                "msg": "Invalid owners"
+            }""")
+        ),
+        (
+            """curl --location --request POST "http://localhost:4031/api/vehicles/check_ownership" \\
+                --header 'Content-Type: application/json' \\
+                --data-raw '{
+                    "plate": "sopaipilla",
+                    "owners": [
+                        "4930477-3"
+                    ]
+                }'""",
+            json.loads("""{
+                "msg": "Invalid plate"
+            }""")
+        ),
     ]):
         print("Running test #%d..." % testNum)
         cmdExitCode :int = system("%s -sS -o %s" % (command, TEMP_OUTPUT_FILE)) # adding flags for silent curl, show errors and output to the desired file instead of `stdout`
