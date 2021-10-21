@@ -14,9 +14,95 @@ This API serves the purpose of validating data requests for the RVM system (*reg
 
 `...`: for checking whether a vehicle has an annotation in "pending" status.
 
-## GET: check ownership of a plate
+## POST: check ownership of a plate
 
-`...`: for checking if a set of person RUNs are the actual registered owners for the vehicle.
+`api/vehicles/check_ownership`: for checking if a set of person RUNs are the actual registered owners for the vehicle.
+
+### Body format
+
+```json
+{
+    "plate": "vehicle license plate",
+    "persons": [ "array", "of", "person", "IDs" ]
+}
+```
+
+### Example calls
+
+For any case, if one parameter is missing, the server will reply with 400 BAD REQUEST.
+
+Case 1: license plate and owners are correct (both non case-sensitive).
+
+Request:
+
+```shell
+curl --location --request POST "http://${SERVER_IP}:4031/api/vehicles/check_ownership" \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+        "plate": "LEC-681",
+        "owners": [
+            "4930477-3",
+            "10651736-3",
+            "14652074-K"
+        ]
+    }'
+```
+
+Response 200 OK:
+
+```json
+{
+    "msg": "Valid"
+}
+```
+
+Case 2: invalid license plate, i.e. nonexistent in RVM database (the format is not checked).
+
+Request:
+
+```shell
+curl --location --request POST "http://${SERVER_IP}:4031/api/vehicles/check_ownership" \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+        "plate": "GOW por fin en PC en enero",
+        "owners": [
+            "4930477-3",
+            "10651736-3",
+            "14652074-K"
+        ]
+    }'
+```
+
+Response 200 OK:
+
+```json
+{
+    "msg": "Invalid plate"
+}
+```
+
+Case 3: passing one or more invalid owners, i.e. not a perfect match for all of them. If even one of them is missing/wrong but the others are OK, it won't be considered valid.
+
+```shell
+curl --location --request POST "http://${SERVER_IP}:4031/api/vehicles/check_ownership" \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+        "plate": "LEC-681",
+        "owners": [
+            "4930477-3",
+            "10651736-3",
+            "14652074-K"
+        ]
+    }'
+```
+
+Response 200 OK:
+
+```json
+{
+    "msg": "Invalid owners"
+}
+```
 
 ## POST: create an annotation for a plate
 
