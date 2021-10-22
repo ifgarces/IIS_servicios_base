@@ -78,8 +78,7 @@ If the `run` query parameter is not provided, the server will return with a 400 
     "run": "RUN",
     "nombres": "Nombres",
     "apellido_paterno": "Apellido paterno",
-    "apellido_materno": "Apellido materno",
-    "fecha_nacimiento": "yyyy-MM-dd"
+    "apellido_materno": "Apellido materno"
 }
 ```
 
@@ -96,8 +95,7 @@ curl --location --request POST "${SERVER_IP}:4030/api/users/user" \
         "run": "14343269-6",
         "nombres": "LEANDRO ALBERTO",
         "apellido_paterno": "ferreria",
-        "apellido_materno": "CIoBOTARu",
-        "fecha_nacimiento": "1992-08-07"
+        "apellido_materno": "CIoBOTARu"
     }'
 ```
 
@@ -120,8 +118,7 @@ curl --location --request POST "${SERVER_IP}:4030/api/users/user" \
         "run": "14343269-6",
         "nombres": "LEANDRO ALBERTO",
         "apellido_paterno": "ferreria",
-        "apellido_materno": "CIoBOTARu",
-        "fecha_nacimiento": "1992-08-07"
+        "apellido_materno": "CIoBOTARu"
     }'
 ```
 
