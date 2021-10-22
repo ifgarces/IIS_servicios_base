@@ -14,6 +14,15 @@ This API serves the purpose of validating data requests for the RVM system (*reg
     - [4.2. Example calls](#42-example-calls)
   - [5. POST: create an annotation for a plate](#5-post-create-an-annotation-for-a-plate)
     - [5.1. Request body format](#51-request-body-format)
+  - [6. POST: Create a new annotation](#6-post-create-a-new-annotation)
+    - [Request body format](#request-body-format)
+    - [6.1 Example request](#61-example-request)
+  - [7. POST: Accept or refuse pending anotation](#7-post-accept-or-refuse-pending-anotation)
+    - [Request body format](#request-body-format-1)
+    - [7.1 Example request](#71-example-request)
+  - [8. POST: Check if vehicle has pending anotation](#8-post-check-if-vehicle-has-pending-anotation)
+    - [Request body format](#request-body-format-2)
+    - [Check if vehicle has pending anotation](#check-if-vehicle-has-pending-anotation)
 
 <!-- TODO: detail path, request/response format and insert example calls for each API method -->
 
@@ -137,13 +146,13 @@ Response 200 OK:
 `...`: for creating an annotation and link it to a given vehicle. The possible annotation types are detailed in the table below.
 
 <!-- TODO: explain each abreviation -->
-| Annotation type | Description |
-| --------------- | ----------- |
-| `"PN"`          | `Prenda`         |
-| `"PH"`          | `Prohibicion`         |
-| `"AlzPN"`       | `Alzamiento Prenda`         |
-| `"AlzPH"`       | `Alzamiento Prohibicion`         |
-| `"CA"`          | `Cambio Acreedor`         |
+| Annotation type | Description              |
+| --------------- | ------------------------ |
+| `"PN"`          | `Prenda`                 |
+| `"PH"`          | `Prohibicion`            |
+| `"AlzPN"`       | `Alzamiento Prenda`      |
+| `"AlzPH"`       | `Alzamiento Prohibicion` |
+| `"CA"`          | `Cambio Acreedor`        |
 
 ### 5.1. Request body format
 
@@ -195,7 +204,7 @@ curl --location --request POST " http://${SERVER_IP}:4031/API/vehicles/anotation
 ### 7.1 Example request
 
 ```shell
-curl --location --request POST "http://${SERVER_IP}:4031/API/vehicles/anotation" \
+curl --location --request POST "http://${SERVER_IP}:4031/API/vehicles/acceptRejectAnotation" \
     --header 'Content-Type: application/json' \
     --data-raw '{
         "patente" : "EAM-900",

@@ -2,23 +2,24 @@
 
 This API serves the purpose of validating data requests for the PPE system (*portal de pago electrónico*). Note that this system is supposed to interact asynchronously with TGR (*tesorería general de la república*) for payment confirmation, which will be simulated (see the section below).
 
-# Table of Contents
-  - [1. POST: register payment attempt (PPE)](#1-post-register-payment-attempt)
-    - [1.1. Request body format](#11-request-body-format)
-    - [1.2. Example calls](#12-example-calls)
-  - [2. POST: confirm payment (TGR)](#2-post-confirm-payment)
+- [PPE API](#ppe-api)
+  - [1. Confirmation from TGR](#1-confirmation-from-tgr)
+  - [2. POST: register payment attempt (PPE)](#2-post-register-payment-attempt-ppe)
+    - [2.1. Request body format](#21-request-body-format)
+    - [2.2. Example calls](#22-example-calls)
+  - [3. POST: confirm payment (TGR)](#3-post-confirm-payment-tgr)
 
-## Confirmation from TGR
+## 1. Confirmation from TGR
 
 When receiving a valid payment call from the PPE API consumer (Prendas), the transaction is registered and marked as pending (from TGR confirmation), and the ID for that transaction is returned to Prendas in the response immediately. Then, a random amount of time is set for the simulated TGR to send the confirmation to Prendas (passing the transaction ID previously returned to Prendas by PPE), by consuming an API exposed by Prendas after that random time. See the image below. There's also a probability for TGR to never send the confirmation, which has to be considered (Prendas will have to set a timeout for TGR confirmation for a PPE transaction).
 
 ![PPE payment flow](./diagram_PPE_payment_flow.jpg "PPE payment flow diagram")
 
-## 1. POST: register payment attempt (PPE)
+## 2. POST: register payment attempt (PPE)
 
 `api/transaction/payment`: endpoint that immediately register the payment in PPE and returns the transaction ID, and starts the simulated TGR response flow. It requieres the person id, repertoire number and the amount of money.
 
-### 1.1. Request body format
+### 2.1. Request body format
 
 ```json
 {
@@ -28,7 +29,7 @@ When receiving a valid payment call from the PPE API consumer (Prendas), the tra
 }
 ```
 
-### 1.2. Example calls
+### 2.2. Example calls
 
 Request:
 
@@ -52,8 +53,10 @@ Response 200 OK:
 
 Note: if a body parameter is missing, an exception will be triggered in the server.
 
-## 2. POST: confirm payment (TGR)
+## 3. POST: confirm payment (TGR)
 
 This endpoint is consumed by ourselves and has to be exposed by the Prendas systems. Once we have it, this works as a callback from the payment attempt API endpoint.
 
 The documentation for this endpoint has to be provided from Prendas.
+
+<!-- TODO -->

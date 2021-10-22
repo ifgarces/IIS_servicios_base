@@ -18,7 +18,7 @@ This API serves the purpose of processing checkout (*caja*) system transactions.
 
 ```json
 {
-    "id_persona" : identificador_persona, varchar(10)
+    "id_persona" : "identificador_persona"
     "numero_repertorio" : identificador_prenda, INT
     "monto" : monto_a_pagar, INT
 }
