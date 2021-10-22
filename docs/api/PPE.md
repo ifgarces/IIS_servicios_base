@@ -10,14 +10,46 @@ When receiving a valid payment call from the PPE API consumer (Prendas), the tra
 
 ![PPE payment flow](./diagram_PPE_payment_flow.jpg "PPE payment flow diagram")
 
-## POST: register payment attempt (PPE)
+## 1. POST: register payment attempt (PPE)
 
-`...`: endpoint that immediately register the payment in PPE and returns the transaction ID, and starts the simulated TGR response flow.
+`api/transaction/payment`: endpoint that immediately register the payment in PPE and returns the transaction ID, and starts the simulated TGR response flow. It requieres the person id, repertoire number and the amount of money.
 
-<!-- TODO: example request-response for various scenarios -->
+### 1.1. Request body format
 
-## POST: confirm payment (TGR)
+```json
+{
+    "id_persona": "Person ID",
+    "numero_repertorio": "N°Repertoire",
+    "monto": "Amount"
+}
+```
 
-This endpoint is consumed by ourselves and has to be exposed by the Prendas systems. With this, this works as a callback from the payment attempt API endpoint.
+### 1.2. Example calls
+
+Request:
+
+```shell
+curl --location --request POST "${SERVER_IP}:4032/api/transaction/payment" \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+        "id_persona": "1092093-5",
+        "numero_repertorio": "123",
+        "monto": 213540
+    }'
+```
+
+Response 200 OK:
+
+```json
+{
+    "msg": "Pago Ingresado"
+}
+```
+
+Note: if a body parameter is missing, an exception will be triggered in the server.
+
+## 2. POST: confirm payment (TGR)
+
+This endpoint is consumed by ourselves and has to be exposed by the Prendas systems. Once we have it, this works as a callback from the payment attempt API endpoint.
 
 The documentation for this endpoint has to be provided from Prendas.
