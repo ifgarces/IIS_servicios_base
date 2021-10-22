@@ -154,3 +154,75 @@ Response 200 OK:
     "type": "Annotation type"
 }
 ```
+## 6. POST: Create a new annotation
+
+<!-- TODO: add success or error examples -->
+### Request body format
+
+```json
+{
+    "plate": "Vehicle license plate",
+    "...": "TODO",
+    "type": "Annotation type"
+}
+```
+
+### 6.1 Example request
+
+```shell
+curl --location --request POST " http://${SERVER_IP}:4031/API/vehicles/anotation" \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+        "patente" : "EAM-900",
+        "tipo" : "PN",
+        "numero_repertorio" : "0001"
+    }'
+```
+
+## 7. POST: Accept or refuse pending anotation
+
+<!-- TODO: add success or error examples -->
+### Request body format
+
+```json
+{
+    "plate": "Vehicle license plate",
+    "...": "TODO",
+    "type": "Annotation type"
+}
+```
+
+### 7.1 Example request
+
+```shell
+curl --location --request POST "http://${SERVER_IP}:4031/API/vehicles/anotation" \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+        "patente" : "EAM-900",
+        "tipo" : "PH",
+        "aceptarORechazar" : "rechazada"
+    }'
+```
+
+## 8. POST: Check if vehicle has pending anotation
+<!-- TODO: add success or error examples -->
+### Request body format
+
+```json
+{
+    "plate": "Vehicle license plate",
+    "...": "TODO",
+    "type": "Annotation type"
+}
+```
+
+### Check if vehicle has pending anotation
+
+```shell
+curl --location --request POST "http://${SERVER_IP}:4031/API/vehicles/checkAnotacion" \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+        "patente" : "EAM-900",
+        "tipo" : "PN"
+    }'
+```
