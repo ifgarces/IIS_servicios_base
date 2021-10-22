@@ -3,7 +3,7 @@
 This API serves the purpose of validating data requests for the PPE system (*portal de pago electrónico*). Note that this system is supposed to interact asynchronously with TGR (*tesorería general de la república*) for payment confirmation, which will be simulated (see the section below).
 
 # Table of Contents
-  - [1. POST: register payment attempt](#1-post-register-payment-attempt)
+  - [1. POST: register payment attempt (PPE)](#1-post-register-payment-attempt)
     - [1.1. Request body format](#11-request-body-format)
     - [1.2. Example calls](#12-example-calls)
   - [2. POST: confirm payment (TGR)](#2-post-confirm-payment)
