@@ -2,35 +2,50 @@
 
 This API serves the purpose of validating data requests for the RVM system (*registro de vehículos motorizados*).
 
-
-# Table of Contents
-  - [GET: validate plate](#get-validate-plate)
-  - [GET: check if a plate has pending annotation(s)](#get-check-if-a-plate-has-pending-annotations)
-  - [GET: check a plate has active annotation(s)](#get-check-a-plate-has-active-annotations)
-  - [POST: check ownership of a plate](#post-check-ownership-of-a-plate)
-  - [POST: create an annotation for a plate](#post-create-an-annotation-for-a-plate)
+- [RVM API](#rvm-api)
+  - [1. GET: validate plate](#1-get-validate-plate)
+    - [1.1. Example calls](#11-example-calls)
+  - [2. GET: check if a plate has pending annotation(s)](#2-get-check-if-a-plate-has-pending-annotations)
+    - [2.1. Example calls](#21-example-calls)
+  - [3. GET: check a plate has active annotation(s)](#3-get-check-a-plate-has-active-annotations)
+    - [3.1. Example calls](#31-example-calls)
+  - [4. POST: check ownership of a plate](#4-post-check-ownership-of-a-plate)
+    - [4.1. Body format](#41-body-format)
+    - [4.2. Example calls](#42-example-calls)
+  - [5. POST: create an annotation for a plate](#5-post-create-an-annotation-for-a-plate)
+    - [5.1. Request body format](#51-request-body-format)
 
 <!-- TODO: detail path, request/response format and insert example calls for each API method -->
 
-
-## GET: validate plate
+## 1. GET: validate plate
 
 `...`: for checking whether a vehicle exists or not in the RVM database.
 
-## GET: check if a plate has pending annotation(s)
+### 1.1. Example calls
+
+TODO <!-- TODO -->
+
+## 2. GET: check if a plate has pending annotation(s)
 
 `...`: for checking whether a vehicle has an annotation in "pending" status.
 
+### 2.1. Example calls
 
-## GET: check a plate has active annotation(s)
+TODO <!-- TODO -->
+
+## 3. GET: check a plate has active annotation(s)
 
 `...`: for checking whether the vehicle currently has active limitations (...).
 
-## POST: check ownership of a plate
+### 3.1. Example calls
 
-`api/vehicles/check_ownership`: for checking if a set of person RUNs are the actual registered owners for the vehicle.
+TODO <!-- TODO -->
 
-### Body format
+## 4. POST: check ownership of a plate
+
+`api/vehicles/check_ownership`: for checking if a given set of person IDs are a subset or equal to the actual registered owners for the vehicle. This means that, as shown below, `persons` must be an array containing one or more valid owners for the vehicle (with no invalid owners in it).
+
+### 4.1. Body format
 
 ```json
 {
@@ -39,11 +54,11 @@ This API serves the purpose of validating data requests for the RVM system (*reg
 }
 ```
 
-### Example calls
+### 4.2. Example calls
 
 For any case, if one parameter is missing, the server will reply with 400 BAD REQUEST.
 
-Case 1: license plate and owners are correct (both non case-sensitive).
+Case 1: license plate and owners are correct (both non case-sensitive). For this case, we pass all the actual owners, which are tree.
 
 Request:
 
@@ -56,6 +71,30 @@ curl --location --request POST "http://${SERVER_IP}:4031/api/vehicles/check_owne
             "4930477-3",
             "10651736-3",
             "14652074-K"
+        ]
+    }'
+```
+
+Response 200 OK:
+
+```json
+{
+    "msg": "Valid"
+}
+```
+
+Case 2: passing a subset of the owners. Like above, but we check that two IDs are owners (not all of them, but yes, they are owners).
+
+Request:
+
+```shell
+curl --location --request POST "http://${SERVER_IP}:4031/api/vehicles/check_ownership" \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+        "plate": "LEC-681",
+        "owners": [
+            "4930477-3",
+            "10651736-3"
         ]
     }'
 ```
@@ -93,30 +132,7 @@ Response 200 OK:
 }
 ```
 
-Case 3: passing one or more invalid owners, i.e. not a perfect match for all of them. If even one of them is missing/wrong but the others are OK, it won't be considered valid.
-
-```shell
-curl --location --request POST "http://${SERVER_IP}:4031/api/vehicles/check_ownership" \
-    --header 'Content-Type: application/json' \
-    --data-raw '{
-        "plate": "LEC-681",
-        "owners": [
-            "4930477-3",
-            "10651736-3",
-            "14652074-K"
-        ]
-    }'
-```
-
-Response 200 OK:
-
-```json
-{
-    "msg": "Invalid owners"
-}
-```
-
-## POST: create an annotation for a plate
+## 5. POST: create an annotation for a plate
 
 `...`: for creating an annotation and link it to a given vehicle. The possible annotation types are detailed in the table below.
 
@@ -129,7 +145,7 @@ Response 200 OK:
 | `"AlzPH"`       | `Alzamiento Prohibicion`         |
 | `"CA"`          | `Cambio Acreedor`         |
 
-### Request body format
+### 5.1. Request body format
 
 ```json
 {
@@ -138,4 +154,3 @@ Response 200 OK:
     "type": "Annotation type"
 }
 ```
-
