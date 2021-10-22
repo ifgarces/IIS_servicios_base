@@ -149,7 +149,7 @@ def main() -> int:
                     ]
                 }'""",
             json.loads("""{
-                "msg": "Valid"
+                "valid": true
             }""")
         ),
         (
@@ -164,6 +164,7 @@ def main() -> int:
                     ]
                 }'""",
             json.loads("""{
+                "valid": false,
                 "msg": "Invalid owners"
             }""")
         ),
@@ -177,7 +178,7 @@ def main() -> int:
                     ]
                 }'""",
             json.loads("""{
-                "msg": "Valid"
+                "valid": true
             }""")
         ),
         (
@@ -192,6 +193,7 @@ def main() -> int:
                     ]
                 }'""",
             json.loads("""{
+                "valid": false,
                 "msg": "Invalid owners"
             }""")
         ),
@@ -205,6 +207,7 @@ def main() -> int:
                     ]
                 }'""",
             json.loads("""{
+                "valid": false,
                 "msg": "Invalid plate"
             }""")
         ),

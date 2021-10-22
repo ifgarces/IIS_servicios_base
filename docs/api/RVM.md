@@ -88,7 +88,7 @@ Response 200 OK:
 
 ```json
 {
-    "msg": "Valid"
+    "valid": true
 }
 ```
 
@@ -112,11 +112,11 @@ Response 200 OK:
 
 ```json
 {
-    "msg": "Valid"
+    "valid": true
 }
 ```
 
-Case 2: invalid license plate, i.e. nonexistent in RVM database (the format is not checked).
+Case 3: invalid license plate, i.e. nonexistent in RVM database (the format is not checked).
 
 Request:
 
@@ -137,7 +137,34 @@ Response 200 OK:
 
 ```json
 {
+    "valid": false,
     "msg": "Invalid plate"
+}
+```
+
+Case 4: the passed array of person IDs is not a subset of the actual owners. In this case, the first 2 IDs are OK but the third one is not.
+
+Request:
+
+```shell
+curl --location --request POST "http://${SERVER_IP}:4031/api/vehicles/check_ownership" \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+        "plate": "LEC-681",
+        "owners": [
+            "4930477-3",
+            "10651736-3",
+            "14652074-9"
+        ]
+    }'
+```
+
+Response 200 OK:
+
+```json
+{
+    "valid": false,
+    "msg": "Invalid owners"
 }
 ```
 
@@ -179,7 +206,7 @@ Response 200 OK:
 ### 6.1 Example request
 
 ```shell
-curl --location --request POST " http://${SERVER_IP}:4031/API/vehicles/anotation" \
+curl --location --request POST "http://${SERVER_IP}:4031/API/vehicles/anotation" \
     --header 'Content-Type: application/json' \
     --data-raw '{
         "patente" : "EAM-900",
@@ -228,10 +255,6 @@ curl --location --request POST "http://${SERVER_IP}:4031/API/vehicles/acceptReje
 ### Check if vehicle has pending anotation
 
 ```shell
-curl --location --request POST "http://${SERVER_IP}:4031/API/vehicles/checkAnotacion" \
-    --header 'Content-Type: application/json' \
-    --data-raw '{
-        "patente" : "EAM-900",
-        "tipo" : "PN"
-    }'
+curl --location --request GET "http://${SERVER_IP}:4031/API/vehicles/checkAnotacion?patente=EAM-900&tipo=PN" \
+    --header 'Content-Type: application/json' # fixed this command, wasn't working because it is a GET with query, not POST with body
 ```
