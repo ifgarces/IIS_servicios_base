@@ -18,10 +18,13 @@ This API serves the purpose of processing checkout (*caja*) system transactions.
 
 ```json
 {
-    "RUN" : "personRUN",
-    "monto" : "paymentAmount"
+    "id_persona" : identificador_persona, varchar(10)
+    "numero_repertorio" : identificador_prenda, INT
+    "monto" : monto_a_pagar, INT
 }
 ```
+
+only one payment per "numero_repertorio". (En caso de duda preguntar)
 
 ### 1.2. Example calls
 
@@ -33,7 +36,8 @@ Request:
 curl --location --request POST "${SERVER_IP}:4033/api/checkout/pay" \
     --header 'Content-Type: application/json' \
     --data-raw '{
-    "RUN" : "16248093-6",
+    "numero_repertorio" : "1234",
+    "id_persona" : "16248093-6",
     "monto" : "22700"
 }'
 ```
@@ -42,22 +46,39 @@ Response 200 OK:
 
 ```json
 {
-    "msg": "Monto Ingresado"
+    "msg": "Monto Ingresado",
+    "nuevo_folio": 51
 }
 ```
 
 If there are missing or wrong body parameters, the server will trigger an exception.
 
+
+Response 500:
+
+```json
+{
+    "msg" : "Internal Server Error",
+}
+```
+
+
+
+
+
 ## 2. POST: process refund
 
-`api/refund`: for registering a refund.
+`api/checkout/refund`: for registering a refund.
+
+You can only request a refund for an existing payment.
 
 ### 2.1. Request body format
 
 ```json
 {
-    "RUN" : "personRUN",
-    "monto" : "paymentAmount"
+    "folio": identificador_transacción, INT
+    "id_persona" : identificador_persona, varchar(10)
+    "numero_repertorio" : identificador_prenda INT
 }
 ```
 
@@ -66,11 +87,11 @@ If there are missing or wrong body parameters, the server will trigger an except
 For a correct refund call: <!-- TODO: should reference ID of a previous payment -->
 
 ```shell
-curl --location --request POST "${SERVER_IP}:4033/api/checkout/refund" \
-    --header 'Content-Type: application/json' \
-    --data-raw '{
-    "RUN" : "16248093-6",
-    "monto" : "21821.74"
+
+curl --location --request POST "${SERVER_IP}:4033/api/checkout/refund"     --header 'Content-Type: application/json'     --data-raw '{ 
+    "folio":31,
+    "id_persona" : "11149472-K",
+    "numero_repertorio" : 31
 }'
 ```
 
@@ -78,6 +99,31 @@ Response 200 OK:
 
 ```json
 {
-    "msg": "Monto Retirado"
+    "msg": "Monto Reembolsado",
+    "nuevo_folio": 51
+}
+```
+
+Response 400:
+
+```json
+{
+    "msg" : "No existen Pagos para los parametros ingresados",
+}
+```
+
+Response 401:
+
+```json
+{
+    "msg" : "Reembolso denegado",
+}
+```
+
+Response 500:
+
+```json
+{
+    "msg" : "Internal Server Error",
 }
 ```
