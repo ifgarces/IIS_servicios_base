@@ -156,6 +156,21 @@ def main() -> int:
             """curl --location --request POST "http://localhost:4031/api/vehicles/check_ownership" \\
                 --header 'Content-Type: application/json' \\
                 --data-raw '{
+                    "plate": "LEC-681",
+                    "owners": [
+                        "4930477-3",
+                        "10651736-3",
+                        "something"
+                    ]
+                }'""",
+            json.loads("""{
+                "msg": "Invalid owners"
+            }""")
+        ),
+        (
+            """curl --location --request POST "http://localhost:4031/api/vehicles/check_ownership" \\
+                --header 'Content-Type: application/json' \\
+                --data-raw '{
                     "plate": "lec-681",
                     "owners": [
                         "14652074-k"
