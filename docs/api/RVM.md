@@ -129,6 +129,7 @@ Response 200 OK:
 | `"AlzPH"`       | `Alzamiento Prohibicion`         |
 | `"CA"`          | `Cambio Acreedor`         |
 
+<!-- TODO: add success or error examples -->
 ### Request body format
 
 ```json
@@ -137,5 +138,42 @@ Response 200 OK:
     "...": "TODO",
     "type": "Annotation type"
 }
+```
+
+### Create a new annotation
+
+```shell
+curl --location --request POST " http://${SERVER_IP}:4031/API/vehicles/anotation" \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+        "patente" : "EAM-900",
+        "tipo" : "PN",
+        "numero_repertorio" : "0001"
+    }'
+```
+
+
+### Accept or refuse pending anotation
+
+```shell
+curl --location --request POST "http://${SERVER_IP}:4031/API/vehicles/anotation" \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+        "patente" : "EAM-900",
+        "tipo" : "PH",
+        "aceptarORechazar" : "rechazada"
+    }'
+```
+
+
+### Check if vehicle has pending anotation
+
+```shell
+curl --location --request POST "http://${SERVER_IP}:4031/API/vehicles/checkAnotacion" \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+        "patente" : "EAM-900",
+        "tipo" : "PN"
+    }'
 ```
 
