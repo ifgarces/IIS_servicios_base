@@ -1,35 +1,33 @@
 # RVM API
 
+<!-- TODO: finish points 1.1 , 1.2, 3.1, 3.2 -->
+
 This API serves the purpose of validating data requests for the RVM system (*registro de vehículos motorizados*).
 
-Every annotation has a type and a status, which possible values are stated in the following tables, respectively.
+Every reference made to an annotations uses either the Type or Status. On the tables show below are listed the different values for each one of the keys.
 
-License plate format: it is composed of three uppercase letters, a hyphen and three numbers as can be seen in the following example (e.g. `"EAM-900"`).
+| Annotation type | Description |
+| --------------- | ----------- |
+| `"PN"`          | `Prenda`         |
+| `"PH"`          | `Prohibicion`         |
+| `"AlzPN"`       | `Alzamiento Prenda`         |
+| `"AlzPH"`       | `Alzamiento Prohibicion`         |
+| `"CA"`          | `Cambio Acreedor`         |
 
-| Annotation type | Description              |
-| --------------- | ------------------------ |
-| `"PN"`          | `Prenda`                 |
-| `"PH"`          | `Prohibicion`            |
-| `"AlzPN"`       | `Alzamiento Prenda`      |
-| `"AlzPH"`       | `Alzamiento Prohibicion` |
-| `"CA"`          | `Cambio Acreedor`        |
 
-| Annotation status | Description                     |
-| ----------------- | ------------------------------- |
-| `"ingresada"`     | `Anotacion en estado ingresada` |
-| `"aceptada"`      | `Anotacion en estado aceptado`  |
-| `"rechazada"`     | `Anotacion en estado rechazado` |
+| Annotation status | Description |
+| ----------------- | ----------- |
+| `"ingresada"`     | `Anotacion en estado ingresada`|
+| `"aceptada"`      | `Anotacion en estado aceptado` |
+| `"rechazada"`     | `Anotacion en estado rechazado`|
+
 
 - [RVM API](#rvm-api)
-  - [1. GET: check vehicle annotations](#1-get-check-vehicle-annotations)
+  - [1. GET: Check Vehicle Anotations](#1-get-check-vehicle-anotations)
     - [1.1. Request body format](#11-request-body-format)
     - [1.2. Example calls](#12-example-calls)
-<<<<<<< HEAD
     - [1.3. Expected response](#13-expected-response)
   - [2. POST: Check if a vehicle exist in the RVM DB](#2-post-check-if-a-vehicle-exist-in-the-rvm-db)
-=======
-  - [2. GET: check if a plate has pending annotation(s)](#2-get-check-if-a-plate-has-pending-annotations)
->>>>>>> 7b7e67902666afb8962cab3c1df0b7a4325946ac
     - [2.1. Request body format](#21-request-body-format)
     - [2.2. Example calls](#22-example-calls)
     - [2.3. Expected response](#23-expected-response)
@@ -46,9 +44,12 @@ License plate format: it is composed of three uppercase letters, a hyphen and th
     - [5.2. Example request](#52-example-request)
     - [5.3. Expected response](#53-expected-response)
 
-## 1. GET: check vehicle annotations
 
-`api/vehicles/licensePlates`: for checking whether a vehicle has an annotation in "pending" status.
+## 1. GET: Check Vehicle Anotations
+
+`api/vehicles/licensePlates`: for checking whether a vehicle has an annotation in "pending" status. 
+
+**Plate Format**: The format of the plates is composed of three characters, a hyphen and three numbers as can be seen in the following example. `patente: "EAM-900"`
 
 ### 1.1. Request body format
 
@@ -58,35 +59,27 @@ http://${SERVER_IP}:4031/API/vehicles/licensePlates?patente=Vehicle registration
 
 ### 1.2. Example calls
 
-Request:
-
 ```shell
 curl --location --request GET "http://${SERVER_IP}:4031/API/vehicles/licensePlates?patente=EAM-900"
 ```
 
-Response 200 OK, for the case where there are not pending annotations:
 
+### 1.3. Expected response
+Response 200 OK:
+
+- No pending requests
 ```json
 {
     "msg": " sin solicitudes pendientes"
 }
 ```
 
-<<<<<<< HEAD
 - The vehicle has one ore more pending request
 ```shell
     {"solicitudes":[{"numero_repertorio":"2010-404","fecha":"2011-11-26T00:00:00.000Z","hora":"23:58:22","tipo":"AlzPH","estado":"ingresada"}]}
-=======
-Response 200 OK, for the case where the vehicle has one or more pending annotations:
-
-```json
-{
-    "msg": "invalida"
-}
->>>>>>> 7b7e67902666afb8962cab3c1df0b7a4325946ac
 ```
 
-Or response 500 when the server crashes:
+Respones 500 Internal Server Error:
 
 ```json
 {
@@ -94,27 +87,14 @@ Or response 500 when the server crashes:
 }
 ```
 
-<<<<<<< HEAD
 ## 2. POST: Check if a vehicle exist in the RVM DB
 
 `api/vehicles/licensePlates`: for checking if the given vehicle is registered or not in the RVM database
-=======
-## 2. GET: check if a plate has pending annotation(s)
-
-`api/vehicles/checkAnotacion`: for checking whether a vehicle has an annotation in "pending" status of a given annotation type.
-
-Every annotation only can have 5 possible types (values for `tipo`) shown in the tables at the beginning of this document.
->>>>>>> 7b7e67902666afb8962cab3c1df0b7a4325946ac
 
 ### 2.1. Request body format
 ```json
 {
-<<<<<<< HEAD
     "plate": "Vehicle registration plate"
-=======
-    "patente": "Vehicle license plate",
-    "tipo": "Annotation type"
->>>>>>> 7b7e67902666afb8962cab3c1df0b7a4325946ac
 }
 ```
 ### 2.2. Example calls
@@ -131,58 +111,6 @@ curl --location --request POST "http://${SERVER_IP}:4031/API/vehicles/licensePla
 
 Response 200 OK:
 
-<<<<<<< HEAD
-=======
-```json
-{
-    "msg": "Anotacion pendiente de este tipo para este vehiculo"
-}
-```
-
-```json
-{
-    "msg": "No hay anotaciones pendientes de este tipo para este vehiculo"
-}
-```
-
-Response 401 Unauthorized:
-
-If body is missing key *'patente'*
-```json
-{
-    "msg": "Falta ingresar patente"
-}
-```
-
-If body is missing key *'tipo'* of annotation
-```json
-{
-    "msg": "Es necesario el tipo de anotacion ('PN', 'PH', 'AlzPN', 'AlzPH', 'CA')"
-}
-```
-
-Respones 500 Internal Server Error:
-
-```json
-{
-    "msg": "Internal Server Error 1"
-}
-```
-
-
-## 3. POST: Check if a vehicle exist in the RVM DB
-
-`api/vehicles/licensePlates`: for checking if the given vehicle is registered or not in the RVM database
-
-### 3.1. Request body format
-
-### 3.2. Example calls
-
-### 3.3. Expected response
-
-Response 200 OK:
-
->>>>>>> 7b7e67902666afb8962cab3c1df0b7a4325946ac
 - The queried plate exist in the RVM DB
 ```json
 {
@@ -348,12 +276,8 @@ Respones 500 Internal Server Error:
 }
 ```
 
-<<<<<<< HEAD
 
 ## 4. POST: create new annotation for a plate
-=======
-## 5. POST: create new annotation for a plate
->>>>>>> 7b7e67902666afb8962cab3c1df0b7a4325946ac
 
 `api/vehicles/anotation`: for creating an annotation and link it to a given vehicle. 
 
@@ -371,7 +295,7 @@ Respones 500 Internal Server Error:
 ### 4.2 Example calls
 
 ```shell
-curl --location --request POST " http://${SERVER_IP}:4031/api/vehicles/anotation" \
+curl --location --request POST "http://${SERVER_IP}:4031/api/vehicles/anotation" \
     --header 'Content-Type: application/json' \
     --data-raw '{
         "patente" : "EAM-900",
@@ -380,11 +304,7 @@ curl --location --request POST " http://${SERVER_IP}:4031/api/vehicles/anotation
     }'
 ```
 
-<<<<<<< HEAD
 ### 4.3 Expected Response 
-=======
-### 5.3 Expected Response
->>>>>>> 7b7e67902666afb8962cab3c1df0b7a4325946ac
 
 Response 200 OK:
 
@@ -418,6 +338,13 @@ Response 401 Unauthorized:
 }
 ```
 
+- If an open annotation already exist.
+```json
+{
+    "msg": "Ya hay una anotacion de ese tipo para ese vehiculo, por favor apruebela o rechasela antes de ingresar otra"
+}
+```
+
 Respones 500 Internal Server Error:
 
 ```json
@@ -428,7 +355,7 @@ Respones 500 Internal Server Error:
 
 ## 5. POST: Accept or refuse pending anotation
 
-`api/vehicles//acceptRejectAnotation`:update a pending state annotation to either *'`aceptado`'* or *'`rechazado`'* for a given vehicle
+`api/vehicles/acceptRejectAnotation`:update a pending state annotation to either *'`aceptado`'* or *'`rechazado`'* for a given vehicle
 
 ### 5.1. Request body format
 
