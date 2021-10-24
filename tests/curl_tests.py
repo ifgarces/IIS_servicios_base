@@ -105,6 +105,49 @@ def main() -> int:
         ),
 
         ############################################################################################
+        # RVM: licensePlateApplications
+        ############################################################################################
+
+        (
+            """ curl --location --request GET "http://localhost:4031/API/vehicles/licensePlates?patente=EAM-900" """,
+            json.loads("""{
+                "solicitudes": [
+                    {
+                        "numero_repertorio": "2010-404",
+                        "fecha": "2011-11-26T00:00:00.000Z",
+                        "hora": "23:58:22",
+                        "tipo": "AlzPH",
+                        "estado": "ingresada"
+                    }
+                ]
+            }""")
+        ),
+
+        ############################################################################################
+        # RVM: licensePlateCheck
+        ############################################################################################
+        (
+            """curl --location --request POST "http://localhost:4031/API/vehicles/licensePlates" \\
+                --header 'Content-Type: application/json' \\
+                --data-raw '{
+                    "patente" : "EAM-900"
+                }'""",
+            json.loads("""{
+                "valid": true
+            }""")
+        ),
+        (
+            """curl --location --request POST "http://localhost:4031/API/vehicles/licensePlates" \\
+                --header 'Content-Type: application/json' \\
+                --data-raw '{
+                    "patente" : "queso"
+                }'""",
+            json.loads("""{
+                "valid": false
+            }""")
+        ),
+
+        ############################################################################################
         # RVM: ownershipCheck
         ############################################################################################
         (
@@ -181,6 +224,40 @@ def main() -> int:
                 "msg": "Invalid plate"
             }""")
         ),
+
+        ############################################################################################
+        # RVM: addAnnotations
+        ############################################################################################
+        (
+            """curl --location --request POST "http://localhost:4031/api/vehicles/anotation" \
+                --header 'Content-Type: application/json' \
+                --data-raw '{
+                    "patente" : "EAM-900",
+                    "tipo" : "PN",
+                    "numero_repertorio" : "0001"
+                }'""",
+            json.loads("""{
+                "msg": "Anotacion creada"
+            }""")
+        ),
+        (
+            """curl --location --request POST "http://localhost:4031/api/vehicles/anotation" \
+                --header 'Content-Type: application/json' \
+                --data-raw '{
+                    "patente" : "EAM-900",
+                    "tipo" : "PN",
+                    "numero_repertorio" : "0001"
+                }'""",
+            json.loads("""{
+                "msg": "Ya hay una anotacion de ese tipo para ese vehiculo, por favor apruebela o rechasela antes de ingresar otra"
+            }""")
+        ),
+
+        ############################################################################################
+        # RVM: acceptOrRejectAnnotation
+        ############################################################################################
+        #? How do I test this? want both possible valid responses.
+        #!
 
         ############################################################################################
         # Caja: manualCreatePayment

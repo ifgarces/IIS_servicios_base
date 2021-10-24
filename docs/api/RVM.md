@@ -47,6 +47,8 @@ Table 2: annotation statuses.
     - [5.2. Example request](#52-example-request)
     - [5.3. Expected responses](#53-expected-responses)
 
+<!-- licensePlateApplications -->
+
 ## 1. GET: Check Vehicle Anotations
 
 `api/vehicles/licensePlates`: for checking whether a vehicle has an annotation in "pending" status.
@@ -75,7 +77,7 @@ Response 200 OK for when there are not pending annotations:
 
 Response 200 OK for when there is one or more pending annotations for the given plate.
 
-```shell
+```json
 {
     "solicitudes": [
         {
@@ -88,6 +90,8 @@ Response 200 OK for when there is one or more pending annotations for the given 
     ]
 }
 ```
+
+<!-- licensePlateCheck -->
 
 ## 2. POST: Check if a vehicle exist in the RVM DB
 
@@ -117,7 +121,7 @@ Response 200 OK for when the queries plate exists in the RVM database (i.e. is v
 
 ```json
 {
-    "msg": "valida"
+    "valid": true
 }
 ```
 
@@ -125,17 +129,11 @@ Response 200 OK for when the plate does not exist (invalid).
 
 ```json
 {
-    "msg": "invalida"
+    "valid": false
 }
 ```
 
-Response 400 BAD REQUEST when the `patente` field is missing.
-
-```json
-{
-    "msg": "Es necesaria la patente"
-}
-```
+<!-- ownershipCheck -->
 
 ## 3. POST: check ownership of a plate
 
@@ -175,7 +173,7 @@ Response 200 OK:
 
 ```json
 {
-    "msg": "Valid"
+    "valid": true
 }
 ```
 
@@ -199,7 +197,7 @@ Response 200 OK:
 
 ```json
 {
-    "msg": "Valid"
+    "valid": true
 }
 ```
 
@@ -224,9 +222,12 @@ Response 200 OK:
 
 ```json
 {
+    "valid": false,
     "msg": "Invalid plate"
 }
 ```
+
+<!-- addAnnotations -->
 
 ## 4. POST: create new annotation for a plate
 
@@ -238,7 +239,7 @@ Response 200 OK:
 {
     "patente" : "Vehicle registration plate",
     "tipo" : "Annotation type",
-    "numero_repertorio" : "Repertory Number"
+    "numero_repertorio" : "Repertory ID e.g. 2010-404"
 }
 ```
 
@@ -272,13 +273,7 @@ Response 400 BAD REQUEST for when an open annotation already exists for the plat
 }
 ```
 
-Response 400 BAD REQUEST for when the `tipo` field does not match any string from table 1:
-
-```json
-{
-    "msg": "Es necesario el tipo de anotacion ('PN', 'PH', 'AlzPN', 'AlzPH', 'CA')"
-}
-```
+<!-- acceptOrRejectAnnotation -->
 
 ## 5. POST: Accept or refuse pending annotation
 
@@ -316,10 +311,10 @@ Response 200 OK for when the existing annotation can be successfully accepted/re
 }
 ```
 
-Response 400 BAD REQUEST for when the `tipo` field does not match any string from table 1:
+Response 404 NOT FOUND for when there is no pending annotation for the given vehicle plate that matches the given type.
 
 ```json
 {
-    "msg": "Es necesario el tipo de anotacion ('PN', 'PH', 'AlzPN', 'AlzPH', 'CA')"
+    "msg": "No existe una anotacion pendiente de ese tipo para ese vehiculo"
 }
 ```
