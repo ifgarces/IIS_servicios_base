@@ -66,10 +66,10 @@ Every reference made to an annotations uses either the Type or Status. On the ta
 ### 1.2. Example calls
 
 ```shell
-curl --location --request POST "http://${SERVER_IP}:4031/API/vehicles/licensePlates" \
+curl --location --request GET "http://${SERVER_IP}:4031/API/vehicles/licensePlates" \
     --header 'Content-Type: application/json' \
     --data-raw '{
-        "patente": "EAM-900",
+        "patente": "EAM-900"
     }'
 ```
 
@@ -77,14 +77,14 @@ curl --location --request POST "http://${SERVER_IP}:4031/API/vehicles/licensePla
 ### 1.3. Expected response
 Response 200 OK:
 
-- The requeted plate does exist and is valid
+- No pending requests
 ```json
 {
-    "msg": " valida"
+    "msg": " sin solicitudes pendientes"
 }
 ```
 
-- The requeted plate does not exist or is invalid
+- The vehicle has one ore more pending request
 ```json
 {
     "msg": "invalida"
@@ -103,6 +103,8 @@ Respones 500 Internal Server Error:
 ## 2. GET: check if a plate has pending annotation(s)
 
 `api/vehicles/checkAnotacion`: for checking whether a vehicle has an annotation in "pending" status of a given annotation type.
+
+Every anotatión only can have 5 types: `PN, PH, AlzPN, AlzPH, CA`.
 
 ### 2.1. Request body format
 
