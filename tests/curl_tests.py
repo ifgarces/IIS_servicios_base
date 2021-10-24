@@ -105,36 +105,6 @@ def main() -> int:
         ),
 
         ############################################################################################
-        # Caja: manualCreatePayment
-        ############################################################################################
-        # (
-        #     """curl --location --request POST "http://localhost:4033/api/checkout/pay" \\
-        #         --header 'Content-Type: application/json' \\
-        #         --data-raw '{
-        #             "RUN": "16248093-6",
-        #             "monto": "22700"
-        #         }'""",
-        #     json.loads("""{
-        #         "msg": "Monto Ingresado"
-        #     }""")
-        # ),
-
-        # ############################################################################################
-        # # Caja: manualPaymentRefund
-        # ############################################################################################
-        # (
-        #     """curl --location --request POST "http://localhost:4033/api/checkout/refund" \\
-        #         --header 'Content-Type: application/json' \\
-        #         --data-raw '{
-        #             "RUN": "16248093-6",
-        #             "monto": "21821.74"
-        #         }'""",
-        #     json.loads("""{
-        #         "msg": "Monto Retirado"
-        #     }""")
-        # ),
-
-        ############################################################################################
         # RVM: ownershipCheck
         ############################################################################################
         (
@@ -211,6 +181,40 @@ def main() -> int:
                 "msg": "Invalid plate"
             }""")
         ),
+
+        ############################################################################################
+        # Caja: manualCreatePayment
+        ############################################################################################
+        (
+            """curl --location --request POST "localhost:4033/api/checkout/pay" \\
+                --header 'Content-Type: application/json' \\
+                --data-raw '{
+                    "numero_repertorio" : "1234",
+                    "id_persona" : "16248093-6",
+                    "monto" : "22.5"
+                }'""",
+            json.loads("""{
+                "msg": "Monto Ingresado",
+                "nuevo_folio": 51
+            }""")
+        ),
+
+        ############################################################################################
+        # Caja: manualPaymentRefund
+        ############################################################################################
+        (
+            """curl --location --request POST "localhost:4033/api/checkout/refund" \\
+                --header 'Content-Type: application/json' \\
+                --data-raw '{ 
+                    "folio":31,
+                    "id_persona" : "11149472-K",
+                    "numero_repertorio" : 31
+                }'""",
+            json.loads("""{
+                "msg": "Monto Reembolsado",
+                "nuevo_folio": 52
+            }""")
+        )
     ]):
         print("Running test #%d..." % testNum)
         cmdExitCode :int = system("%s -sS -o %s" % (command, TEMP_OUTPUT_FILE)) # adding flags for silent curl, show errors and output to the desired file instead of `stdout`
@@ -221,8 +225,9 @@ def main() -> int:
         gotResult :dict = json.loads(tempFile.read())
         tempFile.close()
         if (expectedResult != gotResult):
-            logError("Test #%d failed: expected %s, but got %s" % (testNum, expectedResult, gotResult))
-            logError("The curl command for the failed test is %s" % command)
+            logError("Test #%d failed" % testNum)
+            print("Expected %s, but got %s" % (expectedResult, gotResult))
+            print("The command for the failed test is %s" % command)
             return 2
 
     system("rm %s" % TEMP_OUTPUT_FILE) # removing temporal file
