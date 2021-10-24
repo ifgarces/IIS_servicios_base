@@ -234,24 +234,24 @@ def main() -> int:
         # RVM: addAnnotations
         ############################################################################################
         (
-            """curl --location --request POST "http://localhost:4031/api/vehicles/anotation" \
-                --header 'Content-Type: application/json' \
+            """curl --location --request POST "http://localhost:4031/api/vehicles/anotation" \\
+                --header 'Content-Type: application/json' \\
                 --data-raw '{
                     "patente" : "BIF-933",
                     "tipo" : "PN",
-                    "numero_repertorio" : "0001"
+                    "numero_repertorio" : "2021-45001"
                 }'""",
             json.loads("""{
                 "msg": "Anotacion creada"
             }""")
         ),
         (
-            """curl --location --request POST "http://localhost:4031/api/vehicles/anotation" \
-                --header 'Content-Type: application/json' \
+            """curl --location --request POST "http://localhost:4031/api/vehicles/anotation" \\
+                --header 'Content-Type: application/json' \\
                 --data-raw '{
                     "patente" : "BIF-933",
                     "tipo" : "PN",
-                    "numero_repertorio" : "0001"
+                    "numero_repertorio" : "2021-45001"
                 }'""",
             json.loads("""{
                 "msg": "Ya hay una anotacion de ese tipo para ese vehiculo, por favor apruebela o rechasela antes de ingresar otra"
@@ -271,7 +271,7 @@ def main() -> int:
             """curl --location --request POST "localhost:4033/api/checkout/pay" \\
                 --header 'Content-Type: application/json' \\
                 --data-raw '{
-                    "numero_repertorio" : "1234",
+                    "numero_repertorio" : "9999999",
                     "id_persona" : "16248093-6",
                     "monto" : "22.5"
                 }'""",
@@ -287,14 +287,26 @@ def main() -> int:
         (
             """curl --location --request POST "localhost:4033/api/checkout/refund" \\
                 --header 'Content-Type: application/json' \\
-                --data-raw '{ 
-                    "folio":31,
-                    "id_persona" : "11149472-K",
-                    "numero_repertorio" : 31
+                --data-raw '{
+                    "folio": 51,
+                    "id_persona" : "16248093-6",
+                    "numero_repertorio" : 9999999
                 }'""",
             json.loads("""{
                 "msg": "Monto Reembolsado",
                 "nuevo_folio": 52
+            }""")
+        ),
+        (
+            """curl --location --request POST "localhost:4033/api/checkout/refund" \\
+                --header 'Content-Type: application/json' \\
+                --data-raw '{
+                    "folio": 51,
+                    "id_persona" : "16248093-6",
+                    "numero_repertorio" : 9999999
+                }'""",
+            json.loads("""{
+                "msg": "Reembolso denegado"
             }""")
         )
     ]):
