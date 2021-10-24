@@ -51,37 +51,43 @@ Every reference made to an annotations uses either the Type or Status. On the ta
 
 ## 1. GET: Check Vehicle Anotations
 
-`api/vehicles/licensePlates`: for recieving the list of applications in state '`pending`' for a given vehicle
+`api/vehicles/licensePlates`: for checking whether a vehicle has an annotation in "pending" status. 
+
+**Plate Format**: The format of the plates is composed of three characters, a hyphen and three numbers as can be seen in the following example. `patente: "EAM-900"`
 
 ### 1.1. Request body format
 
+```json
+{
+    "patente": "Vehicle registration plate"
+}
+```
+
 ### 1.2. Example calls
+
+```shell
+curl --location --request POST "http://${SERVER_IP}:4031/API/vehicles/licensePlates" \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+        "patente": "EAM-900",
+    }'
+```
+
 
 ### 1.3. Expected response
 Response 200 OK:
 
-- The requeted plate does not have any pending application
+- The requeted plate does exist and is valid
 ```json
 {
-    "msg": "sin solicitudes pendientes"
+    "msg": " valida"
 }
 ```
 
-- The requeted plate does not exists in the RVM DB
+- The requeted plate does not exist or is invalid
 ```json
 {
     "msg": "invalida"
-}
-```
-- If the plate has pending applications, the call will return the list of pending applications
-
-
-Response 401 Unauthorized:
-
-- If body is missing key *'`patente`'*
-```json
-{
-    "msg": "Es necesaria la patente SOLICITUDES"
 }
 ```
 
@@ -89,7 +95,7 @@ Respones 500 Internal Server Error:
 
 ```json
 {
-    "msg": "Internal Server Error 2"
+    "msg": "Internal Server Error"
 }
 ```
 
@@ -102,7 +108,7 @@ Respones 500 Internal Server Error:
 
 ```json
 {
-    "patente": "Vehicle license plate",
+    "patente": "Vehicle registration plate",
     "tipo": "Annotation type"
 }
 ```
@@ -213,7 +219,7 @@ Respones 500 Internal Server Error:
 
 ```json
 {
-    "plate": "vehicle license plate",
+    "plate": "Vehicle registration plate",
     "persons": [ "array", "of", "person", "IDs" ]
 }
 ```
@@ -348,7 +354,7 @@ Respones 500 Internal Server Error:
 
 ```json
 {
-    "patente" : "Vehicle license plate",
+    "patente" : "Vehicle registration plate",
     "tipo" : "Annotation type",
     "numero_repertorio" : "Repertory Number"
 }
@@ -416,7 +422,7 @@ Respones 500 Internal Server Error:
 
 ```json
 {
-    "patente" : "Vehicle License Plate",
+    "patente" : "Vehicle registration plate",
     "tipo" : "Annotation Type",
     "aceptarORechazar" : "Update Status (aceptada/rechazada)"
 }
