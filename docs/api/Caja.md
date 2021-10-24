@@ -18,13 +18,13 @@ This API serves the purpose of processing checkout (*caja*) system transactions.
 
 ```json
 {
-    "id_persona" : "identificador_persona"
-    "numero_repertorio" : identificador_prenda, INT
-    "monto" : monto_a_pagar, INT
+    "id_persona" : "identificador_persona (string)",
+    "numero_repertorio" : "identificador_prenda (integer)",
+    "monto" : "monto_a_pagar (decimal)"
 }
 ```
 
-only one payment per "numero_repertorio". (En caso de duda preguntar)
+Only one payment per "numero_repertorio". (En caso de duda preguntar)
 
 ### 1.2. Example calls
 
@@ -38,7 +38,7 @@ curl --location --request POST "${SERVER_IP}:4033/api/checkout/pay" \
     --data-raw '{
     "numero_repertorio" : "1234",
     "id_persona" : "16248093-6",
-    "monto" : "22700"
+    "monto" : "22.5"
 }'
 ```
 
@@ -51,20 +51,13 @@ Response 200 OK:
 }
 ```
 
-If there are missing or wrong body parameters, the server will trigger an exception.
-
-
-Response 500:
+If there are missing or wrong body parameters, the server will trigger an exception and return a status 500 response, like follows.
 
 ```json
 {
-    "msg" : "Internal Server Error",
+    "msg" : "Internal Server Error"
 }
 ```
-
-
-
-
 
 ## 2. POST: process refund
 
@@ -76,19 +69,20 @@ You can only request a refund for an existing payment.
 
 ```json
 {
-    "folio": identificador_transacción, INT
-    "id_persona" : identificador_persona, varchar(10)
-    "numero_repertorio" : identificador_prenda INT
+    "folio": "identificador_transacción (integer)",
+    "id_persona": "identificador_persona (string)",
+    "numero_repertorio": "identificador_prenda (integer)"
 }
 ```
 
 ### 2.2. Example calls
 
-For a correct refund call: <!-- TODO: should reference ID of a previous payment -->
+For a correct refund call:
 
 ```shell
-
-curl --location --request POST "${SERVER_IP}:4033/api/checkout/refund"     --header 'Content-Type: application/json'     --data-raw '{ 
+curl --location --request POST "${SERVER_IP}:4033/api/checkout/refund" \
+    --header 'Content-Type: application/json' \
+    --data-raw '{ 
     "folio":31,
     "id_persona" : "11149472-K",
     "numero_repertorio" : 31
@@ -108,7 +102,7 @@ Response 400:
 
 ```json
 {
-    "msg" : "No existen Pagos para los parametros ingresados",
+    "msg" : "No existen Pagos para los parametros ingresados"
 }
 ```
 
@@ -116,7 +110,7 @@ Response 401:
 
 ```json
 {
-    "msg" : "Reembolso denegado",
+    "msg" : "Reembolso denegado"
 }
 ```
 
@@ -124,6 +118,6 @@ Response 500:
 
 ```json
 {
-    "msg" : "Internal Server Error",
+    "msg" : "Internal Server Error"
 }
 ```
