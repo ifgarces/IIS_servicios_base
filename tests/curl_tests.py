@@ -109,14 +109,14 @@ def main() -> int:
         ############################################################################################
 
         (
-            """ curl --location --request GET "http://localhost:4031/API/vehicles/licensePlates?patente=EAM-900" """,
+            """ curl --location --request GET "http://localhost:4031/API/vehicles/licensePlates?patente=BIF-933" """,
             json.loads("""{
                 "solicitudes": [
                     {
-                        "numero_repertorio": "2010-404",
-                        "fecha": "2011-11-26T00:00:00.000Z",
-                        "hora": "23:58:22",
-                        "tipo": "AlzPH",
+                        "numero_repertorio": "2016-437",    
+                        "fecha": "1986-07-13T00:00:00.000Z",
+                        "hora": "03:23:30",
+                        "tipo": "AlzPN",
                         "estado": "ingresada"
                     }
                 ]
@@ -130,7 +130,7 @@ def main() -> int:
             """curl --location --request POST "http://localhost:4031/API/vehicles/licensePlates" \\
                 --header 'Content-Type: application/json' \\
                 --data-raw '{
-                    "patente" : "EAM-900"
+                    "patente" : "BIF-933"
                 }'""",
             json.loads("""{
                 "valid": true
@@ -140,7 +140,7 @@ def main() -> int:
             """curl --location --request POST "http://localhost:4031/API/vehicles/licensePlates" \\
                 --header 'Content-Type: application/json' \\
                 --data-raw '{
-                    "patente" : "queso"
+                    "patente": "queso"
                 }'""",
             json.loads("""{
                 "valid": false
@@ -154,11 +154,13 @@ def main() -> int:
             """curl --location --request POST "http://localhost:4031/api/vehicles/check_ownership" \\
                 --header 'Content-Type: application/json' \\
                 --data-raw '{
-                    "plate": "LEC-681",
+                    "plate": "BIF-933",
                     "owners": [
-                        "4930477-3",
-                        "10651736-3",
-                        "14652074-K"
+                        "4342908-6",
+                        "13413217-5",
+                        "6559196-0",
+                        "11257169-8",
+                        "9308502-7"
                     ]
                 }'""",
             json.loads("""{
@@ -169,10 +171,10 @@ def main() -> int:
             """curl --location --request POST "http://localhost:4031/api/vehicles/check_ownership" \\
                 --header 'Content-Type: application/json' \\
                 --data-raw '{
-                    "plate": "LEC-681",
+                    "plate": "BIF-933",
                     "owners": [
-                        "4930477-3",
-                        "10651736-3",
+                        "4342908-6",
+                        "13413217-5",
                         "something"
                     ]
                 }'""",
@@ -185,9 +187,9 @@ def main() -> int:
             """curl --location --request POST "http://localhost:4031/api/vehicles/check_ownership" \\
                 --header 'Content-Type: application/json' \\
                 --data-raw '{
-                    "plate": "lec-681",
+                    "plate": "bif-933",
                     "owners": [
-                        "14652074-k"
+                        "11257169-8"
                     ]
                 }'""",
             json.loads("""{
@@ -198,11 +200,14 @@ def main() -> int:
             """curl --location --request POST "http://localhost:4031/api/vehicles/check_ownership" \\
                 --header 'Content-Type: application/json' \\
                 --data-raw '{
-                    "plate": "LEC-681",
+                    "plate": "BIF-933",
                     "owners": [
-                        "4930477-3",
-                        "10651736-3",
-                        "14652074-0"
+                        "4342908-6",
+                        "13413217-5",
+                        "6559196-0",
+                        "11257169-8",
+                        "9308502-7",
+                        "1231231-2"
                     ]
                 }'""",
             json.loads("""{
@@ -232,7 +237,7 @@ def main() -> int:
             """curl --location --request POST "http://localhost:4031/api/vehicles/anotation" \
                 --header 'Content-Type: application/json' \
                 --data-raw '{
-                    "patente" : "EAM-900",
+                    "patente" : "BIF-933",
                     "tipo" : "PN",
                     "numero_repertorio" : "0001"
                 }'""",
@@ -244,7 +249,7 @@ def main() -> int:
             """curl --location --request POST "http://localhost:4031/api/vehicles/anotation" \
                 --header 'Content-Type: application/json' \
                 --data-raw '{
-                    "patente" : "EAM-900",
+                    "patente" : "BIF-933",
                     "tipo" : "PN",
                     "numero_repertorio" : "0001"
                 }'""",
@@ -293,7 +298,7 @@ def main() -> int:
             }""")
         )
     ]):
-        print("Running test #%d..." % testNum)
+        print("Running test #%d: %s" % (testNum, command))
         cmdExitCode :int = system("%s -sS -o %s" % (command, TEMP_OUTPUT_FILE)) # adding flags for silent curl, show errors and output to the desired file instead of `stdout`
         if (cmdExitCode != 0):
             print("Test #%d failed: command \"%s\" returned with error code %d" % (testNum, command, cmdExitCode))
@@ -304,7 +309,6 @@ def main() -> int:
         if (expectedResult != gotResult):
             logError("Test #%d failed" % testNum)
             print("Expected %s, but got %s" % (expectedResult, gotResult))
-            print("The command for the failed test is %s" % command)
             return 2
 
     system("rm %s" % TEMP_OUTPUT_FILE) # removing temporal file

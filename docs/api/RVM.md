@@ -4,7 +4,7 @@ This API serves the purpose of validating data requests for the RVM system (*reg
 
 Every annotation has a type and a status, which possible values are stated in the following tables, respectively.
 
-License plate format: it is composed of three uppercase letters, a hyphen and three numbers as can be seen in the following example (e.g. `"EAM-900"`).
+License plate format: it is composed of three uppercase letters, a hyphen and three numbers as can be seen in the following example (e.g. `"BIF-933"`).
 
 For any call, if there are missing parameters (e.g. in the request query or body), the server will return a response with status 400 BAD REQUEST and a body with a `msg` explaining the reason of the invalid request. When a request triggers an exception in the server, its response will have status 500 and will have this body: `{msg: 'Internal Server Error'}`.
 
@@ -38,7 +38,7 @@ Table 2: annotation statuses.
     - [2.2. Example calls](#22-example-calls)
     - [2.3. Expected responses](#23-expected-responses)
   - [3. POST: check ownership of a plate](#3-post-check-ownership-of-a-plate)
-    - [3.1. Rquest body format](#31-rquest-body-format)
+    - [3.1. Request body format](#31-request-body-format)
     - [3.2. Example calls](#32-example-calls)
   - [4. POST: create new annotation for a plate](#4-post-create-new-annotation-for-a-plate)
     - [4.1. Request body format](#41-request-body-format)
@@ -64,7 +64,7 @@ http://${SERVER_IP}:4031/API/vehicles/licensePlates?patente=VEHICLE_LICENSE_PLAT
 ### 1.2. Example calls
 
 ```shell
-curl --location --request GET "http://${SERVER_IP}:4031/API/vehicles/licensePlates?patente=EAM-900"
+curl --location --request GET "http://${SERVER_IP}:4031/API/vehicles/licensePlates?patente=BIF-933"
 ```
 
 ### 1.3. Expected responses
@@ -73,7 +73,7 @@ Response 200 OK for when there are not pending annotations:
 
 ```json
 {
-    "msg": " sin solicitudes pendientes"
+    "msg": "sin solicitudes pendientes"
 }
 ```
 
@@ -90,6 +90,14 @@ Response 200 OK for when there is one or more pending annotations for the given 
             "estado": "ingresada"
         }
     ]
+}
+```
+
+Response 400 BAD REQUEST for when the license plate is invalid (not found in RVM database).
+
+```json
+{
+    "msg": "invalida"
 }
 ```
 
@@ -113,7 +121,7 @@ Response 200 OK for when there is one or more pending annotations for the given 
 curl --location --request POST "http://${SERVER_IP}:4031/API/vehicles/licensePlates" \
     --header 'Content-Type: application/json' \
     --data-raw '{
-        "patente" : "EAM-900"
+        "patente" : "BIF-933"
     }'
 ```
 
@@ -141,7 +149,7 @@ Response 200 OK for when the plate does not exist (invalid).
 
 `api/vehicles/check_ownership`: for checking if a given set of person IDs are a subset or equal to the actual registered owners for the vehicle. This means that, as shown below, `persons` must be an array containing one or more valid owners for the vehicle (with no invalid owners in it).
 
-### 3.1. Rquest body format
+### 3.1. Request body format
 
 ```json
 {
@@ -162,11 +170,13 @@ Request:
 curl --location --request POST "http://${SERVER_IP}:4031/api/vehicles/check_ownership" \
     --header 'Content-Type: application/json' \
     --data-raw '{
-        "plate": "LEC-681",
+        "plate": "BIF-933",
         "owners": [
-            "4930477-3",
-            "10651736-3",
-            "14652074-K"
+            "4342908-6",
+            "13413217-5",
+            "6559196-0",
+            "11257169-8",
+            "9308502-7"
         ]
     }'
 ```
@@ -187,10 +197,10 @@ Request:
 curl --location --request POST "http://${SERVER_IP}:4031/api/vehicles/check_ownership" \
     --header 'Content-Type: application/json' \
     --data-raw '{
-        "plate": "LEC-681",
+        "plate": "BIF-933",
         "owners": [
-            "4930477-3",
-            "10651736-3"
+            "4342908-6",
+            "11257169-8"
         ]
     }'
 ```
@@ -211,11 +221,11 @@ Request:
 curl --location --request POST "http://${SERVER_IP}:4031/api/vehicles/check_ownership" \
     --header 'Content-Type: application/json' \
     --data-raw '{
-        "plate": "GOW por fin en PC en enero",
+        "plate": "BIF-933",
         "owners": [
-            "4930477-3",
-            "10651736-3",
-            "14652074-K"
+            "4342908-6",
+            "11257169-8",
+            "F"
         ]
     }'
 ```
@@ -251,7 +261,7 @@ Response 200 OK:
 curl --location --request POST "http://${SERVER_IP}:4031/api/vehicles/anotation" \
     --header 'Content-Type: application/json' \
     --data-raw '{
-        "patente" : "EAM-900",
+        "patente" : "BIF-933",
         "tipo" : "PN",
         "numero_repertorio" : "0001"
     }'
@@ -297,15 +307,15 @@ Response 400 BAD REQUEST for when an open annotation already exists for the plat
 curl --location --request POST "http://${SERVER_IP}:4031/api/vehicles/acceptRejectAnotation" \
     --header 'Content-Type: application/json' \
     --data-raw '{
-        "patente" : "EAM-900",
-        "tipo" : "PH",
+        "patente" : "BIF-933",
+        "tipo" : "AlzPN",
         "aceptarORechazar" : "rechazada"
     }'
 ```
 
 ### 5.3. Expected responses
 
-Response 200 OK for when the existing annotation can be successfully accepted/rejected:
+Response 200 OK for when the existing annotation can be successfully updated to accepted/rejected status:
 
 ```json
 {
