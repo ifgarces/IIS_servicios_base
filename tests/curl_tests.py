@@ -261,8 +261,31 @@ def main() -> int:
         ############################################################################################
         # RVM: acceptOrRejectAnnotation
         ############################################################################################
-        #? How do I test this? want both possible valid responses.
-        #!
+        (
+            """curl --location --request POST "http://localhost:4031/api/vehicles/acceptRejectAnotation" \\
+                --header 'Content-Type: application/json' \\
+                --data-raw '{
+                    "patente" : "BIF-933",
+                    "tipo" : "PN",
+                    "aceptarORechazar" : "rechazada"
+                }'""",
+            json.loads("""{
+                "success": true
+            }""")
+        ),
+        (
+            """curl --location --request POST "http://localhost:4031/api/vehicles/acceptRejectAnotation" \\
+                --header 'Content-Type: application/json' \\
+                --data-raw '{
+                    "patente" : "BIF-933",
+                    "tipo" : "PN",
+                    "aceptarORechazar" : "rechazada"
+                }'""",
+            json.loads("""{
+                "success": false,
+                "msg": "No existe una anotación pendiente de ese tipo para ese vehículo"
+            }""")
+        ),
 
         ############################################################################################
         # Caja: manualCreatePayment
@@ -271,7 +294,7 @@ def main() -> int:
             """curl --location --request POST "localhost:4033/api/checkout/pay" \\
                 --header 'Content-Type: application/json' \\
                 --data-raw '{
-                    "numero_repertorio" : "9999999",
+                    "numero_repertorio" : "2018-404542",
                     "id_persona" : "16248093-6",
                     "monto" : "22.5"
                 }'""",
@@ -290,7 +313,7 @@ def main() -> int:
                 --data-raw '{
                     "folio": 51,
                     "id_persona" : "16248093-6",
-                    "numero_repertorio" : 9999999
+                    "numero_repertorio" : "2018-404542"
                 }'""",
             json.loads("""{
                 "msg": "Monto Reembolsado",

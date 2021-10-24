@@ -321,14 +321,15 @@ Response 200 OK for when the existing annotation can be successfully updated to 
 
 ```json
 {
-    "msg": "Anotacion actualizada"
+    "success": true,
 }
 ```
 
-Response 404 NOT FOUND for when there is no pending annotation for the given vehicle plate that matches the given type.
+Response 200 OK for when there is no pending annotation for the given vehicle plate that matches the given type.
 
 ```json
 {
+    "success": false,
     "msg": "No existe una anotacion pendiente de ese tipo para ese vehiculo"
 }
 ```
