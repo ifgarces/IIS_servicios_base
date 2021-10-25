@@ -36,9 +36,9 @@ Request:
 curl --location --request POST "${SERVER_IP}:4033/api/checkout/pay" \
     --header 'Content-Type: application/json' \
     --data-raw '{
-    "numero_repertorio" : "1234",
+    "numero_repertorio" : "101-A",
     "id_persona" : "16248093-6",
-    "monto" : "22.5"
+    "monto" : 22
 }'
 ```
 
@@ -47,6 +47,7 @@ Response 200 OK:
 ```json
 {
     "msg": "Monto Ingresado",
+    "success": true,
     "nuevo_folio": 51
 }
 ```
@@ -69,7 +70,6 @@ You can only request a refund for an existing payment.
 
 ```json
 {
-    "folio": "identificador_transacción (integer)",
     "id_persona": "identificador_persona (string)",
     "numero_repertorio": "identificador_prenda (integer)"
 }
@@ -83,9 +83,8 @@ For a correct refund call:
 curl --location --request POST "${SERVER_IP}:4033/api/checkout/refund" \
     --header 'Content-Type: application/json' \
     --data-raw '{ 
-    "folio":31,
     "id_persona" : "11149472-K",
-    "numero_repertorio" : 31
+    "numero_repertorio" : "310-A"
 }'
 ```
 
@@ -94,6 +93,7 @@ Response 200 OK:
 ```json
 {
     "msg": "Monto Reembolsado",
+    "success": true,
     "nuevo_folio": 51
 }
 ```
