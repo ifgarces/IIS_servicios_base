@@ -65,8 +65,8 @@ def main() -> int:
         # SRCEI: strictCheck
         ############################################################################################
         (
-            """curl --location --request POST "http://localhost:4030/api/users/user" \\
-                --header 'Content-Type: application/json' \\
+            """curl --location --request POST "http://localhost:4030/api/users/user" \
+                --header 'Content-Type: application/json' \
                 --data-raw '{
                     "run": "14343269-6",
                     "nombres": "LEANDRO ALBERTO",
@@ -78,8 +78,8 @@ def main() -> int:
             }""")
         ),
         (
-            """curl --location --request POST "http://localhost:4030/api/users/user" \\
-                --header 'Content-Type: application/json' \\
+            """curl --location --request POST "http://localhost:4030/api/users/user" \
+                --header 'Content-Type: application/json' \
                 --data-raw '{
                     "run": "14343269-6",
                     "nombres": "Hello",
@@ -91,8 +91,8 @@ def main() -> int:
             }""")
         ),
         (
-            """curl --location --request POST "http://localhost:4030/api/users/user" \\
-                --header 'Content-Type: application/json' \\
+            """curl --location --request POST "http://localhost:4030/api/users/user" \
+                --header 'Content-Type: application/json' \
                 --data-raw '{
                     "run": "whatever",
                     "nombres": "leandro alberto",
@@ -127,8 +127,8 @@ def main() -> int:
         # RVM: licensePlateCheck
         ############################################################################################
         (
-            """curl --location --request POST "http://localhost:4031/API/vehicles/licensePlates" \\
-                --header 'Content-Type: application/json' \\
+            """curl --location --request POST "http://localhost:4031/API/vehicles/licensePlates" \
+                --header 'Content-Type: application/json' \
                 --data-raw '{
                     "patente" : "BIF-933"
                 }'""",
@@ -137,8 +137,8 @@ def main() -> int:
             }""")
         ),
         (
-            """curl --location --request POST "http://localhost:4031/API/vehicles/licensePlates" \\
-                --header 'Content-Type: application/json' \\
+            """curl --location --request POST "http://localhost:4031/API/vehicles/licensePlates" \
+                --header 'Content-Type: application/json' \
                 --data-raw '{
                     "patente": "queso"
                 }'""",
@@ -151,8 +151,8 @@ def main() -> int:
         # RVM: ownershipCheck
         ############################################################################################
         (
-            """curl --location --request POST "http://localhost:4031/api/vehicles/check_ownership" \\
-                --header 'Content-Type: application/json' \\
+            """curl --location --request POST "http://localhost:4031/api/vehicles/check_ownership" \
+                --header 'Content-Type: application/json' \
                 --data-raw '{
                     "plate": "BIF-933",
                     "owners": [
@@ -168,8 +168,8 @@ def main() -> int:
             }""")
         ),
         (
-            """curl --location --request POST "http://localhost:4031/api/vehicles/check_ownership" \\
-                --header 'Content-Type: application/json' \\
+            """curl --location --request POST "http://localhost:4031/api/vehicles/check_ownership" \
+                --header 'Content-Type: application/json' \
                 --data-raw '{
                     "plate": "BIF-933",
                     "owners": [
@@ -184,8 +184,8 @@ def main() -> int:
             }""")
         ),
         (
-            """curl --location --request POST "http://localhost:4031/api/vehicles/check_ownership" \\
-                --header 'Content-Type: application/json' \\
+            """curl --location --request POST "http://localhost:4031/api/vehicles/check_ownership" \
+                --header 'Content-Type: application/json' \
                 --data-raw '{
                     "plate": "bif-933",
                     "owners": [
@@ -197,8 +197,8 @@ def main() -> int:
             }""")
         ),
         (
-            """curl --location --request POST "http://localhost:4031/api/vehicles/check_ownership" \\
-                --header 'Content-Type: application/json' \\
+            """curl --location --request POST "http://localhost:4031/api/vehicles/check_ownership" \
+                --header 'Content-Type: application/json' \
                 --data-raw '{
                     "plate": "BIF-933",
                     "owners": [
@@ -216,8 +216,8 @@ def main() -> int:
             }""")
         ),
         (
-            """curl --location --request POST "http://localhost:4031/api/vehicles/check_ownership" \\
-                --header 'Content-Type: application/json' \\
+            """curl --location --request POST "http://localhost:4031/api/vehicles/check_ownership" \
+                --header 'Content-Type: application/json' \
                 --data-raw '{
                     "plate": "sopaipilla",
                     "owners": [
@@ -234,8 +234,8 @@ def main() -> int:
         # RVM: addAnnotations
         ############################################################################################
         (
-            """curl --location --request POST "http://localhost:4031/api/vehicles/anotation" \\
-                --header 'Content-Type: application/json' \\
+            """curl --location --request POST "http://localhost:4031/api/vehicles/anotation" \
+                --header 'Content-Type: application/json' \
                 --data-raw '{
                     "patente" : "BIF-933",
                     "tipo" : "PN",
@@ -246,8 +246,8 @@ def main() -> int:
             }""")
         ),
         (
-            """curl --location --request POST "http://localhost:4031/api/vehicles/anotation" \\
-                --header 'Content-Type: application/json' \\
+            """curl --location --request POST "http://localhost:4031/api/vehicles/anotation" \
+                --header 'Content-Type: application/json' \
                 --data-raw '{
                     "patente" : "BIF-933",
                     "tipo" : "PN",
@@ -262,8 +262,8 @@ def main() -> int:
         # RVM: acceptOrRejectAnnotation
         ############################################################################################
         (
-            """curl --location --request POST "http://localhost:4031/api/vehicles/acceptRejectAnotation" \\
-                --header 'Content-Type: application/json' \\
+            """curl --location --request POST "http://localhost:4031/api/vehicles/acceptRejectAnotation" \
+                --header 'Content-Type: application/json' \
                 --data-raw '{
                     "patente" : "BIF-933",
                     "tipo" : "PN",
@@ -274,8 +274,8 @@ def main() -> int:
             }""")
         ),
         (
-            """curl --location --request POST "http://localhost:4031/api/vehicles/acceptRejectAnotation" \\
-                --header 'Content-Type: application/json' \\
+            """curl --location --request POST "http://localhost:4031/api/vehicles/acceptRejectAnotation" \
+                --header 'Content-Type: application/json' \
                 --data-raw '{
                     "patente" : "BIF-933",
                     "tipo" : "PN",
@@ -291,8 +291,8 @@ def main() -> int:
         # Caja: manualCreatePayment
         ############################################################################################
         (
-            """curl --location --request POST "localhost:4033/api/checkout/pay" \\
-                --header 'Content-Type: application/json' \\
+            """curl --location --request POST "localhost:4033/api/checkout/pay" \
+                --header 'Content-Type: application/json' \
                 --data-raw '{
                     "numero_repertorio" : "2018-404542",
                     "id_persona" : "16248093-6",
@@ -309,8 +309,8 @@ def main() -> int:
         # Caja: manualPaymentRefund
         ############################################################################################
         (
-            """curl --location --request POST "localhost:4033/api/checkout/refund" \\
-                --header 'Content-Type: application/json' \\
+            """curl --location --request POST "localhost:4033/api/checkout/refund" \
+                --header 'Content-Type: application/json' \
                 --data-raw '{
                     "folio": 51,
                     "id_persona" : "16248093-6",
@@ -323,8 +323,8 @@ def main() -> int:
             }""")
         ),
         (
-            """curl --location --request POST "localhost:4033/api/checkout/refund" \\
-                --header 'Content-Type: application/json' \\
+            """curl --location --request POST "localhost:4033/api/checkout/refund" \
+                --header 'Content-Type: application/json' \
                 --data-raw '{
                     "folio": 51,
                     "id_persona" : "16248093-6",
