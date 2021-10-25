@@ -299,6 +299,7 @@ def main() -> int:
                     "monto" : "22.5"
                 }'""",
             json.loads("""{
+                "success": true,
                 "msg": "Monto Ingresado",
                 "nuevo_folio": 51
             }""")
@@ -316,6 +317,7 @@ def main() -> int:
                     "numero_repertorio" : "2018-404542"
                 }'""",
             json.loads("""{
+                "success": true,
                 "msg": "Monto Reembolsado",
                 "nuevo_folio": 52
             }""")
@@ -326,11 +328,11 @@ def main() -> int:
                 --data-raw '{
                     "folio": 51,
                     "id_persona" : "16248093-6",
-                    "numero_repertorio" : 9999999
+                    "numero_repertorio" : "2018-404542"
                 }'""",
             json.loads("""{
                 "msg": "Reembolso denegado"
-            }""")
+            }""") #TODO: I would like a `"success": false` parameter in the response...
         )
     ]):
         print("Running test #%d: %s" % (testNum, command))
