@@ -43,7 +43,7 @@ The Makefile rules are stated in the below table. You may only have interest in 
 
 Before executing any shell command of this section, please run `alias docker-compose='docker-compose --env-file compose.env'`.
 
-If you run the systems with `make up`, you will see the output in stdout/stderr. For `make up_background`, you can use `docker-compose logs` to view all logs or use `docker-compose logs [srcei|caja|rvm|ppe]` to view the log of one of the systems (e.g. `docker-compose logs srcei`). Ensure to execute these commands in the root directory of this project.
+If you run the systems with `make up`, you will see the output in stdout/stderr. For `make up_background`, you can use `docker-compose --env-file compose.env logs` to view all logs or use `docker logs [srcei|caja|rvmppe]_cointainer` to view the log of one of the systems (e.g. `docker logs srcei_container`). You can view the live log (follow) by using the `-f` flag, e.g. `docker logs -f caja_container`. Note that `docker logs` will work in any directory, but `docker-compose logs` not, as you have to pass the `compose.env` file path.
 
 ## Testing
 
