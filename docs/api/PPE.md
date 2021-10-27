@@ -15,6 +15,8 @@ When receiving a valid payment call from the PPE API consumer (Prendas), the tra
 
 ![PPE payment flow](./diagram_PPE_payment_flow.jpg "PPE payment flow diagram")
 
+<!-- ppePaymentRequest -->
+
 ## 2. POST: register payment attempt (PPE)
 
 `api/transaction/payment`: endpoint that immediately register the payment in PPE and returns the transaction ID, and starts the simulated TGR response flow. It requieres the person id, repertoire number and the amount of money.

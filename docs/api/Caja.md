@@ -10,6 +10,8 @@ This API serves the purpose of processing checkout (*caja*) system transactions.
     - [2.1. Request body format](#21-request-body-format)
     - [2.2. Example calls](#22-example-calls)
 
+<!-- manualCreatePayment -->
+
 ## 1. POST: process payment
 
 `api/checkout/pay`: for registering a payment.
@@ -59,6 +61,8 @@ If there are missing or wrong body parameters, the server will trigger an except
     "msg" : "Internal Server Error"
 }
 ```
+
+<!-- manualPaymentRefund -->
 
 ## 2. POST: process refund
 

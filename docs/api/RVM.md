@@ -8,7 +8,7 @@ License plate format: it is composed of three uppercase letters, a hyphen and th
 
 For any call, if there are missing parameters (e.g. in the request query or body), the server will return a response with status 400 BAD REQUEST and a body with a `msg` explaining the reason of the invalid request. When a request triggers an exception in the server, its response will have status 500 and will have this body: `{msg: 'Internal Server Error'}`.
 
-The repertoire ID has the format "<YEAR>-<NUMBER>", e.g. "2014-283".
+The repertoire ID has the format "YEAR-NUMBER", e.g. "2014-283".
 
 Note: in the RVM, the owner(s) can be any kind of person: natural or not (enterprise) and chilean or not (for foreigners, the ID is a passport number, not a RUN). Approximately, 25% of the persons are enterprises (non-natural) and, from the natural ones, 10% are foreigners. The passport ID is a string starting with a "P" character, followed by numbers, e.g. "P01616026". The format for the RUT is exactly the same than the RUN, but it is possible to check if a national person is natural or not by querying the SRCEI (if it is not a valid RUN, then it is a RUT).
 

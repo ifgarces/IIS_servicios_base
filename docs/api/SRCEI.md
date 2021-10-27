@@ -10,6 +10,8 @@ This API serves the purpose of validating data requests for the SRCEI system (*r
     - [2.1. Request body format](#21-request-body-format)
     - [2.2. Example calls](#22-example-calls)
 
+<!-- simpleCheck -->
+
 ## 1. GET: validate person by RUN and get full name
 
 `api/users/user`: endpoint to check if user exists or not by passing run as key.
@@ -66,6 +68,8 @@ Response 200 OK:
 Note that this result will be the same for not valid RUTs, for example, for `curl --location --request GET "localhost:4030/api/users/user?run=empanada"`.
 
 If the `run` query parameter is not provided, the server will return with a 400 BAD REQUEST response, explaining the error.
+
+<!-- strictCheck -->
 
 ## 2. POST: validate person by all data
 
