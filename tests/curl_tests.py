@@ -303,7 +303,7 @@ def main() -> int:
                 "msg": "Monto Ingresado",
                 "nuevo_folio": 51
             }""")
-        ),
+        ), #TODO: test the fail scenario for this call
 
         ############################################################################################
         # Caja: manualPaymentRefund
@@ -338,7 +338,8 @@ def main() -> int:
         print("Running test #%d: %s" % (testNum, command))
         cmdExitCode :int = system("%s -sS -o %s" % (command, TEMP_OUTPUT_FILE)) # adding flags for silent curl, show errors and output to the desired file instead of `stdout`
         if (cmdExitCode != 0):
-            print("Test #%d failed: command \"%s\" returned with error code %d" % (testNum, command, cmdExitCode))
+            print("Test #%d failed: the following command returned with error code %d:" % (testNum, cmdExitCode))
+            print(command)
             return 1
         tempFile :IO = open(file=TEMP_OUTPUT_FILE, mode="rt", encoding="utf-8") # we will read contents written by `curl` command in that file for each test from Python (yes, we have to open it on each test)
         gotResult :dict = json.loads(tempFile.read())

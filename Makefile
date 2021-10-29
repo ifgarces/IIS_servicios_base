@@ -12,6 +12,10 @@ up_background:
 down:
 	docker-compose --env-file compose.env down
 
+clean: down
+	docker container prune --force
+	docker network prune --force
+
 # Pulling this repo and all submodules
 pull:
 	git fetch
