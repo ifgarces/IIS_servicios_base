@@ -107,7 +107,6 @@ def main() -> int:
         ############################################################################################
         # RVM: licensePlateApplications
         ############################################################################################
-
         (
             """ curl --location --request GET "http://localhost:4031/API/vehicles/licensePlates?patente=BIF-933" """,
             json.loads("""{
@@ -121,7 +120,7 @@ def main() -> int:
                     }
                 ]
             }""")
-        ),
+        ), #TODO: add fail test scenario
 
         ############################################################################################
         # RVM: licensePlateCheck
@@ -296,7 +295,7 @@ def main() -> int:
                 --data-raw '{
                     "numero_repertorio" : "2018-404542",
                     "id_persona" : "16248093-6",
-                    "monto" : "22.5"
+                    "monto" : 22.5
                 }'""",
             json.loads("""{
                 "success": true,
@@ -332,7 +331,23 @@ def main() -> int:
                 }'""",
             json.loads("""{
                 "msg": "Reembolso denegado"
-            }""") #TODO: I would like a `"success": false` parameter in the response...
+            }""") #TODO: [FIX] I would like a `"success": false` parameter in the response...
+        ),
+
+        ############################################################################################
+        # PPE: ppePaymentRequest
+        ############################################################################################
+        (
+            """curl --location --request POST "localhost:4032/api/transaction/payment" \
+                --header 'Content-Type: application/json' \
+                --data-raw '{
+                    "id_persona": "1092093-5",
+                    "numero_repertorio": "2020-22",
+                    "monto": 213540
+                }'""",
+            json.loads("""{
+                "msg": "Pago Ingresado"
+            }""") #TODO: [FIX] Must return transaction ID
         )
     ]):
         print("Running test #%d: %s" % (testNum, command))
