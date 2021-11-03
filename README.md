@@ -8,6 +8,9 @@ This project will use all systems as git submodules, for running them all easily
 
 - [IIS_servicios_base](#iis_servicios_base)
   - [1. Dependencies](#1-dependencies)
+    - [1.1. Windows machines with WSL](#11-windows-machines-with-wsl)
+    - [1.2. Windows machines without WSL](#12-windows-machines-without-wsl)
+    - [1.3. Ubuntu-based machines](#13-ubuntu-based-machines)
   - [2. Overall project software architecture](#2-overall-project-software-architecture)
   - [3. API documentation](#3-api-documentation)
   - [4. Build and run](#4-build-and-run)
@@ -17,8 +20,20 @@ This project will use all systems as git submodules, for running them all easily
 
 ## 1. Dependencies
 
-- [`docker-compose`](https://docs.docker.com/compose/install/) command (and Docker service).
-- Just for the `config` Makefile rule, the [`yq` command-line YAML processor](https://github.com/mikefarah/yq) is required. You can install it on Ubuntu-based OSes with `wget https://github.com/mikefarah/yq/releases/download/v4.13.2/yq_linux_amd64.tar.gz -O - | tar xz && sudo mv yq_linux_amd64 /usr/bin/yq`.
+- [Docker](https://docs.docker.com/get-docker/) and [`docker-compose`](https://docs.docker.com/compose/install/).
+- (Optional) Just for the `config` Makefile rule, the [`yq` command-line YAML processor](https://github.com/mikefarah/yq) is required. You can install it on Ubuntu-based OSes with `wget https://github.com/mikefarah/yq/releases/download/v4.13.2/yq_linux_amd64.tar.gz -O - | tar xz && sudo mv yq_linux_amd64 /usr/bin/yq`.
+
+### 1.1. Windows machines with WSL
+
+If you pretend to run this on Windows, the best way is to do it on a WSL Linux console instead of a Windows terminal. First, install [WSL 2](https://docs.microsoft.com/en-us/windows/wsl/install) (very easy for the latest Windows 10 versions) and install Docker Desktop. You may choose [Ubuntu](https://www.microsoft.com/en-us/p/ubuntu-2004-lts/9n6svws3rx71) for WSL, then follow [this guide](https://nickjanetakis.com/blog/setting-up-docker-for-windows-and-wsl-to-work-flawlessly). Don't forget to [enable integration with WSL](./docs/Docker_Ubuntu_WSL_config.png) on Docker Desktop.
+
+### 1.2. Windows machines without WSL
+
+Install Docker Desktop normally and then install [MinGW](https://sourceforge.net/projects/mingw/) for running the `Makefile` with `mingw32-make` command instead of the usual `make`, in the Windows command prompt. Don't forget to add `C:/MinGW/bin` to your PATH after installing. This option is not recommended, as installing MinGW can be tricky.
+
+### 1.3. Ubuntu-based machines
+
+Just follow the [official Docker guide](https://docs.docker.com/engine/install/ubuntu/) for installing Docker (easier than Windows). You might need to run `sudo apt-get update && sudo apt-get install make` for getting the `make` GNU utility.
 
 ## 2. Overall project software architecture
 
