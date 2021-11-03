@@ -8,24 +8,23 @@ This API serves the purpose of validating data requests for the SRCEI system (*r
     - [1.2. Example calls](#12-example-calls)
   - [2. POST: validate person by all data](#2-post-validate-person-by-all-data)
     - [2.1. Request body format](#21-request-body-format)
-    - [2.2. Example calls](#22-example-calls)
+    - [2.2. Response format](#22-response-format)
+    - [2.3. Example calls](#23-example-calls)
 
 <!-- simpleCheck -->
 
 ## 1. GET: validate person by RUN and get full name
 
-`api/users/user`: endpoint to check if user exists or not by passing run as key.
-
-- If user exists: names, last name and run are returned in body.
-- If user does not exist: returns body with message that user does not exist.
+`api/users/user`: endpoint to check if user exists or not by passing run as key. If the person does not exist, the response body will only have the `valid` parameter and a message `msg` saying that the person does not exist in the SRCEI database.
 
 ### 1.1. Response body format
 
 ```json
 {
-    "nombres": "PERSON NAME(S)",
-    "apellido_paterno": "PERSON FIRST LAST NAME",
-    "apellido_materno": "PERSON SECOND LAST NAME"
+    "valid": "[bool] Whether the RUN is valid",
+    "nombres": "[string] Person name(s)",
+    "apellido_paterno": "[string] Person first last name",
+    "apellido_materno": "[string] Person second last name"
 }
 ```
 
@@ -43,6 +42,7 @@ Response 200 OK:
 
 ```json
 {
+    "valid": true,
     "nombres": "LEANDRO ALBERTO",
     "apellido_paterno": "FERRERIA",
     "apellido_materno": "CIOBOTARU"
@@ -54,14 +54,15 @@ If we query for an invalid person RUN (i.e. one that does not exist in the SRCEI
 Request:
 
 ```shell
-curl --location --request GET "localhost:4030/api/users/user?run=14343269-k"
+curl --location --request GET "${SERVER_IP}:4030/api/users/user?run=14343269-k"
 ```
 
 Response 200 OK:
 
 ```json
 {
-  "msg": "RUN inválido: no registrado"
+    "valid": false,
+    "msg": "RUN inválido: no registrado"
 }
 ```
 
@@ -80,13 +81,21 @@ If the `run` query parameter is not provided, the server will return with a 400 
 ```json
 {
     "run": "RUN",
-    "nombres": "Nombres",
-    "apellido_paterno": "Apellido paterno",
-    "apellido_materno": "Apellido materno"
+    "nombres": "[string] Person name(s)",
+    "apellido_paterno": "[string] Person first last name",
+    "apellido_materno": "[string] Person second last name"
 }
 ```
 
-### 2.2. Example calls
+### 2.2. Response format
+
+```json
+{
+    "valid": "[bool] Whether all the entered fields are valid or not"
+}
+```
+
+### 2.3. Example calls
 
 Names and lastnames are not case-sensitive. If we query for an existing person with the right data:
 
@@ -107,7 +116,7 @@ Response 200 OK:
 
 ```json
 {
-    "msg": "Usuario existente"
+    "valid": true
 }
 ```
 
@@ -130,10 +139,8 @@ Response 200 OK:
 
 ```json
 {
-    "msg": "Usuario no existe"
+    "valid": false
 }
 ```
 
 The same result will be obtained if another field (non-case sensitive) does not match exactly with the SRCEI database entry for that person.
-
-Note: if a body parameter is missing, an exception will be triggered in the server.

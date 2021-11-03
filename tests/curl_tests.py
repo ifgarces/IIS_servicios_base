@@ -37,6 +37,7 @@ def main() -> int:
         (
             """ curl --location --request GET "http://localhost:4030/api/users/user?run=14343269-6" """,
             json.loads("""{
+                "valid": true,
                 "nombres": "LEANDRO ALBERTO",
                 "apellido_paterno": "FERRERIA",
                 "apellido_materno": "CIOBOTARU"
@@ -45,20 +46,22 @@ def main() -> int:
         (
             """ curl --location --request GET "http://localhost:4030/api/users/user?run=14343269-k" """,
             json.loads("""{
+                "valid": false,
                 "msg": "RUN inválido: no registrado"
             }""")
         ),
         (
             """ curl --location --request GET "http://localhost:4030/api/users/user?run=empanada" """,
             json.loads("""{
+                "valid": false,
                 "msg": "RUN inválido: no registrado"
             }""")
         ),
         (
             """ curl --location --request GET "http://localhost:4030/api/users/user" """,
             json.loads("""{
-                "msg": "Must provide run parameter"
-            }""")
+                "msg": "'run' query parameter is missing"
+            }""") # response has error status 400, therefore `valid` parameter is not in the response
         ),
 
         ############################################################################################
@@ -74,7 +77,7 @@ def main() -> int:
                     "apellido_materno": "CIoBOTARu"
                 }'""",
             json.loads("""{
-                "msg": "Usuario existente"
+                "valid": true
             }""")
         ),
         (
@@ -87,7 +90,7 @@ def main() -> int:
                     "apellido_materno": "CIoBOTARu"
                 }'""",
             json.loads("""{
-                "msg": "Usuario no existe"
+                "valid": false
             }""")
         ),
         (
@@ -95,12 +98,12 @@ def main() -> int:
                 --header 'Content-Type: application/json' \
                 --data-raw '{
                     "run": "whatever",
-                    "nombres": "leandro alberto",
-                    "apellido_paterno": "ferreria",
-                    "apellido_materno": "ciobotaru"
+                    "nombres": "LEANDRO ALBERTO",
+                    "apellido_paterno": "FERRERIA",
+                    "apellido_materno": "CIOBOTARU"
                 }'""",
             json.loads("""{
-                "msg": "Usuario no existe"
+                "valid": false
             }""")
         ),
 
