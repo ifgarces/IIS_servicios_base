@@ -237,7 +237,7 @@ Response 200 OK:
 ```json
 {
     "valid": false,
-    "msg": "Invalid plate"
+    "msg": "Uno o más IDs de dueño son inválidos para el vehiculo"
 }
 ```
 
