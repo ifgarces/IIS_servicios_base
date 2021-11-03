@@ -311,7 +311,6 @@ def main() -> int:
             """curl --location --request POST "localhost:4033/api/checkout/refund" \
                 --header 'Content-Type: application/json' \
                 --data-raw '{
-                    "folio": 51,
                     "id_persona" : "16248093-6",
                     "numero_repertorio" : "2018-404542"
                 }'""",
@@ -325,13 +324,37 @@ def main() -> int:
             """curl --location --request POST "localhost:4033/api/checkout/refund" \
                 --header 'Content-Type: application/json' \
                 --data-raw '{
-                    "folio": 51,
                     "id_persona" : "16248093-6",
                     "numero_repertorio" : "2018-404542"
                 }'""",
             json.loads("""{
+                "success": false,
                 "msg": "Reembolso denegado"
-            }""") #TODO: [FIX] I would like a `"success": false` parameter in the response...
+            }""")
+        ),
+        (
+            """curl --location --request POST "localhost:4033/api/checkout/refund" \
+                --header 'Content-Type: application/json' \
+                --data-raw '{
+                    "id_persona" : "16248093-6",
+                    "numero_repertorio" : "hello-world"
+                }'""",
+            json.loads("""{
+                "success": false,
+                "msg": "No existen Pagos para los parámetros ingresados"
+            }""")
+        ),
+        (
+            """curl --location --request POST "localhost:4033/api/checkout/refund" \
+                --header 'Content-Type: application/json' \
+                --data-raw '{
+                    "id_persona" : "pan",
+                    "numero_repertorio" : "2018-404542"
+                }'""",
+            json.loads("""{
+                "success": false,
+                "msg": "No existen Pagos para los parámetros ingresados"
+            }""")
         ),
 
         ############################################################################################

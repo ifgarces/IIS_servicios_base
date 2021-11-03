@@ -54,14 +54,6 @@ Response 200 OK:
 }
 ```
 
-If there are missing or wrong body parameters, the server will trigger an exception and return a status 500 response, like follows.
-
-```json
-{
-    "msg" : "Internal Server Error"
-}
-```
-
 <!-- manualPaymentRefund -->
 
 ## 2. POST: process refund
@@ -96,8 +88,8 @@ Response 200 OK:
 
 ```json
 {
-    "msg": "Monto Reembolsado",
     "success": true,
+    "msg": "Monto Reembolsado",
     "nuevo_folio": 51
 }
 ```
@@ -106,6 +98,7 @@ Response 400:
 
 ```json
 {
+    "success": false,
     "msg" : "No existen Pagos para los parametros ingresados"
 }
 ```
@@ -114,14 +107,7 @@ Response 401:
 
 ```json
 {
+    "success": false,
     "msg" : "Reembolso denegado"
-}
-```
-
-Response 500:
-
-```json
-{
-    "msg" : "Internal Server Error"
 }
 ```
