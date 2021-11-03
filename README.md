@@ -30,7 +30,7 @@ The exposed API ports for the systems can be configured at [`compose.env`](./com
 
 ## 3. API documentation
 
-The usage docs for the APIs are located at `./docs/api` in this project. All of them contain sample `curl` commands (which is a console tool for making HTTP requests, working on Linux as well as Windows OSes, if desired).
+The usage docs for the APIs are located at `docs/api` in this project. All of them contain sample `curl` commands (which is a console tool for making HTTP requests, working on Linux as well as Windows OSes, if desired).
 
 ## 4. Build and run
 

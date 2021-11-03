@@ -4,8 +4,7 @@ This API serves the purpose of validating data requests for the PPE system (*por
 
 - [PPE API](#ppe-api)
   - [1. Confirmation from TGR](#1-confirmation-from-tgr)
-    - [1.1. Desired request-response format](#11-desired-request-response-format)
-    - [1.2. Desired example calls](#12-desired-example-calls)
+    - [1.1. Desired example calls format](#11-desired-example-calls-format)
   - [2. POST: register payment attempt (PPE)](#2-post-register-payment-attempt-ppe)
     - [2.1. Request body format](#21-request-body-format)
     - [2.2. Example calls](#22-example-calls)
@@ -18,13 +17,11 @@ When receiving a valid payment call from the PPE API consumer (Prendas), the tra
 
 So this confirmation endpoint is consumed by ourselves and has to be exposed by the Prendas systems. Once we have it, this works as a callback from the payment attempt API endpoint. The documentation for this endpoint has to be provided from Prendas, but we state the desired shape format as follows:
 
-### 1.1. Desired request-response format
+### 1.1. Desired example calls format
 
 Let `PRENDAS_IP` and `PRENDAS_PORT` the host and port of the Prendas server, respectively.
 
-### 1.2. Desired example calls
-
-Request for validating/confirming the payment of the transaction with ID `4`, previously given to Prendas when they consumed the [register payment attempt endpoint](#2-post-register-payment-attempt-ppe) from PPE.
+Request for validating/confirming the payment of the transaction with ID, say, `4`, previously given to Prendas when they consumed the [register payment attempt endpoint](#2-post-register-payment-attempt-ppe) from PPE.
 
 ```shell
 curl --location --request POST "${PRENDAS_SERVER_IP}:${PRENDAS_PORT}/api/tgr_confirmation" \

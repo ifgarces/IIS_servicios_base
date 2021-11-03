@@ -349,7 +349,7 @@ def main() -> int:
                 "msg": "Pago Ingresado",
                 "t_id": 2
             }""")
-        )
+        ) #TODO: test for fail scenario (e.g. bad request)
     ]):
         print("Running test #%d: %s" % (testNum, command))
         cmdExitCode :int = system("%s -sS -o %s" % (command, TEMP_OUTPUT_FILE)) # adding flags for silent curl, show errors and output to the desired file instead of `stdout`
