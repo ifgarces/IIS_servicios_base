@@ -19,7 +19,7 @@ When receiving a valid payment call from the PPE API consumer (Prendas), the tra
 
 ## 2. POST: register payment attempt (PPE)
 
-`api/transaction/payment`: endpoint that immediately register the payment in PPE and returns the transaction ID, and starts the simulated TGR response flow. It requieres the person id, repertoire number and the amount of money.
+`api/transaction/payment`: endpoint that immediately register the payment in PPE and returns the transaction ID, and starts the simulated TGR response flow. It requieres the person id, repertoire number and the amount of money. Response gives message and transaction id.
 
 ### 2.1. Request body format
 
@@ -49,7 +49,8 @@ Response 200 OK:
 
 ```json
 {
-    "msg": "Pago Ingresado"
+    "msg": "Pago Ingresado",
+    "t_id" : 2
 }
 ```
 
