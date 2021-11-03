@@ -346,8 +346,9 @@ def main() -> int:
                     "monto": 213540
                 }'""",
             json.loads("""{
-                "msg": "Pago Ingresado"
-            }""") #TODO: [FIX] Must return transaction ID
+                "msg": "Pago Ingresado",
+                "t_id": 2
+            }""")
         )
     ]):
         print("Running test #%d: %s" % (testNum, command))
