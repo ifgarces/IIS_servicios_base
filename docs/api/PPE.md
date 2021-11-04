@@ -58,7 +58,7 @@ curl --location --request POST "${SERVER_IP}:4032/api/transaction/payment" \
     --header 'Content-Type: application/json' \
     --data-raw '{
         "id_persona": "1092093-5",
-        "numero_repertorio": "123",
+        "numero_repertorio": "2018-429",
         "monto": 213540
     }'
 ```
@@ -68,8 +68,6 @@ Response 200 OK:
 ```json
 {
     "msg": "Pago Ingresado",
-    "t_id" : 2
+    "transaction_id" : 2
 }
 ```
-
-Note: if a body parameter is missing, an exception will be triggered in the server.

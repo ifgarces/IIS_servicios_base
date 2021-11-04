@@ -94,7 +94,7 @@ Response 200 OK:
 }
 ```
 
-Response 400:
+Response 200 OK:
 
 ```json
 {
@@ -103,7 +103,7 @@ Response 400:
 }
 ```
 
-Response 401:
+Response 200 OK:
 
 ```json
 {
