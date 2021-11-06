@@ -375,8 +375,7 @@ def main() -> int:
                 "msg": "Pago Ingresado",
                 "transaction_id": 2
             }""")
-        ), #TODO: test for fail scenario (e.g. bad request)
-        #TODO: detect accidental double-payment
+        ),
         (
             """curl --location --request POST "localhost:4032/api/transaction/payment" \
                 --header 'Content-Type: application/json' \
@@ -402,7 +401,44 @@ def main() -> int:
                 "msg": "Pago Ingresado",
                 "transaction_id": 4
             }""")
-        )
+        ),
+        (
+            """curl --location --request POST "localhost:4032/api/transaction/payment" \
+                --header 'Content-Type: application/json' \
+                --data-raw '{
+                    "id_persona": "1092093-5",
+                    "numero_repertorio": "2020-",
+                    "monto": 213540
+                }'""",
+            json.loads("""{
+                "msg": "Invalid format for the param numero_repertorio. Must match 'YEAR-number' with a maximum total lenght of 11 characters"
+            }""")
+        ),
+        (
+            """curl --location --request POST "localhost:4032/api/transaction/payment" \
+                --header 'Content-Type: application/json' \
+                --data-raw '{
+                    "id_persona": "1092093-5",
+                    "numero_repertorio": "2020",
+                    "monto": 213540
+                }'""",
+            json.loads("""{
+                "msg": "Invalid format for the param numero_repertorio. Must match 'YEAR-number' with a maximum total lenght of 11 characters"
+            }""")
+        ),
+        (
+            """curl --location --request POST "localhost:4032/api/transaction/payment" \
+                --header 'Content-Type: application/json' \
+                --data-raw '{
+                    "id_persona": "1092093-5",
+                    "numero_repertorio": "2020-84F",
+                    "monto": 213540
+                }'""",
+            json.loads("""{
+                "msg": "Invalid format for the param numero_repertorio. Must match 'YEAR-number' with a maximum total lenght of 11 characters"
+            }""")
+        ) #TODO: test for fail scenario (e.g. bad request)
+        #TODO: detect accidental double-payment
     ]):
         print("Running test #%d: %s" % (testNum, command))
         cmdExitCode :int = system("%s -sS -o %s" % (command, TEMP_OUTPUT_FILE)) # adding flags for silent curl, show errors and output to the desired file instead of `stdout`
