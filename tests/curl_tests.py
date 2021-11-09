@@ -6,6 +6,7 @@
 # --------------------------------------------------------------------------------------------------
 
 from os import system # utility for executing OS shell commands
+from sys import argv
 import json
 from typing import IO
 
@@ -24,6 +25,16 @@ except ImportError:
         print(msg)
 
 TEMP_OUTPUT_FILE :str = "temp.json"
+
+def printHelp() -> None:
+    print(
+"""Usage:
+
+    %s [TARGET_HOST]
+
+If no TARGET_HOST is provided, "localhost" is used.
+""" % argv[0]
+)
 
 def main() -> int:
     system("touch %s" % TEMP_OUTPUT_FILE) # creating temp file if needed
@@ -476,6 +487,8 @@ def main() -> int:
             }""")
         )
     ]):
+        if (len(argv) >= 2):
+            command = command.replace("localhost", argv[1], 1)
         print("Running test #%d: %s" % (testNum, command))
         cmdExitCode :int = system("%s -sS -o %s" % (command, TEMP_OUTPUT_FILE)) # adding flags for silent curl, show errors and output to the desired file instead of `stdout`
         if (cmdExitCode != 0):
