@@ -290,6 +290,122 @@ def main() -> int:
         ),
 
         ############################################################################################
+        # PPE: ppePaymentRequest
+        ############################################################################################
+        (
+            """curl --location --request POST "localhost:4032/api/transaction/payment" \
+                --header 'Content-Type: application/json' \
+                --data-raw '{
+                    "id_persona": "1092093-5",
+                    "numero_repertorio": "2020-22",
+                    "monto": 213540
+                }'""",
+            json.loads("""{
+                "msg": "Pago Ingresado",
+                "transaction_id": 2
+            }""")
+        ),
+        (
+            """curl --location --request POST "localhost:4032/api/transaction/payment" \
+                --header 'Content-Type: application/json' \
+                --data-raw '{
+                    "id_persona": "1092093-5",
+                    "numero_repertorio": "2020-22",
+                    "monto": 213540
+                }'""",
+            json.loads("""{
+                "msg": "Pago Ingresado",
+                "transaction_id": 3
+            }""")
+        ),
+        (
+            """curl --location --request POST "localhost:4032/api/transaction/payment" \
+                --header 'Content-Type: application/json' \
+                --data-raw '{
+                    "id_persona": "1092093-5",
+                    "numero_repertorio": "2020-22",
+                    "monto": 213540
+                }'""",
+            json.loads("""{
+                "msg": "Pago Ingresado",
+                "transaction_id": 4
+            }""")
+        ),
+        (
+            """curl --location --request POST "localhost:4032/api/transaction/payment" \
+                --header 'Content-Type: application/json' \
+                --data-raw '{
+                    "id_persona": "P0477420",
+                    "numero_repertorio": "2007-10520",
+                    "monto": 33.9
+                }'""", # in this case, it is not a RUN, but a passport ID for the case of a non-chilean person.
+            json.loads("""{
+                "msg": "Pago Ingresado",
+                "transaction_id": 5
+            }""")
+        ),
+        (
+            """curl --location --request POST "localhost:4032/api/transaction/payment" \
+                --header 'Content-Type: application/json' \
+                --data-raw '{
+                    "id_persona": "0477420",
+                    "numero_repertorio": "2020-22",
+                    "monto": 213540
+                }'""",
+            json.loads("""{
+                "msg": "Invalid parameter 'id_persona': must be a RUN/RUT (e.g. '12345678-k') or a passport number (e.g. 'P0123456')"
+            }""")
+        ),
+        (
+            """curl --location --request POST "localhost:4032/api/transaction/payment" \
+                --header 'Content-Type: application/json' \
+                --data-raw '{
+                    "id_persona": "1092093-5",
+                    "numero_repertorio": "2020-",
+                    "monto": 213540
+                }'""",
+            json.loads("""{
+                "msg": "Invalid parameter 'numero_repertorio': bad format. Must match 'YEAR-number' with a maximum total lenght of 11 characters, and the YEAR must be in range [1800, 2021]"
+            }""")
+        ),
+        (
+            """curl --location --request POST "localhost:4032/api/transaction/payment" \
+                --header 'Content-Type: application/json' \
+                --data-raw '{
+                    "id_persona": "1092093-5",
+                    "numero_repertorio": "2020",
+                    "monto": 213540
+                }'""",
+            json.loads("""{
+                "msg": "Invalid parameter 'numero_repertorio': bad format. Must match 'YEAR-number' with a maximum total lenght of 11 characters, and the YEAR must be in range [1800, 2021]"
+            }""")
+        ),
+        (
+            """curl --location --request POST "localhost:4032/api/transaction/payment" \
+                --header 'Content-Type: application/json' \
+                --data-raw '{
+                    "id_persona": "1092093-5",
+                    "numero_repertorio": "2020-84F",
+                    "monto": 213540
+                }'""",
+            json.loads("""{
+                "msg": "Invalid parameter 'numero_repertorio': bad format. Must match 'YEAR-number' with a maximum total lenght of 11 characters, and the YEAR must be in range [1800, 2021]"
+            }""")
+        ),
+        (
+            """curl --location --request POST "localhost:4032/api/transaction/payment" \
+                --header 'Content-Type: application/json' \
+                --data-raw '{
+                    "id_persona": "1092093-K",
+                    "numero_repertorio": "2007-10520",
+                    "monto": -1
+                }'""",
+            json.loads("""{
+                "msg": "invalid paremeter 'monto': must be numberic and positive"
+            }""")
+        ), # TODO: detect accidental double-payment
+
+        ############################################################################################
         # Caja: manualCreatePayment
         ############################################################################################
         (
@@ -304,7 +420,7 @@ def main() -> int:
                 "success": true,
                 "msg": "Monto Ingresado",
                 "nuevo_folio": 51
-            }""")
+            }""") #TODO: return transaction_id
         ), #TODO: test the fail scenario for this call
 
         ############################################################################################
@@ -358,87 +474,7 @@ def main() -> int:
                 "success": false,
                 "msg": "No existen Pagos para los parámetros ingresados"
             }""")
-        ),
-
-        ############################################################################################
-        # PPE: ppePaymentRequest
-        ############################################################################################
-        (
-            """curl --location --request POST "localhost:4032/api/transaction/payment" \
-                --header 'Content-Type: application/json' \
-                --data-raw '{
-                    "id_persona": "1092093-5",
-                    "numero_repertorio": "2020-22",
-                    "monto": 213540
-                }'""",
-            json.loads("""{
-                "msg": "Pago Ingresado",
-                "transaction_id": 2
-            }""")
-        ),
-        (
-            """curl --location --request POST "localhost:4032/api/transaction/payment" \
-                --header 'Content-Type: application/json' \
-                --data-raw '{
-                    "id_persona": "1092093-5",
-                    "numero_repertorio": "2020-22",
-                    "monto": 213540
-                }'""",
-            json.loads("""{
-                "msg": "Pago Ingresado",
-                "transaction_id": 3
-            }""")
-        ),
-        (
-            """curl --location --request POST "localhost:4032/api/transaction/payment" \
-                --header 'Content-Type: application/json' \
-                --data-raw '{
-                    "id_persona": "1092093-5",
-                    "numero_repertorio": "2020-22",
-                    "monto": 213540
-                }'""",
-            json.loads("""{
-                "msg": "Pago Ingresado",
-                "transaction_id": 4
-            }""")
-        ),
-        (
-            """curl --location --request POST "localhost:4032/api/transaction/payment" \
-                --header 'Content-Type: application/json' \
-                --data-raw '{
-                    "id_persona": "1092093-5",
-                    "numero_repertorio": "2020-",
-                    "monto": 213540
-                }'""",
-            json.loads("""{
-                "msg": "Invalid format for the param numero_repertorio. Must match 'YEAR-number' with a maximum total lenght of 11 characters"
-            }""")
-        ),
-        (
-            """curl --location --request POST "localhost:4032/api/transaction/payment" \
-                --header 'Content-Type: application/json' \
-                --data-raw '{
-                    "id_persona": "1092093-5",
-                    "numero_repertorio": "2020",
-                    "monto": 213540
-                }'""",
-            json.loads("""{
-                "msg": "Invalid format for the param numero_repertorio. Must match 'YEAR-number' with a maximum total lenght of 11 characters"
-            }""")
-        ),
-        (
-            """curl --location --request POST "localhost:4032/api/transaction/payment" \
-                --header 'Content-Type: application/json' \
-                --data-raw '{
-                    "id_persona": "1092093-5",
-                    "numero_repertorio": "2020-84F",
-                    "monto": 213540
-                }'""",
-            json.loads("""{
-                "msg": "Invalid format for the param numero_repertorio. Must match 'YEAR-number' with a maximum total lenght of 11 characters"
-            }""")
-        ) #TODO: test for fail scenario (e.g. bad request)
-        #TODO: detect accidental double-payment
+        )
     ]):
         print("Running test #%d: %s" % (testNum, command))
         cmdExitCode :int = system("%s -sS -o %s" % (command, TEMP_OUTPUT_FILE)) # adding flags for silent curl, show errors and output to the desired file instead of `stdout`
