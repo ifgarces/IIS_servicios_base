@@ -19,33 +19,36 @@ So this confirmation endpoint is consumed by ourselves and has to be exposed by 
 
 ### 1.1. Desired example calls format
 
-Let `PRENDAS_IP` and `PRENDAS_PORT` the host and port of the Prendas server, respectively.
+Let `PRENDAS_IP` be one host the Prendas servers.
 
 Request for validating/confirming the payment of the transaction with ID, say, `4`, previously given to Prendas when they consumed the [register payment attempt endpoint](#2-post-register-payment-attempt-ppe) from PPE.
 
 ```shell
-curl --location --request POST "${PRENDAS_SERVER_IP}:${PRENDAS_PORT}/api/tgr_confirmation" \
+curl --location --request POST "http://${PRENDAS_SERVER_IP}:9090/api/tgr_confirmation" \
     --header 'Content-Type: application/json' \
     --data-raw '{
         "transaction_id": 4
     }'
 ```
 
-Then, the response 200 OK with acknowledgment of the request, with no body. Having a body like `{"msg": "OK"}` would be redundant. If the response is not received or the request cannot be delivered, the simulated TGR will retry again after a timeout, until the confirm payment request succeeds (so the confirmation process won't fail if the Prendas systems crash or are offline for a moment).
+Both the port and the path **must** match the example call, `9090` and `/api/tgr_confirmation`, respectively.
+
+When this call is executed, the response status is expected to be 200 OK, with **no body**. Having a body like `{"msg": "OK"}` would be redundant, as the payment confirmation was already acknowledged with the successful response. If the response is not received or the request cannot be delivered, the simulated TGR will retry again after a timeout, until the confirm payment request succeeds or the amount of allowed retries is reached, which is also a configuration parameter in our systems (so the confirmation process won't fail if the Prendas systems crash or are offline for some minutes).
 
 <!-- ppePaymentRequest -->
 
 ## 2. POST: register payment attempt (PPE)
 
-`api/transaction/payment`: endpoint that immediately register the payment in PPE and returns the transaction ID, and starts the simulated TGR response flow. It requieres the person id, repertoire number and the amount of money. Response gives message and transaction id.
+`api/transaction/payment`: endpoint that immediately register the payment in PPE and returns the transaction ID, and starts the simulated TGR response flow. It requires the person id, repertoire number and the amount of money, as well as the target IP for the payment confirmation TGR call. The response body will include the transaction ID for further asynchronous confirmation with TGR.
 
 ### 2.1. Request body format
 
 ```json
 {
-    "id_persona": "Person ID",
-    "numero_repertorio": "N°Repertoire",
-    "monto": "Amount"
+    "id_persona": "[string] Person ID",
+    "numero_repertorio": "[string] RVM repertoire ID in format YEAR-NUMBER",
+    "monto": "[float | integer] Transaction amount",
+    "confirmation_ip": "[string] Target host for the confirmation call"
 }
 ```
 
@@ -59,7 +62,8 @@ curl --location --request POST "${SERVER_IP}:4032/api/transaction/payment" \
     --data-raw '{
         "id_persona": "1092093-5",
         "numero_repertorio": "2018-429",
-        "monto": 213540
+        "monto": 213540,
+        "confirmation_ip": "172.22.206.199"
     }'
 ```
 
@@ -71,3 +75,5 @@ Response 200 OK:
     "transaction_id" : 2
 }
 ```
+
+Note that, in this example, we give a LAN IP. In production, Prendas must use their server's LAN IPs. If you provide an invalid or unreachable IP, the confirmation won't be able to arrive.

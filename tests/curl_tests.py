@@ -296,6 +296,10 @@ def main() -> int:
 
         ############################################################################################
         # PPE: ppePaymentRequest
+        #* Note: in order to listen for the confirmation from outside of the Docker container, the
+        # `confirmation_ip` parameter must be your LAN level IP, i.e. not localhost or 127.*.
+        # For example, for me, on WSL, 172.22.206.199 works. Run `ifconfig` or `hostname -I` in your
+        # bash terminal to find your LAN IP.
         ############################################################################################
         (
             """curl --location --request POST "localhost:4032/api/transaction/payment" \
@@ -303,7 +307,8 @@ def main() -> int:
                 --data-raw '{
                     "id_persona": "1092093-5",
                     "numero_repertorio": "2020-22",
-                    "monto": 213540
+                    "monto": 213540,
+                    "confirmation_ip": "172.22.206.199"
                 }'""",
             json.loads("""{
                 "msg": "Pago Ingresado",
@@ -316,7 +321,8 @@ def main() -> int:
                 --data-raw '{
                     "id_persona": "1092093-5",
                     "numero_repertorio": "2020-22",
-                    "monto": 213540
+                    "monto": 213540,
+                    "confirmation_ip": "172.22.206.199"
                 }'""",
             json.loads("""{
                 "msg": "Pago Ingresado",
@@ -329,7 +335,8 @@ def main() -> int:
                 --data-raw '{
                     "id_persona": "1092093-5",
                     "numero_repertorio": "2020-22",
-                    "monto": 213540
+                    "monto": 213540,
+                    "confirmation_ip": "172.22.206.199"
                 }'""",
             json.loads("""{
                 "msg": "Pago Ingresado",
@@ -342,7 +349,8 @@ def main() -> int:
                 --data-raw '{
                     "id_persona": "P0477420",
                     "numero_repertorio": "2007-10520",
-                    "monto": 33.9
+                    "monto": 33.9,
+                    "confirmation_ip": "172.22.206.199"
                 }'""", # in this case, it is not a RUN, but a passport ID for the case of a non-chilean person.
             json.loads("""{
                 "msg": "Pago Ingresado",
@@ -355,7 +363,8 @@ def main() -> int:
                 --data-raw '{
                     "id_persona": "0477420",
                     "numero_repertorio": "2020-22",
-                    "monto": 213540
+                    "monto": 213540,
+                    "confirmation_ip": "172.22.206.199"
                 }'""",
             json.loads("""{
                 "msg": "Invalid parameter 'id_persona': must be a RUN/RUT (e.g. '12345678-k') or a passport number (e.g. 'P0123456')"
@@ -367,7 +376,8 @@ def main() -> int:
                 --data-raw '{
                     "id_persona": "1092093-5",
                     "numero_repertorio": "2020-",
-                    "monto": 213540
+                    "monto": 213540,
+                    "confirmation_ip": "172.22.206.199"
                 }'""",
             json.loads("""{
                 "msg": "Invalid parameter 'numero_repertorio': bad format. Must match 'YEAR-number' with a maximum total lenght of 11 characters, and the YEAR must be in range [1800, 2021]"
@@ -379,7 +389,8 @@ def main() -> int:
                 --data-raw '{
                     "id_persona": "1092093-5",
                     "numero_repertorio": "2020",
-                    "monto": 213540
+                    "monto": 213540,
+                    "confirmation_ip": "172.22.206.199"
                 }'""",
             json.loads("""{
                 "msg": "Invalid parameter 'numero_repertorio': bad format. Must match 'YEAR-number' with a maximum total lenght of 11 characters, and the YEAR must be in range [1800, 2021]"
@@ -391,7 +402,8 @@ def main() -> int:
                 --data-raw '{
                     "id_persona": "1092093-5",
                     "numero_repertorio": "2020-84F",
-                    "monto": 213540
+                    "monto": 213540,
+                    "confirmation_ip": "172.22.206.199"
                 }'""",
             json.loads("""{
                 "msg": "Invalid parameter 'numero_repertorio': bad format. Must match 'YEAR-number' with a maximum total lenght of 11 characters, and the YEAR must be in range [1800, 2021]"
@@ -403,7 +415,8 @@ def main() -> int:
                 --data-raw '{
                     "id_persona": "1092093-K",
                     "numero_repertorio": "2007-10520",
-                    "monto": -1
+                    "monto": -1,
+                    "confirmation_ip": "172.22.206.199"
                 }'""",
             json.loads("""{
                 "msg": "invalid paremeter 'monto': must be numberic and positive"
