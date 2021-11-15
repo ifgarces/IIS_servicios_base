@@ -3,6 +3,10 @@
 # expected responses. For this, we will write `curl` output to a temp file and read it from this
 # Python script.
 #* Important: this script is intended to run on Linux.
+#
+# Usage:
+#     curl_tests.py [TARGET_HOST]
+# If no TARGET_HOST is provided, "localhost" is used.
 # --------------------------------------------------------------------------------------------------
 
 from os import system # utility for executing OS shell commands
@@ -14,27 +18,17 @@ from typing import IO
 try:
     import colorama
     colorama.init(convert=False)
-    def logOk(msg :str) -> None:
+    def printOk(msg :str) -> None:
         print(colorama.Fore.LIGHTCYAN_EX, msg, colorama.Fore.RESET, sep="")
-    def logError(msg :str) -> None:
+    def printError(msg :str) -> None:
         print(colorama.Fore.LIGHTRED_EX, msg, colorama.Fore.RESET, sep="")
 except ImportError:
-    def logOk(msg :str) -> None:
+    def printOk(msg :str) -> None:
         print(msg)
-    def logError(msg :str) -> None:
+    def printError(msg :str) -> None:
         print(msg)
 
 TEMP_OUTPUT_FILE :str = "temp.json"
-
-def printHelp() -> None:
-    print(
-"""Usage:
-
-    %s [TARGET_HOST]
-
-If no TARGET_HOST is provided, "localhost" is used.
-""" % argv[0]
-)
 
 def main() -> int:
     system("touch %s" % TEMP_OUTPUT_FILE) # creating temp file if needed
@@ -431,7 +425,7 @@ def main() -> int:
                 "success": true,
                 "msg": "Monto Ingresado",
                 "nuevo_folio": 51
-            }""") #TODO: return transaction_id
+            }""") #* `nuevo_folio` is the transaction/payment ID
         ), #TODO: test the fail scenario for this call
 
         ############################################################################################
@@ -498,13 +492,13 @@ def main() -> int:
         gotResult :dict = json.loads(tempFile.read())
         tempFile.close()
         if (expectedResult != gotResult):
-            logError("Test #%d failed" % testNum)
+            printError("Test #%d failed" % testNum)
             print("Expected %s, but got %s" % (expectedResult, gotResult))
             return 2
 
     system("rm %s" % TEMP_OUTPUT_FILE) # removing temporal file
     print()
-    logOk("Yay! All tests passed")
+    printOk("Yay! All tests passed")
     return 0
 
 if (__name__ == "__main__"):
