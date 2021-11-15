@@ -35,6 +35,12 @@ Both the port and the path **must** match the example call, `9090` and `/api/tgr
 
 When this call is executed, the response status is expected to be 200 OK, with **no body**. Having a body like `{"msg": "OK"}` would be redundant, as the payment confirmation was already acknowledged with the successful response. If the response is not received or the request cannot be delivered, the simulated TGR will retry again after a timeout, until the confirm payment request succeeds or the amount of allowed retries is reached, which is also a configuration parameter in our systems (so the confirmation process won't fail if the Prendas systems crash or are offline for some minutes).
 
+Note: for testing/debugging purposes, you may have interest on the [echo server Python script](./../../tests/echo_server.py), which prints out the received HTTP requests. Considering the passed IP for the [PPE payment attempt endpoint](#2-post-register-payment-attempt-ppe) is OK, you can set it to listen to TGR confirmation calls with:
+
+```shell
+python3 tests/echo_server.py -b 0.0.0.0 -p 9090 --verbose
+```
+
 <!-- ppePaymentRequest -->
 
 ## 2. POST: register payment attempt (PPE)
