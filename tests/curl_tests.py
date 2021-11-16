@@ -298,7 +298,7 @@ def main() -> int:
         # PPE: ppePaymentRequest
         #* Note: in order to listen for the confirmation from outside of the Docker container, the
         # `confirmation_ip` parameter must be your LAN level IP, i.e. not localhost or 127.*.
-        # For example, for me, on WSL, 172.22.206.199 works. Run `ifconfig` or `hostname -I` in your
+        # For example, for me, on WSL, 172.22.139.119 works. Run `ifconfig` or `hostname -I` in your
         # bash terminal to find your LAN IP.
         ############################################################################################
         (
@@ -308,7 +308,7 @@ def main() -> int:
                     "id_persona": "1092093-5",
                     "numero_repertorio": "2020-22",
                     "monto": 213540,
-                    "confirmation_ip": "172.22.206.199"
+                    "confirmation_ip": "172.22.139.119"
                 }'""",
             json.loads("""{
                 "msg": "Pago Ingresado",
@@ -322,7 +322,7 @@ def main() -> int:
                     "id_persona": "1092093-5",
                     "numero_repertorio": "2020-22",
                     "monto": 213540,
-                    "confirmation_ip": "172.22.206.199"
+                    "confirmation_ip": "172.22.139.119"
                 }'""",
             json.loads("""{
                 "msg": "Pago Ingresado",
@@ -336,7 +336,7 @@ def main() -> int:
                     "id_persona": "1092093-5",
                     "numero_repertorio": "2020-22",
                     "monto": 213540,
-                    "confirmation_ip": "172.22.206.199"
+                    "confirmation_ip": "172.22.139.119"
                 }'""",
             json.loads("""{
                 "msg": "Pago Ingresado",
@@ -350,7 +350,7 @@ def main() -> int:
                     "id_persona": "P0477420",
                     "numero_repertorio": "2007-10520",
                     "monto": 33.9,
-                    "confirmation_ip": "172.22.206.199"
+                    "confirmation_ip": "172.22.139.119"
                 }'""", # in this case, it is not a RUN, but a passport ID for the case of a non-chilean person.
             json.loads("""{
                 "msg": "Pago Ingresado",
@@ -364,7 +364,7 @@ def main() -> int:
                     "id_persona": "0477420",
                     "numero_repertorio": "2020-22",
                     "monto": 213540,
-                    "confirmation_ip": "172.22.206.199"
+                    "confirmation_ip": "172.22.139.119"
                 }'""",
             json.loads("""{
                 "msg": "Invalid parameter 'id_persona': must be a RUN/RUT (e.g. '12345678-k') or a passport number (e.g. 'P0123456')"
@@ -377,7 +377,7 @@ def main() -> int:
                     "id_persona": "1092093-5",
                     "numero_repertorio": "2020-",
                     "monto": 213540,
-                    "confirmation_ip": "172.22.206.199"
+                    "confirmation_ip": "172.22.139.119"
                 }'""",
             json.loads("""{
                 "msg": "Invalid parameter 'numero_repertorio': bad format. Must match 'YEAR-number' with a maximum total lenght of 11 characters, and the YEAR must be in range [1800, 2021]"
@@ -390,7 +390,7 @@ def main() -> int:
                     "id_persona": "1092093-5",
                     "numero_repertorio": "2020",
                     "monto": 213540,
-                    "confirmation_ip": "172.22.206.199"
+                    "confirmation_ip": "172.22.139.119"
                 }'""",
             json.loads("""{
                 "msg": "Invalid parameter 'numero_repertorio': bad format. Must match 'YEAR-number' with a maximum total lenght of 11 characters, and the YEAR must be in range [1800, 2021]"
@@ -403,7 +403,7 @@ def main() -> int:
                     "id_persona": "1092093-5",
                     "numero_repertorio": "2020-84F",
                     "monto": 213540,
-                    "confirmation_ip": "172.22.206.199"
+                    "confirmation_ip": "172.22.139.119"
                 }'""",
             json.loads("""{
                 "msg": "Invalid parameter 'numero_repertorio': bad format. Must match 'YEAR-number' with a maximum total lenght of 11 characters, and the YEAR must be in range [1800, 2021]"
@@ -416,7 +416,7 @@ def main() -> int:
                     "id_persona": "1092093-K",
                     "numero_repertorio": "2007-10520",
                     "monto": -1,
-                    "confirmation_ip": "172.22.206.199"
+                    "confirmation_ip": "172.22.139.119"
                 }'""",
             json.loads("""{
                 "msg": "invalid paremeter 'monto': must be numberic and positive"
@@ -449,12 +449,13 @@ def main() -> int:
                 --header 'Content-Type: application/json' \
                 --data-raw '{
                     "id_persona" : "16248093-6",
-                    "numero_repertorio" : "2018-404542"
+                    "numero_repertorio" : "2018-404542",
+                    "folio_ingreso": 51
                 }'""",
             json.loads("""{
                 "success": true,
                 "msg": "Monto Reembolsado",
-                "nuevo_folio": 52
+                "nuevo_folio": 1
             }""")
         ),
         (
@@ -462,11 +463,12 @@ def main() -> int:
                 --header 'Content-Type: application/json' \
                 --data-raw '{
                     "id_persona" : "16248093-6",
-                    "numero_repertorio" : "2018-404542"
+                    "numero_repertorio" : "2018-404542",
+                    "folio_ingreso": 51
                 }'""",
             json.loads("""{
                 "success": false,
-                "msg": "Reembolso denegado"
+                "msg": "Reembolso denegado, no existen pagos en registro"
             }""")
         ),
         (
@@ -474,11 +476,12 @@ def main() -> int:
                 --header 'Content-Type: application/json' \
                 --data-raw '{
                     "id_persona" : "16248093-6",
-                    "numero_repertorio" : "hello-world"
+                    "numero_repertorio" : "hello-world",
+                    "folio_ingreso": 51
                 }'""",
             json.loads("""{
                 "success": false,
-                "msg": "No existen Pagos para los parámetros ingresados"
+                "msg": "Reembolso denegado, no existen pagos en registro"
             }""")
         ),
         (
@@ -486,11 +489,12 @@ def main() -> int:
                 --header 'Content-Type: application/json' \
                 --data-raw '{
                     "id_persona" : "pan",
-                    "numero_repertorio" : "2018-404542"
+                    "numero_repertorio" : "2018-404542",
+                    "folio_ingreso": 51
                 }'""",
             json.loads("""{
                 "success": false,
-                "msg": "No existen Pagos para los parámetros ingresados"
+                "msg": "Reembolso denegado, no existen pagos en registro"
             }""")
         )
     ]):
