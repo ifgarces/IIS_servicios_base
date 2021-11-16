@@ -31,4 +31,4 @@ config:
 
 # Executes tests for API endpoints for all systems
 test:
-	cd tests && python3 curl_tests.py
+	cd tests && python3 curl_tests.py $(TGR_TARGET_HOST)

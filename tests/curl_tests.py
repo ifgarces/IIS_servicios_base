@@ -30,7 +30,22 @@ except ImportError:
 
 TEMP_OUTPUT_FILE :str = "temp.json"
 
+def printHelp() -> None:
+    print(f"""Usage:
+    {argv[0]} LOCAL_LAN_IP
+
+Where LOCAL_LAN_IP is the LAN-level host IP of the machine in which the test are running. This is
+needed for the PPE container in order to send the TGR confirmations properly, to be listened outside
+the Docker environment.
+""")
+
 def main() -> int:
+    if (len(argv) < 2 or argv[1] == "help"):
+        printHelp()
+        return 1
+    
+    LOCAL_LAN_IP :str = argv[1]
+
     system("touch %s" % TEMP_OUTPUT_FILE) # creating temp file if needed
 
     # Here we itarate over a list of tuples with the curl command and the expected parsed JSON with
@@ -308,8 +323,8 @@ def main() -> int:
                     "id_persona": "1092093-5",
                     "numero_repertorio": "2020-22",
                     "monto": 213540,
-                    "confirmation_ip": "172.22.139.119"
-                }'""",
+                    "confirmation_ip": "%s"
+                }'""" % LOCAL_LAN_IP,
             json.loads("""{
                 "msg": "Pago Ingresado",
                 "transaction_id": 2
@@ -322,8 +337,8 @@ def main() -> int:
                     "id_persona": "1092093-5",
                     "numero_repertorio": "2020-22",
                     "monto": 213540,
-                    "confirmation_ip": "172.22.139.119"
-                }'""",
+                    "confirmation_ip": "%s"
+                }'""" % LOCAL_LAN_IP,
             json.loads("""{
                 "msg": "Pago Ingresado",
                 "transaction_id": 3
@@ -336,8 +351,8 @@ def main() -> int:
                     "id_persona": "1092093-5",
                     "numero_repertorio": "2020-22",
                     "monto": 213540,
-                    "confirmation_ip": "172.22.139.119"
-                }'""",
+                    "confirmation_ip": "%s"
+                }'""" % LOCAL_LAN_IP,
             json.loads("""{
                 "msg": "Pago Ingresado",
                 "transaction_id": 4
@@ -350,8 +365,8 @@ def main() -> int:
                     "id_persona": "P0477420",
                     "numero_repertorio": "2007-10520",
                     "monto": 33.9,
-                    "confirmation_ip": "172.22.139.119"
-                }'""", # in this case, it is not a RUN, but a passport ID for the case of a non-chilean person.
+                    "confirmation_ip": "%s"
+                }'""" % LOCAL_LAN_IP, # in this case, `id_persona` it is not a RUN, but a passport ID for the case of a non-chilean person.
             json.loads("""{
                 "msg": "Pago Ingresado",
                 "transaction_id": 5
@@ -364,8 +379,8 @@ def main() -> int:
                     "id_persona": "0477420",
                     "numero_repertorio": "2020-22",
                     "monto": 213540,
-                    "confirmation_ip": "172.22.139.119"
-                }'""",
+                    "confirmation_ip": "%s"
+                }'""" % LOCAL_LAN_IP,
             json.loads("""{
                 "msg": "Invalid parameter 'id_persona': must be a RUN/RUT (e.g. '12345678-k') or a passport number (e.g. 'P0123456')"
             }""")
@@ -377,8 +392,8 @@ def main() -> int:
                     "id_persona": "1092093-5",
                     "numero_repertorio": "2020-",
                     "monto": 213540,
-                    "confirmation_ip": "172.22.139.119"
-                }'""",
+                    "confirmation_ip": "%s"
+                }'""" % LOCAL_LAN_IP,
             json.loads("""{
                 "msg": "Invalid parameter 'numero_repertorio': bad format. Must match 'YEAR-number' with a maximum total lenght of 11 characters, and the YEAR must be in range [1800, 2021]"
             }""")
@@ -390,8 +405,8 @@ def main() -> int:
                     "id_persona": "1092093-5",
                     "numero_repertorio": "2020",
                     "monto": 213540,
-                    "confirmation_ip": "172.22.139.119"
-                }'""",
+                    "confirmation_ip": "%s"
+                }'""" % LOCAL_LAN_IP,
             json.loads("""{
                 "msg": "Invalid parameter 'numero_repertorio': bad format. Must match 'YEAR-number' with a maximum total lenght of 11 characters, and the YEAR must be in range [1800, 2021]"
             }""")
@@ -403,8 +418,8 @@ def main() -> int:
                     "id_persona": "1092093-5",
                     "numero_repertorio": "2020-84F",
                     "monto": 213540,
-                    "confirmation_ip": "172.22.139.119"
-                }'""",
+                    "confirmation_ip": "%s"
+                }'""" % LOCAL_LAN_IP,
             json.loads("""{
                 "msg": "Invalid parameter 'numero_repertorio': bad format. Must match 'YEAR-number' with a maximum total lenght of 11 characters, and the YEAR must be in range [1800, 2021]"
             }""")
@@ -416,8 +431,8 @@ def main() -> int:
                     "id_persona": "1092093-K",
                     "numero_repertorio": "2007-10520",
                     "monto": -1,
-                    "confirmation_ip": "172.22.139.119"
-                }'""",
+                    "confirmation_ip": "%s"
+                }'""" % LOCAL_LAN_IP,
             json.loads("""{
                 "msg": "invalid paremeter 'monto': must be numberic and positive"
             }""")
@@ -504,16 +519,16 @@ def main() -> int:
         cmdExitCode :int = system("%s -sS -o %s" % (command, TEMP_OUTPUT_FILE)) # adding flags for silent curl, show errors and output to the desired file instead of `stdout`
         if (cmdExitCode != 0):
             print("Test #%d failed: curl command returned with error code %d" % (testNum, cmdExitCode))
-            return 1
+            return 2
         tempFile :IO = open(file=TEMP_OUTPUT_FILE, mode="rt", encoding="utf-8") # we will read contents written by `curl` command in that file for each test from Python (yes, we have to open it on each test)
         gotResult :dict = json.loads(tempFile.read())
         tempFile.close()
         if (expectedResult != gotResult):
             printError("Test #%d failed" % testNum)
             print("Expected %s, but got %s" % (expectedResult, gotResult))
-            return 2
+            return 3
 
-    system("rm %s" % TEMP_OUTPUT_FILE) # removing temporal file
+    system("rm -f %s" % TEMP_OUTPUT_FILE) # removing temporal file
     print()
     printOk("Yay! All tests passed")
     return 0

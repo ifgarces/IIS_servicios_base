@@ -69,7 +69,9 @@ If you run the systems with `make up`, you will see the output in stdout/stderr.
 
 ## 6. Testing
 
-For running automated test API calls, first ensure the systems are running locally in your machine and then run `make test`. You must have Python 3 installed.
+For running automated test API calls, first ensure the systems are running locally in your machine and then run `make test TGR_TARGET_HOST=${MY_LAN_IP}`, where `MY_LAN_IP` is the environment variable representing the LAN-level IP address of your machine (run `python3 tests/curl_tests.py help` for a more technical description). Of course, you must have Python 3 installed for running the tests.
+
+In order to find your LAN IP, in a bash shell, run `hostname -I` or `ifconfig`, in the case of Linux. For Windows, run `ipconfig` in a terminal.
 
 ## 7. Manually accessing database for each system for debugging
 
