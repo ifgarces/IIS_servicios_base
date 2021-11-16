@@ -294,7 +294,8 @@ def main() -> int:
                 --data-raw '{
                     "patente" : "BIF-933",
                     "tipo" : "PN",
-                    "aceptarORechazar" : "rechazada"
+                    "aceptarORechazar": "rechazada",
+                    "numero_repertorio" : "2021-45001"
                 }'""",
             json.loads("""{
                 "success": true
@@ -306,11 +307,35 @@ def main() -> int:
                 --data-raw '{
                     "patente" : "BIF-933",
                     "tipo" : "PN",
-                    "aceptarORechazar" : "rechazada"
+                    "aceptarORechazar" : "rechazada",
+                    "numero_repertorio" : "2021-45001"
                 }'""",
             json.loads("""{
                 "success": false,
                 "msg": "No existe una anotación pendiente de ese tipo para ese vehículo"
+            }""")
+        ),
+        (
+            """curl --location --request POST "http://localhost:4031/api/vehicles/acceptRejectAnotation" \
+                --header 'Content-Type: application/json' \
+                --data-raw '{
+                    "patente" : "BIF-933",
+                    "tipo" : "PN",
+                    "aceptarORechazar": "rechazada"
+                }'""",
+            json.loads("""{
+                "msg": "One of the following parameters are missing: patente, tipo, aceptarORechazar, numero_repertorio"
+            }""")
+        ),
+        (
+            """curl --location --request POST "http://localhost:4031/api/vehicles/acceptRejectAnotation" \
+                --header 'Content-Type: application/json' \
+                --data-raw '{
+                    "patente" : "BIF-933",
+                    "numero_repertorio" : "2021-45001"
+                }'""",
+            json.loads("""{
+                "msg": "One of the following parameters are missing: patente, tipo, aceptarORechazar, numero_repertorio"
             }""")
         ),
 
