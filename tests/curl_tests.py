@@ -36,7 +36,7 @@ def printHelp() -> None:
 
 Where LOCAL_LAN_IP is the LAN-level host IP of the machine in which the test are running. This is
 needed for the PPE container in order to send the TGR confirmations properly, to be listened outside
-the Docker environment.
+the Docker environment (i.e. "localhost" won't work due the Docker networking).
 """)
 
 def main() -> int:
@@ -129,6 +129,11 @@ def main() -> int:
 
         ############################################################################################
         # RVM: licensePlateApplications
+        #TODO: test format check for `numero_repertorio`.
+        #TODO: test missing parameters check
+        #TODO: test bad `tipo`
+        #TODO: test bad `estado`
+        #TODO: test bad `fecha` and `hora`
         ############################################################################################
         (
             """ curl --location --request GET "http://localhost:4031/API/vehicles/licensePlates?patente=BIF-933" """,
@@ -143,7 +148,7 @@ def main() -> int:
                     }
                 ]
             }""")
-        ), #TODO: add fail test scenario
+        ),
 
         ############################################################################################
         # RVM: licensePlateCheck
@@ -312,9 +317,8 @@ def main() -> int:
         ############################################################################################
         # PPE: ppePaymentRequest
         #* Note: in order to listen for the confirmation from outside of the Docker container, the
-        # `confirmation_ip` parameter must be your LAN level IP, i.e. not localhost or 127.*.
-        # For example, for me, on WSL, 172.22.139.119 works. Run `ifconfig` or `hostname -I` in your
-        # bash terminal to find your LAN IP.
+        #* `confirmation_ip` parameter must be your LAN level IP. See the README file.
+        #TODO: test accidental double-payment detection
         ############################################################################################
         (
             """curl --location --request POST "localhost:4032/api/transaction/payment" \
@@ -436,10 +440,14 @@ def main() -> int:
             json.loads("""{
                 "msg": "invalid paremeter 'monto': must be numberic and positive"
             }""")
-        ), # TODO: detect accidental double-payment
+        ),
 
         ############################################################################################
         # Caja: manualCreatePayment
+        #TODO: test accidental double-payment detection
+        #TODO: test format check for `numero_repertorio`
+        #TODO: test missing params
+        #TODO: test invalid `monto` (negative or non-numeric value)
         ############################################################################################
         (
             """curl --location --request POST "localhost:4033/api/checkout/pay" \
@@ -454,7 +462,7 @@ def main() -> int:
                 "msg": "Monto Ingresado",
                 "nuevo_folio": 51
             }""") #* `nuevo_folio` is the transaction/payment ID
-        ), #TODO: test the fail scenario for this call
+        ),
 
         ############################################################################################
         # Caja: manualPaymentRefund
