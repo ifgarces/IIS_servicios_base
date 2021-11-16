@@ -50,6 +50,10 @@ Table 2: annotation statuses.
     - [5.1. Request body format](#51-request-body-format)
     - [5.2. Example request](#52-example-request)
     - [5.3. Expected responses](#53-expected-responses)
+  - [6. GET: Check Rised vehicles from a repertory number](#6-get-check-rised-vehicles-from-a-repertory-number)
+    - [6.1. Request query format](#61-request-query-format)
+    - [6.2. Example calls](#62-example-calls)
+    - [6.3. Expected responses](#63-expected-responses)
 
 <!-- licensePlateApplications -->
 
@@ -62,7 +66,7 @@ Table 2: annotation statuses.
 ```shell
 http://${SERVER_IP}:4031/API/vehicles/licensePlates?patente=VEHICLE_LICENSE_PLATE
 ```
-
+curl --location --request GET "http://${SERVER_IP}:4031/API/vehicles/pendingAnotations?repertory_n=2021-237"
 ### 1.2. Example calls
 
 ```shell
@@ -299,7 +303,8 @@ Response 400 BAD REQUEST for when an open annotation already exists for the plat
 {
     "patente" : "Vehicle registration plate",
     "tipo" : "Annotation Type",
-    "aceptarORechazar" : "Update Status (aceptada/rechazada)"
+    "aceptarORechazar" : "Update Status (aceptada/rechazada)",
+    "numero_repertorio" : "Repertory number"
 }
 ```
 
@@ -311,7 +316,8 @@ curl --location --request POST "http://${SERVER_IP}:4031/api/vehicles/acceptReje
     --data-raw '{
         "patente" : "BIF-933",
         "tipo" : "AlzPN",
-        "aceptarORechazar" : "rechazada"
+        "aceptarORechazar" : "rechazada",
+        "numero_repertorio" : "2016-437"
     }'
 ```
 
@@ -333,3 +339,54 @@ Response 200 OK for when there is no pending annotation for the given vehicle pl
     "msg": "No existe una anotacion pendiente de ese tipo para ese vehiculo"
 }
 ```
+## 6. GET: Check Rised vehicles from a repertory number
+
+`api/vehicles/currentAnotations`: for if exist vehicles waiting to be raised. If not, the returns a list of every vehicle associated with one repertory number.
+
+### 6.1. Request query format
+
+```shell
+http://${SERVER_IP}:4031/API/vehicles/currentAnotations?numero_repertorio=REPERTORY_NUMBER
+```
+
+### 6.2. Example calls
+
+```shell
+curl --location --request GET "http://${SERVER_IP}:4031/API/vehicles/currentAnotations?numero_repertorio=2014-316"
+```
+
+### 6.3. Expected responses
+
+Response 200 OK for when every vehicle are lifted:
+
+```json
+{
+    "msg": "Todos los vehiculos se encuentran alzados",
+    vehicles,
+    "success": true
+}
+```
+
+Response 200 OK for when there is one or more pending annotations.
+
+```json
+{
+    "solicitudes": [
+        {
+            "msg": "Los siguientes vehículos presentan anotaciones pendientes",
+            anotations,
+            "success": false
+        }
+    ]
+}
+```
+
+Response 500.
+
+```json
+{
+    "msg": "Internal Server Error",     
+    "error": error
+}
+```
+

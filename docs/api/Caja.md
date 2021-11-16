@@ -67,7 +67,8 @@ You can only request a refund for an existing payment.
 ```json
 {
     "id_persona": "identificador_persona (string)",
-    "numero_repertorio": "identificador_prenda (integer)"
+    "numero_repertorio": "identificador_prenda (integer)",
+    "folio_ingreso": "indentificador_pago (integer)"
 }
 ```
 
@@ -80,7 +81,8 @@ curl --location --request POST "${SERVER_IP}:4033/api/checkout/refund" \
     --header 'Content-Type: application/json' \
     --data-raw '{ 
     "id_persona" : "11149472-K",
-    "numero_repertorio" : "310-A"
+    "numero_repertorio" : "310-A",
+    "folio_ingreso": 31
 }'
 ```
 
@@ -100,6 +102,15 @@ Response 200 OK:
 {
     "success": false,
     "msg" : "No existen Pagos para los parametros ingresados"
+}
+```
+
+Response 200 OK:
+
+```json
+{
+    "success": false,
+    "msg" : "Reembolso denegado, no existen pagos en registro"
 }
 ```
 
