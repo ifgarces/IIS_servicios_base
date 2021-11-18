@@ -79,7 +79,8 @@ Response 200 OK for when there are not pending annotations:
 
 ```json
 {
-    "msg": "sin solicitudes pendientes"
+    "msg": "sin solicitudes pendientes",
+    "success": true
 }
 ```
 
@@ -95,7 +96,8 @@ Response 200 OK for when there is one or more pending annotations for the given 
             "tipo": "AlzPH",     
             "estado": "ingresada"
         }
-    ]
+    ],
+    "success": false
 }
 ```
 
@@ -103,7 +105,8 @@ Response 400 BAD REQUEST for when the license plate is invalid (not found in RVM
 
 ```json
 {
-    "msg": "invalida"
+    "msg": "invalida",
+    "success": false
 }
 ```
 
@@ -352,7 +355,7 @@ http://${SERVER_IP}:4031/API/vehicles/currentAnotations?numero_repertorio=REPERT
 ### 6.2. Example calls
 
 ```shell
-curl --location --request GET "http://${SERVER_IP}:4031/API/vehicles/currentAnotations?numero_repertorio=2014-316"
+curl --location --request GET "http://${SERVER_IP}:4031/API/vehicles/currentAnotations?numero_repertorio=2014-316?patente=EDE-839"
 ```
 
 ### 6.3. Expected responses
@@ -362,7 +365,7 @@ Response 200 OK for when every vehicle are lifted:
 ```json
 {
     "msg": "Todos los vehiculos se encuentran alzados",
-    vehicles,
+    vehicles (Lista de patentes),
     "success": true
 }
 ```
@@ -374,7 +377,7 @@ Response 200 OK for when there is one or more pending annotations.
     "solicitudes": [
         {
             "msg": "Los siguientes vehículos presentan anotaciones pendientes",
-            anotations,
+            anotations (Lista de anotaciones pendientes),
             "success": false
         }
     ]
@@ -386,7 +389,8 @@ Response 500.
 ```json
 {
     "msg": "Internal Server Error",     
-    "error": error
+    "error": error,
+    "success": false
 }
 ```
 
