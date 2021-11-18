@@ -66,7 +66,7 @@ Table 2: annotation statuses.
 ```shell
 http://${SERVER_IP}:4031/API/vehicles/licensePlates?patente=VEHICLE_LICENSE_PLATE
 ```
-curl --location --request GET "http://${SERVER_IP}:4031/API/vehicles/pendingAnotations?repertory_n=2021-237"
+
 ### 1.2. Example calls
 
 ```shell
@@ -96,8 +96,7 @@ Response 200 OK for when there is one or more pending annotations for the given 
             "tipo": "AlzPH",     
             "estado": "ingresada"
         }
-    ],
-    "success": false
+    ]
 }
 ```
 
@@ -140,8 +139,7 @@ Response 200 OK for when the queries plate exists in the RVM database (i.e. is v
 
 ```json
 {
-    "valid": true,
-    "success": true
+    "valid": true
 }
 ```
 
@@ -343,6 +341,7 @@ Response 200 OK for when there is no pending annotation for the given vehicle pl
     "msg": "No existe una anotacion pendiente de ese tipo para ese vehiculo"
 }
 ```
+
 ## 6. GET: Check Rised vehicles from a repertory number
 
 `api/vehicles/currentAnotations`: for if exist vehicles waiting to be raised. If not, the returns a list of every vehicle associated with one repertory number.
@@ -366,7 +365,7 @@ Response 200 OK for when every vehicle are lifted:
 ```json
 {
     "msg": "Todos los vehiculos se encuentran alzados",
-    vehicles (Lista de patentes),
+    "vehicles": "(Lista de patentes)",
     "success": true
 }
 ```
@@ -378,7 +377,7 @@ Response 200 OK for when there is one or more pending annotations.
     "solicitudes": [
         {
             "msg": "Los siguientes vehículos presentan anotaciones pendientes",
-            anotations (Lista de anotaciones pendientes),
+            "anotations": "(Lista de anotaciones pendientes)",
             "success": false
         }
     ]
@@ -390,8 +389,6 @@ Response 500.
 ```json
 {
     "msg": "Internal Server Error",     
-    "error": error,
-    "success": false
+    "error": "Error details"
 }
 ```
-
