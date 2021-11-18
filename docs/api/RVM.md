@@ -140,7 +140,8 @@ Response 200 OK for when the queries plate exists in the RVM database (i.e. is v
 
 ```json
 {
-    "valid": true
+    "valid": true,
+    "success": true
 }
 ```
 
@@ -349,7 +350,7 @@ Response 200 OK for when there is no pending annotation for the given vehicle pl
 ### 6.1. Request query format
 
 ```shell
-http://${SERVER_IP}:4031/API/vehicles/currentAnotations?numero_repertorio=REPERTORY_NUMBER
+http://${SERVER_IP}:4031/API/vehicles/currentAnotations?numero_repertorio=REPERTORY_NUMBER?patente=PATENTE
 ```
 
 ### 6.2. Example calls
