@@ -77,7 +77,7 @@ def main() -> int:
             """ curl --location --request GET "http://localhost:4030/api/users/user" """,
             json.loads("""{
                 "msg": "'run' query parameter is missing"
-            }""") # response has error status 400, therefore `valid` parameter is not in the response
+            }""") # status 400
         ),
 
         ############################################################################################
@@ -122,6 +122,54 @@ def main() -> int:
                 "valid": false
             }""")
         ),
+        (
+            """curl --location --request POST "http://localhost:4030/api/users/user" \
+                --header 'Content-Type: application/json' \
+                --data-raw '{
+                    "nombres": "LEANDRO ALBERTO",
+                    "apellido_paterno": "ferreria",
+                    "apellido_materno": "CIoBOTARu"
+                }'""",
+            json.loads("""{
+                "msg": "One of the following parameters are missing: run, nombres, apellido_paterno, apellido_materno"
+            }""") # status 400
+        ),
+        (
+            """curl --location --request POST "http://localhost:4030/api/users/user" \
+                --header 'Content-Type: application/json' \
+                --data-raw '{
+                    "run": "14343269-6",
+                    "apellido_paterno": "ferreria",
+                    "apellido_materno": "CIoBOTARu"
+                }'""",
+            json.loads("""{
+                "msg": "One of the following parameters are missing: run, nombres, apellido_paterno, apellido_materno"
+            }""")
+        ),
+        (
+            """curl --location --request POST "http://localhost:4030/api/users/user" \
+                --header 'Content-Type: application/json' \
+                --data-raw '{
+                    "run": "14343269-6",
+                    "nombres": "LEANDRO ALBERTO",
+                    "apellido_materno": "CIoBOTARu"
+                }'""",
+            json.loads("""{
+                "msg": "One of the following parameters are missing: run, nombres, apellido_paterno, apellido_materno"
+            }""")
+        ),
+        (
+            """curl --location --request POST "http://localhost:4030/api/users/user" \
+                --header 'Content-Type: application/json' \
+                --data-raw '{
+                    "run": "14343269-6",
+                    "nombres": "LEANDRO ALBERTO",
+                    "apellido_paterno": "ferreria"
+                }'""",
+            json.loads("""{
+                "msg": "One of the following parameters are missing: run, nombres, apellido_paterno, apellido_materno"
+            }""")
+        ),
 
         ############################################################################################
         # RVM: licensePlateApplications
@@ -146,6 +194,26 @@ def main() -> int:
                 "msg": "Con solicitudes pendientes",
                 "success": false
             }""")
+        ),
+        (
+            """ curl --location --request GET "http://localhost:4031/API/vehicles/licensePlates?patente=VRU-750" """,
+            json.loads("""{
+                "msg": "sin solicitudes pendientes",
+                "success": true
+            }""")
+        ),
+        (
+            """ curl --location --request GET "http://localhost:4031/API/vehicles/licensePlates?patente=PatenteQueNoExiste" """,
+            json.loads("""{
+                "msg": "invalida",
+                "success": false
+            }""")
+        ),
+        (
+            """ curl --location --request GET "http://localhost:4031/API/vehicles/licensePlates" """,
+            json.loads("""{
+                "msg": "Missing parameter: 'patente'"
+            }""") # status 400
         ),
 
         ############################################################################################
@@ -282,6 +350,39 @@ def main() -> int:
                 "msg": "Ya hay una anotacion de ese tipo para ese vehiculo, por favor apruebela o rechasela antes de ingresar otra"
             }""")
         ),
+        (
+            """curl --location --request POST "http://localhost:4031/api/vehicles/anotation" \
+                --header 'Content-Type: application/json' \
+                --data-raw '{
+                    "patente" : "BIF-933",
+                    "tipo" : "PN"
+                }'""",
+            json.loads("""{
+                "msg": "One of the following parameters are missing: patente, tipo, numero_repertorio"
+            }""") # status 400
+        ),
+        (
+            """curl --location --request POST "http://localhost:4031/api/vehicles/anotation" \
+                --header 'Content-Type: application/json' \
+                --data-raw '{
+                    "tipo" : "PN",
+                    "numero_repertorio" : "2021-45001"
+                }'""",
+            json.loads("""{
+                "msg": "One of the following parameters are missing: patente, tipo, numero_repertorio"
+            }""") # status 400
+        ),
+        (
+            """curl --location --request POST "http://localhost:4031/api/vehicles/anotation" \
+                --header 'Content-Type: application/json' \
+                --data-raw '{
+                    "patente" : "BIF-933",
+                    "numero_repertorio" : "2021-45001"
+                }'""",
+            json.loads("""{
+                "msg": "One of the following parameters are missing: patente, tipo, numero_repertorio"
+            }""") # status 400
+        ),
 
         ############################################################################################
         # RVM: acceptOrRejectAnnotation
@@ -336,6 +437,11 @@ def main() -> int:
                 "msg": "One of the following parameters are missing: patente, tipo, aceptarORechazar, numero_repertorio"
             }""") # status 400
         ),
+
+        ############################################################################################
+        # RVM: repertoryPlatesStatus
+        ############################################################################################
+        #TODO
 
         ############################################################################################
         # PPE: ppePaymentRequest
@@ -410,7 +516,7 @@ def main() -> int:
                 }'""" % LOCAL_LAN_IP,
             json.loads("""{
                 "msg": "Invalid parameter 'id_persona': must be a RUN/RUT (e.g. '12345678-k') or a passport number (e.g. 'P0123456')"
-            }""")
+            }""") # status 400
         ),
         (
             """curl --location --request POST "localhost:4032/api/transaction/payment" \
@@ -423,7 +529,7 @@ def main() -> int:
                 }'""" % LOCAL_LAN_IP,
             json.loads("""{
                 "msg": "Invalid parameter 'numero_repertorio': bad format. Must match 'YEAR-number' with a maximum total lenght of 11 characters, and the YEAR must be in range [1800, 2021]"
-            }""")
+            }""") # status 400
         ),
         (
             """curl --location --request POST "localhost:4032/api/transaction/payment" \
@@ -436,7 +542,7 @@ def main() -> int:
                 }'""" % LOCAL_LAN_IP,
             json.loads("""{
                 "msg": "Invalid parameter 'numero_repertorio': bad format. Must match 'YEAR-number' with a maximum total lenght of 11 characters, and the YEAR must be in range [1800, 2021]"
-            }""")
+            }""") # status 400
         ),
         (
             """curl --location --request POST "localhost:4032/api/transaction/payment" \
@@ -449,7 +555,7 @@ def main() -> int:
                 }'""" % LOCAL_LAN_IP,
             json.loads("""{
                 "msg": "Invalid parameter 'numero_repertorio': bad format. Must match 'YEAR-number' with a maximum total lenght of 11 characters, and the YEAR must be in range [1800, 2021]"
-            }""")
+            }""") # status 400
         ),
         (
             """curl --location --request POST "localhost:4032/api/transaction/payment" \
@@ -462,7 +568,7 @@ def main() -> int:
                 }'""" % LOCAL_LAN_IP,
             json.loads("""{
                 "msg": "invalid paremeter 'monto': must be numberic and positive"
-            }""")
+            }""") # status 400
         ),
 
         ############################################################################################
