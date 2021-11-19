@@ -3,10 +3,6 @@
 # expected responses. For this, we will write `curl` output to a temp file and read it from this
 # Python script.
 #* Important: this script is intended to run on Linux.
-#
-# Usage:
-#     curl_tests.py [TARGET_HOST]
-# If no TARGET_HOST is provided, "localhost" is used.
 # --------------------------------------------------------------------------------------------------
 
 from os import system # utility for executing OS shell commands
@@ -32,9 +28,9 @@ TEMP_OUTPUT_FILE :str = "temp.json"
 
 def printHelp() -> None:
     print(f"""Usage:
-    {argv[0]} LOCAL_LAN_IP
+    {argv[0]} TGR_TARGET_HOST
 
-Where LOCAL_LAN_IP is the LAN-level host IP of the machine in which the test are running. This is
+Where TGR_TARGET_HOST is the LAN-level host IP of the machine in which the test are running. This is
 needed for the PPE container in order to send the TGR confirmations properly, to be listened outside
 the Docker environment (i.e. "localhost" won't work due the Docker networking).
 """)
@@ -146,7 +142,9 @@ def main() -> int:
                         "tipo": "AlzPN",
                         "estado": "ingresada"
                     }
-                ]
+                ],
+                "msg": "Con solicitudes pendientes",
+                "success": false
             }""")
         ),
 
@@ -325,7 +323,7 @@ def main() -> int:
                 }'""",
             json.loads("""{
                 "msg": "One of the following parameters are missing: patente, tipo, aceptarORechazar, numero_repertorio"
-            }""")
+            }""") # status 400
         ),
         (
             """curl --location --request POST "http://localhost:4031/api/vehicles/acceptRejectAnotation" \
@@ -336,7 +334,7 @@ def main() -> int:
                 }'""",
             json.loads("""{
                 "msg": "One of the following parameters are missing: patente, tipo, aceptarORechazar, numero_repertorio"
-            }""")
+            }""") # status 400
         ),
 
         ############################################################################################
