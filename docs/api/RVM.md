@@ -44,8 +44,8 @@ Table 2: annotation statuses.
     - [3.2. Example calls](#32-example-calls)
   - [4. POST: create new annotation for a plate](#4-post-create-new-annotation-for-a-plate)
     - [4.1. Request body format](#41-request-body-format)
-    - [4.2 Example calls](#42-example-calls)
-    - [4.3 Expected responses](#43-expected-responses)
+    - [4.2. Example calls](#42-example-calls)
+    - [4.3. Expected responses](#43-expected-responses)
   - [5. POST: Accept or refuse pending annotation](#5-post-accept-or-refuse-pending-annotation)
     - [5.1. Request body format](#51-request-body-format)
     - [5.2. Example request](#52-example-request)
@@ -54,6 +54,8 @@ Table 2: annotation statuses.
     - [6.1. Request query format](#61-request-query-format)
     - [6.2. Example calls](#62-example-calls)
     - [6.3. Expected responses](#63-expected-responses)
+  - [7. GET: get owned vehicles by a person](#7-get-get-owned-vehicles-by-a-person)
+    - [7.1. Example calls](#71-example-calls)
 
 <!-- licensePlateApplications -->
 
@@ -264,7 +266,7 @@ Response 200 OK:
 }
 ```
 
-### 4.2 Example calls
+### 4.2. Example calls
 
 ```shell
 curl --location --request POST "http://${SERVER_IP}:4031/api/vehicles/anotation" \
@@ -276,7 +278,7 @@ curl --location --request POST "http://${SERVER_IP}:4031/api/vehicles/anotation"
     }'
 ```
 
-### 4.3 Expected responses
+### 4.3. Expected responses
 
 Response 200 OK for when the record was successfully created:
 
@@ -343,14 +345,16 @@ Response 200 OK for when there is no pending annotation for the given vehicle pl
 }
 ```
 
+<!-- develop_repertoryPlactesStatus -->
+
 ## 6. GET: Check Rised vehicles from a repertory number
 
-`api/vehicles/currentAnotations`: for if exist vehicles waiting to be raised. If not, the returns a list of every vehicle associated with one repertory number.
+`api/vehicles/currentAnotations`: developing-context endpoint. For checking whether there exist vehicles waiting to be raised. If not, the returns a list of every vehicle associated with one repertory number.
 
 ### 6.1. Request query format
 
 ```shell
-http://${SERVER_IP}:4031/API/vehicles/currentAnotations?numero_repertorio=REPERTORY_NUMBER?patente=PATENTE
+API/vehicles/currentAnotations?numero_repertorio=REPERTORY_NUMBER?patente=PATENTE
 ```
 
 ### 6.2. Example calls
@@ -393,3 +397,42 @@ Response 500.
     "error": "Error details"
 }
 ```
+
+<!-- develop_getVehiclesOfPerson -->
+
+## 7. GET: get owned vehicles by a person
+
+Developing-context endpoint, for easily getting the list of vehicles owned by a person, i.e. the vehicles in which the target person is included in the list of owners. The path for this endpoint is:
+
+```txt
+API/vehicles/platesOfPerson
+```
+
+Response body format:
+
+```json
+{
+    "plates": "[List<string>] List of license plates in which the target person is [one of] the owners"
+}
+```
+
+### 7.1. Example calls
+
+Correct request:
+
+```shell
+curl --location --request GET "http://${SERVER_IP}:4031/API/vehicles/platesOfPerson?person_id=7900663-7"
+```
+
+Response 200 OK, with body:
+
+```json
+{
+    "plates": [
+        "7900663-7",
+        "7900663-7"
+    ]
+}
+```
+
+If the `person_id` is not a valid RUN, RUT or passport ID, the `plates` parameter in the response will be an empty list.

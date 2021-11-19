@@ -439,9 +439,34 @@ def main() -> int:
         ),
 
         ############################################################################################
-        # RVM: repertoryPlatesStatus
+        # RVM: develop_repertoryPlactesStatus
         ############################################################################################
         #TODO
+
+        ############################################################################################
+        # RVM: develop_getVehiclesOfPerson
+        ############################################################################################
+        (
+            """ curl --location --request GET "http://localhost:4031/API/vehicles/platesOfPerson?person_id=7900663-7" """,
+            json.loads("""{
+                "plates": [
+                    "7900663-7",
+                    "7900663-7"
+                ]
+            }""")
+        ),
+        (
+            """ curl --location --request GET "http://localhost:4031/API/vehicles/platesOfPerson?person_id=foo" """,
+            json.loads("""{
+                "plates": []
+            }""")
+        ),
+        (
+            """ curl --location --request GET "http://localhost:4031/API/vehicles/platesOfPerson" """,
+            json.loads("""{
+                "msg": "Missing parameter: person_id"
+            }""")
+        ),
 
         ############################################################################################
         # PPE: ppePaymentRequest
