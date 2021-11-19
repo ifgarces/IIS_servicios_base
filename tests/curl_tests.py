@@ -673,6 +673,39 @@ def main() -> int:
                 "success": false,
                 "msg": "Reembolso denegado, no existen pagos en registro"
             }""")
+        ),
+        (
+            """curl --location --request POST "localhost:4033/api/checkout/refund" \
+                --header 'Content-Type: application/json' \
+                --data-raw '{
+                    "numero_repertorio" : "2018-404542",
+                    "folio_ingreso": 51
+                }'""",
+            json.loads("""{
+                "msg": "One of the following parameters are missing: numero_repertorio, id_persona, folio_ingreso"
+            }""") # status 400
+        ),
+        (
+            """curl --location --request POST "localhost:4033/api/checkout/refund" \
+                --header 'Content-Type: application/json' \
+                --data-raw '{
+                    "id_persona" : "16248093-6",
+                    "folio_ingreso": 51
+                }'""",
+            json.loads("""{
+                "msg": "One of the following parameters are missing: numero_repertorio, id_persona, folio_ingreso"
+            }""") # status 400
+        ),
+        (
+            """curl --location --request POST "localhost:4033/api/checkout/refund" \
+                --header 'Content-Type: application/json' \
+                --data-raw '{
+                    "id_persona" : "16248093-6",
+                    "numero_repertorio" : "2018-404542"
+                }'""",
+            json.loads("""{
+                "msg": "One of the following parameters are missing: numero_repertorio, id_persona, folio_ingreso"
+            }""") # status 400
         )
     ]):
         if (len(argv) >= 2):
