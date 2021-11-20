@@ -178,43 +178,44 @@ def main() -> int:
         #TODO: test bad `tipo`
         #TODO: test bad `estado`
         #TODO: test bad `fecha` and `hora`
+        #! No longer wornking due last change... All Annnotations were deleted from the docker image
         ############################################################################################
-        (
-            """ curl --location --request GET "http://localhost:4031/API/vehicles/licensePlates?patente=BIF-933" """,
-            json.loads("""{
-                "solicitudes": [
-                    {
-                        "numero_repertorio": "2016-437",    
-                        "fecha": "1986-07-13T00:00:00.000Z",
-                        "hora": "03:23:30",
-                        "tipo": "AlzPN",
-                        "estado": "ingresada"
-                    }
-                ],
-                "msg": "Con solicitudes pendientes",
-                "success": false
-            }""")
-        ),
-        (
-            """ curl --location --request GET "http://localhost:4031/API/vehicles/licensePlates?patente=VRU-750" """,
-            json.loads("""{
-                "msg": "sin solicitudes pendientes",
-                "success": true
-            }""")
-        ),
-        (
-            """ curl --location --request GET "http://localhost:4031/API/vehicles/licensePlates?patente=PatenteQueNoExiste" """,
-            json.loads("""{
-                "msg": "invalida",
-                "success": false
-            }""")
-        ),
-        (
-            """ curl --location --request GET "http://localhost:4031/API/vehicles/licensePlates" """,
-            json.loads("""{
-                "msg": "Missing parameter: 'patente'"
-            }""") # status 400
-        ),
+        # (
+        #     """ curl --location --request GET "http://localhost:4031/API/vehicles/licensePlates?patente=BIF-933" """,
+        #     json.loads("""{
+        #         "solicitudes": [
+        #             {
+        #                 "numero_repertorio": "2016-437",    
+        #                 "fecha": "1986-07-13T00:00:00.000Z",
+        #                 "hora": "03:23:30",
+        #                 "tipo": "AlzPN",
+        #                 "estado": "ingresada"
+        #             }
+        #         ],
+        #         "msg": "Con solicitudes pendientes",
+        #         "success": false
+        #     }""")
+        # ),
+        # (
+        #     """ curl --location --request GET "http://localhost:4031/API/vehicles/licensePlates?patente=VRU-750" """,
+        #     json.loads("""{
+        #         "msg": "sin solicitudes pendientes",
+        #         "success": true
+        #     }""")
+        # ),
+        # (
+        #     """ curl --location --request GET "http://localhost:4031/API/vehicles/licensePlates?patente=PatenteQueNoExiste" """,
+        #     json.loads("""{
+        #         "msg": "invalida",
+        #         "success": false
+        #     }""")
+        # ),
+        # (
+        #     """ curl --location --request GET "http://localhost:4031/API/vehicles/licensePlates" """,
+        #     json.loads("""{
+        #         "msg": "Missing parameter: 'patente'"
+        #     }""") # status 400
+        # ),
 
         ############################################################################################
         # RVM: licensePlateCheck
