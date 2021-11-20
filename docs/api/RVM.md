@@ -354,18 +354,18 @@ Response 200 OK for when there is no pending annotation for the given vehicle pl
 ### 6.1. Request query format
 
 ```shell
-API/vehicles/currentAnotations?numero_repertorio=REPERTORY_NUMBER?patente=PATENTE
+API/vehicles/currentAnotations?numero_repertorio=REPERTORY_NUMBER
 ```
 
 ### 6.2. Example calls
 
 ```shell
-curl --location --request GET "http://${SERVER_IP}:4031/API/vehicles/currentAnotations?numero_repertorio=2014-316?patente=EDE-839"
+curl --location --request GET "http://${SERVER_IP}:4031/API/vehicles/currentAnotations?numero_repertorio=2014-316"
 ```
 
 ### 6.3. Expected responses
 
-Response 200 OK for when every vehicle are lifted:
+Response 200 OK with a list of every vehicule asociated with the number repertory number, and a boolean indicating if the vehicule is rised or not.
 
 ```json
 {
@@ -375,19 +375,6 @@ Response 200 OK for when every vehicle are lifted:
 }
 ```
 
-Response 200 OK for when there is one or more pending annotations.
-
-```json
-{
-    "solicitudes": [
-        {
-            "msg": "Los siguientes vehículos presentan anotaciones pendientes",
-            "anotations": "(Lista de anotaciones pendientes)",
-            "success": false
-        }
-    ]
-}
-```
 
 Response 500.
 
