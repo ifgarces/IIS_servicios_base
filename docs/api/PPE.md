@@ -27,9 +27,11 @@ Request for validating/confirming the payment of the transaction with ID, say, `
 curl --location --request POST "http://${PRENDAS_SERVER_IP}:9090/api/tgr_confirmation" \
     --header 'Content-Type: application/json' \
     --data-raw '{
-        "transaction_id": 4
+        "body": { "transaction_id": 4 }
     }'
 ```
+
+Note: we mistakenly placed the expected body inside a "body" parameter inside the request body.
 
 Both the port and the path **must** match the example call, `9090` and `/api/tgr_confirmation`, respectively.
 
