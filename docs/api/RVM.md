@@ -90,7 +90,7 @@ Response 200 OK for when there is one or more pending annotations for the given 
 
 ```json
 {
-    "success": true,
+    "success": false,
     "solicitudes": [
         {
             "numero_repertorio": "2010-404",    
