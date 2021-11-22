@@ -416,8 +416,8 @@ Response 200 OK, with body:
 ```json
 {
     "plates": [
-        "7900663-7",
-        "7900663-7"
+        "VTP-869",
+        "LPN-717"
     ]
 }
 ```

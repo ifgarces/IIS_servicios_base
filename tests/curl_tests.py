@@ -451,8 +451,8 @@ def main() -> int:
             """ curl --location --request GET "http://localhost:4031/API/vehicles/platesOfPerson?person_id=7900663-7" """,
             json.loads("""{
                 "plates": [
-                    "7900663-7",
-                    "7900663-7"
+                    "VTP-869",
+                    "LPN-717"
                 ]
             }""")
         ),
@@ -709,8 +709,8 @@ def main() -> int:
             }""") # status 400
         )
     ]):
-        if (len(argv) >= 2):
-            command = command.replace("localhost", argv[1], 1)
+        # if (len(argv) >= 2):
+        #     command = command.replace("localhost", argv[1], 1)
         print("Running test #%d: %s" % (testNum, command))
         cmdExitCode :int = system("%s -sS -o %s" % (command, TEMP_OUTPUT_FILE)) # adding flags for silent curl, show errors and output to the desired file instead of `stdout`
         if (cmdExitCode != 0):
